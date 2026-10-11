@@ -160,6 +160,63 @@ const painters = {
     return `<defs><radialGradient id="g${id}"><stop offset="0" stop-color="#9fe8ff" stop-opacity="0.8"/><stop offset="1" stop-color="#9fe8ff" stop-opacity="0"/></radialGradient></defs>
       ${backgroundStars(rand, 50)}<g stroke="#7fdcff" stroke-opacity="0.6" stroke-width="1.2" stroke-dasharray="3 3">${lines}</g>${stars}`;
   },
+  comet(a, id, rand) {
+    const head = a.duck
+      ? `<g transform="translate(118 70) rotate(-20)"><ellipse cx="0" cy="8" rx="16" ry="11" fill="#6d6a66"/><ellipse cx="13" cy="-8" rx="10" ry="8" fill="#7d7a76"/></g>`
+      : a.cigar
+        ? `<ellipse cx="118" cy="70" rx="22" ry="6" fill="#8a5a3a" transform="rotate(-30 118 70)"/>`
+        : `<circle cx="118" cy="70" r="9" fill="#fff"/>`;
+    const tails = a.cigar ? '' : `
+      <path d="M118 70 L18 178 L44 182 Z" fill="url(#t${id})" opacity="0.9"/>
+      ${a.twoTails ? `<path d="M118 70 Q60 120 30 196 L58 190 Q76 130 118 70Z" fill="url(#d${id})" opacity="0.8"/>` : ''}`;
+    return `<defs>
+        <linearGradient id="t${id}" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a.color}" stop-opacity="0.9"/><stop offset="1" stop-color="${a.color}" stop-opacity="0"/></linearGradient>
+        <linearGradient id="d${id}" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe7b0" stop-opacity="0.85"/><stop offset="1" stop-color="#ffe7b0" stop-opacity="0"/></linearGradient>
+        <radialGradient id="g${id}"><stop offset="0" stop-color="${a.color}" stop-opacity="0.8"/><stop offset="1" stop-color="${a.color}" stop-opacity="0"/></radialGradient>
+        <filter id="b${id}"><feGaussianBlur stdDeviation="${a.cigar ? 0 : 3}"/></filter></defs>
+      ${backgroundStars(rand, 45)}<g filter="url(#b${id})">${tails}</g>
+      <circle cx="118" cy="70" r="${a.cigar ? 30 : 26}" fill="url(#g${id})"/>${head}
+      ${a.cigar ? `<path d="M160 40 L182 26 M176 24 l6 2 -2 6" stroke="#ffb36b" stroke-width="2" fill="none" stroke-linecap="round"/>` : ''}`;
+  },
+  iss(a, id, rand) {
+    const panel = (x, y) => `<rect x="${x}" y="${y}" width="34" height="16" fill="url(#s${id})" stroke="#8fb4ff" stroke-width="0.6"/>`;
+    return `<defs><linearGradient id="s${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a4a9a"/><stop offset="1" stop-color="#7a5a2a"/></linearGradient>
+        <radialGradient id="e${id}" cx="50%" cy="0%" r="100%"><stop offset="0.6" stop-color="#1747a8"/><stop offset="0.95" stop-color="#6fc3ff"/><stop offset="1" stop-color="#6fc3ff" stop-opacity="0"/></radialGradient></defs>
+      ${backgroundStars(rand, 30)}
+      <ellipse cx="100" cy="260" rx="190" ry="110" fill="url(#e${id})"/>
+      <g transform="rotate(-12 100 90)">
+        <rect x="40" y="86" width="120" height="6" rx="2" fill="#d8dde8"/>
+        ${panel(22, 60)}${panel(22, 100)}${panel(144, 60)}${panel(144, 100)}
+        <rect x="58" y="62" width="4" height="54" fill="#c5ccda"/><rect x="138" y="62" width="4" height="54" fill="#c5ccda"/>
+        <rect x="82" y="78" width="36" height="22" rx="5" fill="#eef1f7"/><rect x="92" y="98" width="16" height="22" rx="4" fill="#dfe4ee"/>
+        <rect x="74" y="100" width="12" height="8" fill="#e8ecf4"/><circle cx="100" cy="89" r="3" fill="#7fdcff"/>
+      </g>`;
+  },
+  exoplanet(a, id, rand) {
+    const planet = a.planet;
+    return `<defs><radialGradient id="g${id}"><stop offset="0" stop-color="#fff"/><stop offset="0.2" stop-color="${a.star}"/><stop offset="1" stop-color="${a.star}" stop-opacity="0"/></radialGradient>
+        <radialGradient id="p${id}" cx="30%" cy="35%" r="75%"><stop offset="0" stop-color="${planet}"/><stop offset="0.8" stop-color="#0a0a18"/></radialGradient></defs>
+      ${backgroundStars(rand, 40)}
+      <circle cx="58" cy="70" r="${a.pulsar ? 40 : 62}" fill="url(#g${id})"/>
+      ${a.pulsar ? `<polygon points="54,0 62,0 59,70 57,70" fill="${a.star}" opacity="0.6"/><polygon points="57,70 59,70 66,200 50,200" fill="${a.star}" opacity="0.4"/>` : ''}
+      <ellipse cx="90" cy="100" rx="78" ry="26" fill="none" stroke="#ffffff" stroke-opacity="0.15" stroke-dasharray="3 5" transform="rotate(15 90 100)"/>
+      ${a.tail ? `<path d="M140 130 Q175 128 198 110 L198 150 Q172 142 140 138Z" fill="${planet}" opacity="0.3"/>` : ''}
+      <circle cx="140" cy="134" r="${a.hot ? 22 : 20}" fill="url(#p${id})"/>
+      ${a.hot ? `<circle cx="140" cy="134" r="24" fill="none" stroke="#ff8a3a" stroke-opacity="0.5" stroke-width="3"/>` : ''}
+      ${a.earthlike ? `<path d="M128 128 q6-6 12 0 q4 6-2 10z M142 140 q8-2 10 4" fill="#2f6a3a" stroke="none" opacity="0.8"/>` : ''}
+      ${a.ocean ? `<circle cx="140" cy="134" r="24" fill="none" stroke="#9fe8ff" stroke-opacity="0.35" stroke-width="4"/>` : ''}`;
+  },
+  system(a, id, rand) {
+    let orbits = '', planets = '';
+    for (let k = 0; k < a.count; k++) {
+      const r = 22 + k * 11;
+      const ang = rand() * Math.PI * 2;
+      orbits += `<ellipse cx="100" cy="100" rx="${r}" ry="${r * 0.42}" fill="none" stroke="#fff" stroke-opacity="0.13"/>`;
+      planets += `<circle cx="${(100 + Math.cos(ang) * r).toFixed(1)}" cy="${(100 + Math.sin(ang) * r * 0.42).toFixed(1)}" r="${(3.2 + rand() * 1.6).toFixed(1)}" fill="hsl(${[20, 30, 200, 170, 140, 210, 260][k % 7]} 50% 62%)"/>`;
+    }
+    return `<defs><radialGradient id="g${id}"><stop offset="0" stop-color="#fff"/><stop offset="0.2" stop-color="${a.star}"/><stop offset="1" stop-color="${a.star}" stop-opacity="0"/></radialGradient></defs>
+      ${backgroundStars(rand, 40)}${orbits}<circle cx="100" cy="100" r="22" fill="url(#g${id})"/>${planets}`;
+  },
   cosmos(a, id, rand) {
     if (a.cmb) {
       let cells = '';

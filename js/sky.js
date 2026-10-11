@@ -1,7 +1,12 @@
 // Sky Finder: point your phone and see where things are – even through the Earth.
 import { OBJECTS, SECTORS, FIGURES, GUIDE_STARS } from './data/catalog.js';
-import { horizontalFor, toHorizontal, julianDate, compassName, nextHorizonCrossing, angularDistance, norm360 } from './astro.js';
+import { toHorizontal, julianDate, compassName, nextHorizonCrossing, angularDistance, norm360 } from './astro.js';
 import { getSettings, setSettings, markSpotted, isSpotted } from './store.js';
+import { locate as whereIs } from './where.js';
+import { predictPasses, refreshTLE } from './iss.js';
+
+const fmtTime = (d) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+const fmtDay = (d) => (d.toDateString() === new Date().toDateString() ? 'today' : d.toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' }));
 
 const DEG = Math.PI / 180;
 const LOCK_DEG = 5;
@@ -15,7 +20,7 @@ const lerp = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
 const wrap180 = (x) => ((((x + 180) % 360) + 360) % 360) - 180;
 const rotZ = (v, deg) => { const c = Math.cos(deg * DEG), s = Math.sin(deg * DEG); return [v[0] * c - v[1] * s, v[0] * s + v[1] * c, v[2]]; };
 
-const TYPE_COLORS = { planet: '#ffcf7a', earth: '#6fc3ff', star: '#fff6d8', cluster: '#9cc4ff', nebula: '#ff7fc4', ring: '#69f0d6', galaxy: '#b9a6ff', pulsar: '#7af4ff', blackhole: '#ff9a5a', constellation: '#7fdcff', cosmos: '#ffffff' };
+const TYPE_COLORS = { planet: '#ffcf7a', earth: '#6fc3ff', star: '#fff6d8', cluster: '#9cc4ff', nebula: '#ff7fc4', ring: '#69f0d6', galaxy: '#b9a6ff', pulsar: '#7af4ff', blackhole: '#ff9a5a', constellation: '#7fdcff', cosmos: '#ffffff', comet: '#7affc8', iss: '#ffffff', exoplanet: '#8affb0', system: '#8affb0' };
 
 function guessLocation() {
   // Rough fallback from the time zone until GPS answers.
@@ -59,6 +64,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   let lockStart = 0;
   let lastCompute = 0;
   let crossing = null;
+  let passes = null; // ISS passes for the current observer
   let hits = [];
   let disposed = false;
   let hintUntil = 0;
@@ -125,7 +131,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     target = OBJECTS[id] || null;
     select.value = target?.id || '';
     lockStart = 0;
-    crossing = null;
+    crossing = null; passes = null;
     lastCompute = 0;
     onTarget?.(target?.id || null);
     updateStatic();
@@ -148,8 +154,9 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       if (!o.pos || o.pos.everywhere || o.pos.down) continue;
       if (o.art?.type === 'constellation') continue; // drawn as figures instead
       if (o.id === 'crabpulsar' || o.id === 'milkyway') continue; // same spot as another object
-      const h = horizontalFor(o.pos, observer, now);
-      positions.push({ o, alt: h.alt, az: h.az, v: vec(h.alt, h.az), color: TYPE_COLORS[o.art?.type] || '#fff' });
+      const h = whereIs(o.pos, observer, now);
+      if (!h) continue;
+      positions.push({ fast: !!o.pos.iss, o, alt: h.alt, az: h.az, v: vec(h.alt, h.az), color: TYPE_COLORS[o.art?.type] || '#fff' });
     }
     for (const [name, ra, dec] of GUIDE_STARS) {
       const h = toHorizontal(ra, dec, observer.lat, observer.lon, jd);
@@ -164,8 +171,9 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     if (target) {
       if (target.pos?.down) targetHz = { alt: -90, az: 0 };
       else if (target.pos?.everywhere) targetHz = null;
-      else targetHz = horizontalFor(target.pos, observer, now);
-      if (targetHz && !crossing) crossing = nextHorizonCrossing(target.pos, observer, now);
+      else targetHz = whereIs(target.pos, observer, now);
+      if (target.pos?.iss) { if (!passes) passes = predictPasses(observer, now, 72); }
+      else if (targetHz && !crossing) crossing = nextHorizonCrossing(target.pos, observer, now);
     } else targetHz = null;
   }
 
@@ -430,7 +438,8 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     $('.sky-az').textContent = `${targetHz.az.toFixed(1)}° ${compassName(targetHz.az).replace(/orth|outh|ast|est/g, '').replace(/-/g, '')}`;
 
     let extra = '';
-    if (target.pos?.down) extra = 'Earth is right under your feet. Point straight down!';
+    if (target.pos?.iss) extra = issText();
+    else if (target.pos?.down) extra = 'Earth is right under your feet. Point straight down!';
     else if (targetHz.alt < 0) {
       extra = `🌏 Below your horizon right now – you’re pointing <i>through the Earth</i>.`;
       if (crossing?.time) extra += ` It rises at <b>${crossing.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</b>.`;
@@ -447,6 +456,18 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     if (mode !== 'idle') tryLock(now, sep < LOCK_DEG);
   }
 
+  function issText() {
+    const now = new Date();
+    const upcoming = (passes || []).filter((p) => p.end > now);
+    const vis = upcoming.find((p) => p.visible);
+    let t = targetHz.alt > 0
+      ? `🛰 Above your horizon right now, ${Math.round(targetHz.km).toLocaleString('en-US')} km away and moving fast!`
+      : `🛰 Below your horizon – over ${targetHz.iss.lat.toFixed(0)}°, ${targetHz.iss.lon.toFixed(0)}° right now.`;
+    if (vis) t += ` Next time you can <b>see it with your eyes</b>: <b>${fmtDay(vis.start)} ${fmtTime(vis.start)}</b>, up to ${Math.round(vis.maxAlt)}° high, from the ${compassName(vis.startAz)}.`;
+    else if (upcoming[0]) t += ` Next pass overhead: ${fmtDay(upcoming[0].start)} ${fmtTime(upcoming[0].start)} (in daylight – hard to see).`;
+    return t;
+  }
+
   function tryLock(now, aligned) {
     if (!aligned) { lockStart = 0; return; }
     if (!lockStart) lockStart = now;
@@ -459,6 +480,16 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   function frame(now) {
     if (disposed) return;
     if (now - lastCompute > 5000 || !lastCompute) { computePositions(new Date()); lastCompute = now; }
+    else {
+      // The ISS crosses the sky in minutes: keep it (and the target, if it is the ISS) up to date every frame.
+      const d = new Date();
+      for (const p of positions) {
+        if (!p.fast) continue;
+        const h = whereIs(p.o.pos, observer, d);
+        if (h) Object.assign(p, { alt: h.alt, az: h.az, v: vec(h.alt, h.az) });
+      }
+      if (target?.pos?.iss) targetHz = whereIs(target.pos, observer, d) || targetHz;
+    }
     if (aimPending && mode === 'manual' && targetHz) {
       look = { az: norm360(targetHz.az + 35), alt: Math.max(-20, Math.min(70, targetHz.alt)) };
       aimPending = false;
@@ -526,7 +557,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     navigator.geolocation?.getCurrentPosition((p) => {
       observer = { lat: +p.coords.latitude.toFixed(3), lon: +p.coords.longitude.toFixed(3) };
       setSettings({ location: observer });
-      crossing = null;
+      crossing = null; passes = null;
       lastCompute = 0;
       if (mode === 'manual' && !drag) aimPending = true;
       updateStatic();
@@ -598,7 +629,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     if (Math.abs(lat) <= 90 && Math.abs(lon) <= 180) {
       observer = { lat, lon };
       setSettings({ location: observer });
-      crossing = null; lastCompute = 0;
+      crossing = null; passes = null; lastCompute = 0;
       updateStatic();
     }
     panel.hidden = true;
@@ -608,6 +639,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   $('.sky-alert').textContent = 'No motion sensors detected – drag the sky to look around.';
   video.hidden = true;
 
+  refreshTLE().then((fresh) => { if (fresh) { passes = null; lastCompute = 0; } });
   window.addEventListener('resize', resize);
   resize();
   updateStatic();

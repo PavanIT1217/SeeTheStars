@@ -21,6 +21,11 @@ const HORIZONS = {
   eris: [hms(1, 48, 19.12), dms(-1, 0, 4, 59.4)],
   haumea: [hms(14, 40, 43.32), dms(1, 13, 33, 39.4)],
   makemake: [hms(13, 26, 58.48), dms(1, 19, 44, 1.1)],
+  halley: [hms(8, 20, 32.97), dms(1, 2, 52, 13.5)],
+  c67p: [hms(17, 9, 58.47), dms(-1, 25, 49, 17.5)],
+  halebopp: [hms(21, 37, 13.09), dms(-1, 85, 10, 54.5)],
+  oumuamua: [hms(23, 53, 26.99), dms(1, 24, 36, 10.4)],
+  atlas3i: [hms(7, 12, 26.62), dms(1, 19, 15, 17.8)],
 };
 
 const jd = julianDate(new Date(Date.UTC(2026, 9, 11, 0, 0, 0)));

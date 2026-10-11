@@ -55,6 +55,17 @@ const SMALL_BODIES = {
 };
 const SMALL_EPOCH = 2461200.5;
 
+// Comets: osculating heliocentric elements from JPL Horizons at 2026-Oct-01 (perihelion form, works for any eccentricity).
+// [e, q (AU), i, node, argPeri, perihelion time (JD)]
+const COMETS = {
+  halley: [0.968027264, 0.571016952, 162.190241, 59.272122, 112.172671, 2474040.32447],
+  c67p: [0.649487002, 1.212424001, 3.866097, 36.287975, 22.237595, 2461871.04759],
+  halebopp: [0.994890296, 0.925507724, 89.73523, 281.806554, 130.726992, 2450536.52713],
+  oumuamua: [1.209057354, 0.266333283, 123.079423, 24.838579, 242.507998, 2458003.97142],
+  atlas3i: [6.123801808, 1.352033393, 175.240112, 323.024223, 128.796896, 2460977.9455],
+};
+const GAUSS_K = 0.01720209895; // radians per day
+
 function solveKepler(Mdeg, e) {
   const M = norm360(Mdeg) * DEG;
   let E = e < 0.8 ? M : Math.PI;
@@ -66,17 +77,37 @@ function solveKepler(Mdeg, e) {
   return E;
 }
 
-// Heliocentric ecliptic (J2000) position in AU from classical elements (angles in degrees).
-function orbitPosition(a, e, i, node, argPeri, M) {
-  const E = solveKepler(M, e);
-  const xp = a * (Math.cos(E) - e);
-  const yp = a * Math.sqrt(1 - e * e) * Math.sin(E);
+// Rotate a position in the orbital plane (perihelion along +x) into heliocentric ecliptic J2000 coordinates.
+function orient(xp, yp, i, node, argPeri) {
   const [cw, sw, cO, sO, ci, si] = [cosd(argPeri), sind(argPeri), cosd(node), sind(node), cosd(i), sind(i)];
   return [
     (cw * cO - sw * sO * ci) * xp + (-sw * cO - cw * sO * ci) * yp,
     (cw * sO + sw * cO * ci) * xp + (-sw * sO + cw * cO * ci) * yp,
     sw * si * xp + cw * si * yp,
   ];
+}
+
+// Heliocentric ecliptic (J2000) position in AU from classical elements (angles in degrees).
+function orbitPosition(a, e, i, node, argPeri, M) {
+  const E = solveKepler(M, e);
+  return orient(a * (Math.cos(E) - e), a * Math.sqrt(1 - e * e) * Math.sin(E), i, node, argPeri);
+}
+
+// Comet or interstellar object from perihelion elements – elliptical (e < 1) or hyperbolic (e > 1).
+function cometPosition([e, q, i, node, argPeri, tp], jd) {
+  const a = q / (1 - e);
+  const n = GAUSS_K / Math.pow(Math.abs(a), 1.5); // radians per day
+  const M = n * (jd - tp);
+  if (e < 1) return orbitPosition(a, e, i, node, argPeri, M / DEG);
+  // Hyperbolic Kepler equation: e·sinh(H) − H = M
+  let H = Math.asinh(M / e);
+  for (let k = 0; k < 50; k++) {
+    const dH = (e * Math.sinh(H) - H - M) / (e * Math.cosh(H) - 1);
+    H -= dH;
+    if (Math.abs(dH) < 1e-12) break;
+  }
+  const A = -a; // positive semi-axis length
+  return orient(A * (e - Math.cosh(H)), A * Math.sqrt(e * e - 1) * Math.sinh(H), i, node, argPeri);
 }
 
 function heliocentric(body, jd) {
@@ -86,6 +117,7 @@ function heliocentric(body, jd) {
     const [a, e, I, L, wbar, node] = el.map((v, k) => v + rate[k] * T);
     return orbitPosition(a, e, I, node, wbar - node, L - wbar);
   }
+  if (COMETS[body]) return cometPosition(COMETS[body], jd);
   const [a, e, i, node, w, M0, n] = SMALL_BODIES[body];
   return orbitPosition(a, e, i, node, w, M0 + n * (jd - SMALL_EPOCH));
 }
@@ -112,7 +144,7 @@ function moonPosition(jd) {
   return { ra: eq.ra, dec: eq.dec, km: rKm, parallax: par };
 }
 
-export const SOLAR_SYSTEM_BODIES = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto', 'ceres', 'eris', 'haumea', 'makemake'];
+export const SOLAR_SYSTEM_BODIES = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto', 'ceres', 'eris', 'haumea', 'makemake', ...Object.keys(COMETS)];
 
 // Geocentric RA/Dec (degrees) and distance (km) of a solar-system body.
 export function bodyPosition(body, jd) {
