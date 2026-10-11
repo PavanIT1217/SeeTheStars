@@ -1,5 +1,7 @@
 # See the Stars
 
+**Live:** https://seethestars.webappslab.com
+
 A journey through the universe for curious kids and students, with a **Sky Finder** that uses your phone's camera, compass and motion sensors to show *where* everything is right now, even when it's on the other side of the Earth.
 
 ## What's inside
@@ -26,7 +28,7 @@ npm test            # checks planets, comets and the ISS against NASA JPL Horizo
 npm run sync        # copy the web app into the Android/iOS projects
 ```
 
-The camera and motion sensors only work over **HTTPS** (or `localhost`). To try it on a phone, deploy to any static host. GitHub Pages works: Settings → Pages → deploy from the default branch. Then open the site on the phone and use "Add to Home Screen".
+The camera and motion sensors only work over **HTTPS** (or `localhost`). The live site, **https://seethestars.webappslab.com**, is deployed by GitHub Pages from `master`. Open it on a phone and use "Add to Home Screen" to install it.
 
 ## Project layout
 

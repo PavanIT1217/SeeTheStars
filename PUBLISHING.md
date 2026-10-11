@@ -15,8 +15,8 @@ The Android and iOS apps live in `android/` and `ios/`. They are the same web ap
 
 **App ID.** The apps use `io.github.pavanit1217.seethestars`. Once you've uploaded to a store, this ID can never change. To use a different one (e.g. `com.yourname.seethestars`), change it **before your first upload** in `capacitor.config.json`, `android/app/build.gradle` (`namespace` and `applicationId`) and in Xcode (Signing & Capabilities → Bundle Identifier).
 
-**Privacy policy URL.** Both stores require one. Turn on GitHub Pages (repo **Settings → Pages → Deploy from branch → master / root**) and use:
-`https://pavanit1217.github.io/SeeTheStars/privacy.html`
+**Website and privacy policy URL.** The web version is live at **https://seethestars.webappslab.com** (GitHub Pages from `master`, custom domain set in the `CNAME` file). Both stores need a privacy policy URL. Use:
+`https://seethestars.webappslab.com/privacy.html`
 
 ---
 
