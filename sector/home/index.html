@@ -1,0 +1,135 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Home Base: Earth, the ISS, Moon and Sun | See the Stars</title>
+  <meta name="description" content="Every space journey starts at home. Before we fly to distant galaxies, let’s get to know our neighbourhood: the planet under your feet, the station where…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/sector/home/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Home Base: Earth, the ISS, Moon and Sun | See the Stars">
+  <meta property="og:description" content="Every space journey starts at home. Before we fly to distant galaxies, let’s get to know our neighbourhood: the planet under your feet, the station where…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/sector/home/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Meteosat-12-fci-march-equinox-2025-noon.jpg/1280px-Meteosat-12-fci-march-equinox-2025-noon.jpg">
+  <meta property="og:image:alt" content="Home Base">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Home Base: Earth, the ISS, Moon and Sun | See the Stars">
+  <meta name="twitter:description" content="Every space journey starts at home. Before we fly to distant galaxies, let’s get to know our neighbourhood: the planet under your feet, the station where…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Meteosat-12-fci-march-equinox-2025-noon.jpg/1280px-Meteosat-12-fci-march-equinox-2025-noon.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"Home Base – Earth, the ISS, Moon and Sun","description":"Every space journey starts at home. Before we fly to distant galaxies, let’s get to know our neighbourhood: the planet under your feet, the station where astronauts live right now, the Moon that lights up the night, and the star that keeps us warm.","url":"https://seethestars.webappslab.com/sector/home/","inLanguage":"en","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Earth","url":"https://seethestars.webappslab.com/object/earth/"},{"@type":"ListItem","position":2,"name":"International Space Station","url":"https://seethestars.webappslab.com/object/iss/"},{"@type":"ListItem","position":3,"name":"The Moon","url":"https://seethestars.webappslab.com/object/moon/"},{"@type":"ListItem","position":4,"name":"The Sun","url":"https://seethestars.webappslab.com/object/sun/"}]}},{"@type":"Quiz","name":"Home Base challenge","about":{"@type":"Thing","name":"Earth, the ISS, Moon and Sun"},"educationalLevel":"Beginner","hasPart":[{"@type":"Question","eduQuestionType":"Multiple choice","text":"About how long does sunlight take to reach Earth?","acceptedAnswer":{"@type":"Answer","text":"8 minutes","answerExplanation":{"@type":"Comment","text":"Light travels about 300,000 km every second, and the Sun is about 150 million km away – so the trip takes roughly 8 minutes and 20 seconds."}},"suggestedAnswer":[{"@type":"Answer","text":"8 seconds"},{"@type":"Answer","text":"8 hours"},{"@type":"Answer","text":"8 days"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"Why do we always see the same face of the Moon?","acceptedAnswer":{"@type":"Answer","text":"It spins exactly once per orbit","answerExplanation":{"@type":"Comment","text":"The Moon is “tidally locked”: it turns once on its axis in the same time it takes to go once around Earth."}},"suggestedAnswer":[{"@type":"Answer","text":"The Moon doesn’t spin"},{"@type":"Answer","text":"Earth blocks the other side"},{"@type":"Answer","text":"The far side is invisible"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"Who measured the size of the Earth more than 2,000 years ago using shadows?","acceptedAnswer":{"@type":"Answer","text":"Eratosthenes","answerExplanation":{"@type":"Comment","text":"Around 240 BC, Eratosthenes compared shadows in two Egyptian cities and calculated Earth’s size surprisingly well."}},"suggestedAnswer":[{"@type":"Answer","text":"Galileo"},{"@type":"Answer","text":"Newton"},{"@type":"Answer","text":"Copernicus"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"How long does the International Space Station take to circle the Earth?","acceptedAnswer":{"@type":"Answer","text":"About 90 minutes","answerExplanation":{"@type":"Comment","text":"It races around at about 28,000 km/h, so astronauts see around 16 sunrises every day."}},"suggestedAnswer":[{"@type":"Answer","text":"One day"},{"@type":"Answer","text":"One week"},{"@type":"Answer","text":"One month"}]}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Home Base","item":"https://seethestars.webappslab.com/sector/home/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="sector">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <section class="banner" style="--hue:200">
+      <div class="ph " style="--hue:200" data-id="earth"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Meteosat-12-fci-march-equinox-2025-noon.jpg/1280px-Meteosat-12-fci-march-equinox-2025-noon.jpg" alt="Earth" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/#chapter-1">Chapter 1: Our Solar System</a></nav>
+      <div class="banner-copy">
+        <span class="eyebrow">Sector 1 of 12</span>
+        <h1>Home Base</h1>
+        <p>Earth, the ISS, Moon and Sun</p>
+      </div>
+    </section>
+    <section class="sector-intro" style="--hue:200">
+      <p class="lead">Every space journey starts at home. Before we fly to distant galaxies, let’s get to know our neighbourhood: the planet under your feet, the station where astronauts live right now, the Moon that lights up the night, and the star that keeps us warm.</p>
+      <div class="side">
+        <div class="progress-line"><div class="bar"><span style="width:0%"></span></div><span>0 of 4 explored</span></div>
+        <a class="btn primary" href="/object/earth/">Start this sector →</a>
+        <button class="btn ghost dl-sector">⤓ Save this sector for offline</button>
+      </div>
+    </section>
+    <h2 class="visually-hidden">In this sector</h2>
+    <div class="grid objects"><a class="obj-card" href="/object/earth/">
+    <div class="ph " style="--hue:200" data-id="earth"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Meteosat-12-fci-march-equinox-2025-noon.jpg/960px-Meteosat-12-fci-march-equinox-2025-noon.jpg" alt="Earth" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">01</span><b>Earth</b><small>Planet · Our home</small></div>
+  </a><a class="obj-card" href="/object/iss/">
+    <div class="ph " style="--hue:200" data-id="iss"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg/960px-The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg" alt="International Space Station" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">02</span><b>International Space Station</b><small>Space station · Human-made</small></div>
+  </a><a class="obj-card" href="/object/moon/">
+    <div class="ph " style="--hue:200" data-id="moon"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/960px-FullMoon2010.jpg" alt="The Moon" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">03</span><b>The Moon</b><small>Natural satellite</small></div>
+  </a><a class="obj-card" href="/object/sun/">
+    <div class="ph " style="--hue:200" data-id="sun"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/The_Sun_in_white_light.jpg/960px-The_Sun_in_white_light.jpg" alt="The Sun" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">04</span><b>The Sun</b><small>Star · Yellow dwarf</small></div>
+  </a></div>
+    <section class="challenge locked">
+      <div>
+        <span class="eyebrow">Sector challenge</span>
+        <h3>Explore all 4 to unlock the challenge</h3>
+        <p>4 questions · win 50 XP and a badge</p>
+      </div>
+      <span class="lock" aria-label="Locked">🔒</span>
+    </section>
+    <nav class="pager" aria-label="Sectors">
+      <span></span>
+      <a class="pager-card next" href="/sector/rocky/"><div class="ph " style="--hue:18" data-id="mars"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png/960px-Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next sector →</small><b>The Rocky Worlds</b></div></a>
+    </nav></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

@@ -12,10 +12,13 @@
 //   wow                   one mind-blowing fact
 //   wonder                [question, answer] to spark curiosity
 //   see                   how to see it yourself
+//
+// Sector fields: id, code, title, subtitle, hue, cover (object id whose photo illustrates it), briefing, items, quiz
 
 export const SECTORS = [
   {
     id: 'home',
+    cover: 'earth',
     code: '01',
     title: 'Home Base',
     subtitle: 'Earth, the ISS, Moon and Sun',
@@ -31,6 +34,7 @@ export const SECTORS = [
   },
   {
     id: 'rocky',
+    cover: 'mars',
     code: '02',
     title: 'The Rocky Worlds',
     subtitle: 'Mercury, Venus and Mars',
@@ -45,6 +49,7 @@ export const SECTORS = [
   },
   {
     id: 'giants',
+    cover: 'jupiter',
     code: '03',
     title: 'The Giants',
     subtitle: 'Jupiter, Saturn, Uranus and Neptune',
@@ -59,6 +64,7 @@ export const SECTORS = [
   },
   {
     id: 'dwarfs',
+    cover: 'pluto',
     code: '04',
     title: 'The Little Worlds',
     subtitle: 'Dwarf planets',
@@ -73,6 +79,7 @@ export const SECTORS = [
   },
   {
     id: 'comets',
+    cover: 'halebopp',
     code: '05',
     title: 'Comets & Space Visitors',
     subtitle: 'Icy wanderers and interstellar travellers',
@@ -87,6 +94,7 @@ export const SECTORS = [
   },
   {
     id: 'stars',
+    cover: 'rigel',
     code: '06',
     title: 'The Stars',
     subtitle: 'Suns of other worlds',
@@ -101,6 +109,7 @@ export const SECTORS = [
   },
   {
     id: 'exoplanets',
+    cover: 'kepler186f',
     code: '07',
     title: 'Other Worlds',
     subtitle: 'Planets around other stars',
@@ -115,6 +124,7 @@ export const SECTORS = [
   },
   {
     id: 'constellations',
+    cover: 'orion',
     code: '08',
     title: 'Constellations',
     subtitle: 'Pictures in the sky',
@@ -129,6 +139,7 @@ export const SECTORS = [
   },
   {
     id: 'lifecycle',
+    cover: 'pillars',
     code: '09',
     title: 'Star Nurseries & Graveyards',
     subtitle: 'How stars are born and how they die',
@@ -143,6 +154,7 @@ export const SECTORS = [
   },
   {
     id: 'extreme',
+    cover: 'cygx1',
     code: '10',
     title: 'Extreme Objects',
     subtitle: 'Pulsars and black holes',
@@ -157,6 +169,7 @@ export const SECTORS = [
   },
   {
     id: 'galaxies',
+    cover: 'andromeda',
     code: '11',
     title: 'Galaxies',
     subtitle: 'Islands of billions of stars',
@@ -171,6 +184,7 @@ export const SECTORS = [
   },
   {
     id: 'universe',
+    cover: 'hudf',
     code: '12',
     title: 'The Whole Universe',
     subtitle: 'Cosmology: the biggest questions',

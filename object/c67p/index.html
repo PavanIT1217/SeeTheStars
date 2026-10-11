@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Comet 67P/Churyumov–Gerasimenko: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Comet 67P is the first comet a spacecraft has orbited and landed on. Up close, it turned out to be shaped like a giant rubber duck, with cliffs, boulders and…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/c67p/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Comet 67P/Churyumov–Gerasimenko: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Comet 67P is the first comet a spacecraft has orbited and landed on. Up close, it turned out to be shaped like a giant rubber duck, with cliffs, boulders and…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/c67p/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Comet_67P_True_color.jpg/1280px-Comet_67P_True_color.jpg">
+  <meta property="og:image:alt" content="Comet 67P/Churyumov–Gerasimenko">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Comet 67P/Churyumov–Gerasimenko: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Comet 67P is the first comet a spacecraft has orbited and landed on. Up close, it turned out to be shaped like a giant rubber duck, with cliffs, boulders and…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Comet_67P_True_color.jpg/1280px-Comet_67P_True_color.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Comet 67P/Churyumov–Gerasimenko","name":"Comet 67P/Churyumov–Gerasimenko – Comet · The rubber duck","description":"Comet 67P is the first comet a spacecraft has orbited and landed on. Up close, it turned out to be shaped like a giant rubber duck, with cliffs, boulders and jets of gas shooting out as the Sun warmed it.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Comet_67P_True_color.jpg/1280px-Comet_67P_True_color.jpg","url":"https://seethestars.webappslab.com/object/c67p/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Comet 67P/Churyumov–Gerasimenko","sameAs":"https://en.wikipedia.org/wiki/67P%2FChuryumov%E2%80%93Gerasimenko"},"isPartOf":{"@type":"CollectionPage","name":"Comets & Space Visitors","url":"https://seethestars.webappslab.com/sector/comets/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Comets & Space Visitors","item":"https://seethestars.webappslab.com/sector/comets/"},{"@type":"ListItem","position":3,"name":"Comet 67P/Churyumov–Gerasimenko","item":"https://seethestars.webappslab.com/object/c67p/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/comets/">Comets & Space Visitors</a><span aria-hidden="true">/</span><span aria-current="page">Comet 67P/Churyumov–Gerasimenko</span></nav>
+    <article class="object" style="--hue:170">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:170" data-id="c67p"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Comet_67P_True_color.jpg/1280px-Comet_67P_True_color.jpg" alt="Comet 67P/Churyumov–Gerasimenko – Comet · The rubber duck" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Comet_67P_True_color.jpg" target="_blank" rel="noopener">ESA/Rosetta/MPS for OSIRIS Team MPS/UPD/LAM/IAA/SSO/INTA/UPM/DASP/IDA · CC BY-SA 4.0</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">☄️ Comets · Comets & Space Visitors</span>
+          <h1>Comet 67P/Churyumov–Gerasimenko</h1>
+          <p class="kind">Comet · The rubber duck</p>
+          <p class="lead">Comet 67P is the first comet a spacecraft has orbited and landed on. Up close, it turned out to be shaped like a giant rubber duck, with cliffs, boulders and jets of gas shooting out as the Sun warmed it.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">📏</span><div><b>~4 km long</b><small>You could line up 3186 of them across Earth.</small></div></li><li><span class="ic" aria-hidden="true">🛰️</span><div><b>~6.4 years</b><small>Orbit</small></div></li><li><span class="ic" aria-hidden="true">🚀</span><div><b>Rosetta (2014–2016)</b><small>Visited by</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/c67p/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🦆</span><h3>Two comets stuck together</h3><p>Why the duck shape? Scientists think 67P’s “head” and “body” were once two separate small comets that bumped together very gently, long ago, and stayed stuck. The narrow “neck” between them is where cliffs and cracks are found, and where many of its gas jets shoot out.</p></div><div class="hl"><span class="ic" aria-hidden="true">🧽</span><h3>Light and fluffy</h3><p>67P is more like a dusty snowball full of holes than a solid rock – about half as dense as water. Its gravity is so weak that a person would weigh about as much as a paperclip. One good jump could send you floating off into space, never to come back down.</p></div><div class="hl"><span class="ic" aria-hidden="true">👃</span><h3>A smelly comet</h3><p>Rosetta carried an instrument that “sniffed” the gas around 67P. It found hydrogen sulphide, which smells of rotten eggs, plus ammonia and other strong-smelling chemicals. Luckily nobody was there to notice – but these smells tell scientists exactly what the comet’s ice is made of.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>Rosetta found glycine – one of the building blocks of proteins – in the dust around the comet.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1969</span><p>Klim Churyumov and Svetlana Gerasimenko discover the comet on photographs taken in Kazakhstan.</p></li><li><span class="year">2004</span><p>The European Space Agency launches Rosetta on a 10-year chase.</p></li><li><span class="year">2014</span><p>Rosetta arrives in August. On 12 November its lander Philae touches down – the first landing on a comet. It bounces twice before coming to rest in a shadowy spot.</p></li><li><span class="year">2016</span><p>Rosetta ends its mission by gently crashing onto the comet.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Did comets bring water to Earth’s oceans?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Maybe some of it. But Rosetta found that 67P’s water is chemically different from Earth’s oceans, so scientists think comets like this one probably weren’t the main source. The debate continues!</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Only with a telescope, when it comes closest to the Sun (next in 2028).</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Size</dt><dd>~4 km long</dd></div><div><dt>Orbit</dt><dd>~6.4 years</dd></div><div><dt>Visited by</dt><dd>Rosetta (2014–2016)</dd></div><div><dt>Shape</dt><dd>Like a rubber duck</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Comet 67P/Churyumov–Gerasimenko as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/halley/"><div class="ph " style="--hue:170" data-id="halley"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Lspn_comet_halley.jpg/960px-Lspn_comet_halley.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Halley’s Comet</b></div></a>
+        <a class="pager-card next" href="/object/halebopp/"><div class="ph " style="--hue:170" data-id="halebopp"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Comet_Hale-Bopp_1995O1.jpg/960px-Comet_Hale-Bopp_1995O1.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Comet Hale–Bopp</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

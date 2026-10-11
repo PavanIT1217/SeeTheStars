@@ -22,7 +22,7 @@ function carTrip(km) {
 }
 
 // Diameter in km from facts like "12,742 km", "~940 km" or "1.39 million km (109 Earths)".
-function diameterKm(facts) {
+export function diameterKm(facts) {
   for (const [label, value] of facts) {
     if (!/diameter|size/i.test(label)) continue;
     const m = value.match(/([\d.,]+)\s*(million)?\s*km/i);
@@ -31,7 +31,7 @@ function diameterKm(facts) {
   return null;
 }
 
-function sizeComparison(km) {
+export function sizeComparison(km) {
   const ratio = km / EARTH_KM;
   if (ratio >= 1.5) return `About ${round(ratio)} Earths would fit side by side across it.`;
   if (ratio >= 0.75) return 'Almost exactly the same size as Earth!';

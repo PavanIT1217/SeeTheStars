@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>International Space Station: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="The International Space Station is the biggest thing humans have ever built in space – a laboratory and home where astronauts from many countries live and…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/iss/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="International Space Station: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="The International Space Station is the biggest thing humans have ever built in space – a laboratory and home where astronauts from many countries live and…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/iss/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg/1280px-The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg">
+  <meta property="og:image:alt" content="International Space Station">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="International Space Station: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="The International Space Station is the biggest thing humans have ever built in space – a laboratory and home where astronauts from many countries live and…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg/1280px-The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"International Space Station","name":"International Space Station – Space station · Human-made","description":"The International Space Station is the biggest thing humans have ever built in space – a laboratory and home where astronauts from many countries live and work. People have been living on board without a break since November 2000.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg/1280px-The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg","url":"https://seethestars.webappslab.com/object/iss/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"International Space Station","sameAs":"https://en.wikipedia.org/wiki/International_Space_Station"},"isPartOf":{"@type":"CollectionPage","name":"Home Base","url":"https://seethestars.webappslab.com/sector/home/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Home Base","item":"https://seethestars.webappslab.com/sector/home/"},{"@type":"ListItem","position":3,"name":"International Space Station","item":"https://seethestars.webappslab.com/object/iss/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/home/">Home Base</a><span aria-hidden="true">/</span><span aria-current="page">International Space Station</span></nav>
+    <article class="object" style="--hue:200">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:200" data-id="iss"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg/1280px-The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg" alt="International Space Station – Space station · Human-made" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg" target="_blank" rel="noopener">NASA · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🛰️ Spacecraft · Home Base</span>
+          <h1>International Space Station</h1>
+          <p class="kind">Space station · Human-made</p>
+          <p class="lead">The International Space Station is the biggest thing humans have ever built in space – a laboratory and home where astronauts from many countries live and work. People have been living on board without a break since November 2000.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">🚗</span><div><b>About 400 km up</b><small>A car would get there in about 4 hours – if it could drive straight up!</small></div></li><li><span class="ic" aria-hidden="true">💨</span><div><b>~28,000 km/h</b><small>Speed</small></div></li><li><span class="ic" aria-hidden="true">🛰️</span><div><b>~90 minutes</b><small>One orbit</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/iss/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🪂</span><h3>Falling all the time</h3><p>At the height of the ISS, gravity is still about 90% as strong as on the ground. Astronauts float because the station and everyone inside it are falling around Earth together, moving sideways so fast that they keep missing the ground. Sleeping means zipping into a sleeping bag tied to the wall.</p></div><div class="hl"><span class="ic" aria-hidden="true">💧</span><h3>Recycling every drop</h3><p>Water is too heavy to keep sending up by rocket, so the station recycles it. Machines collect moisture from the air, sweat and even urine, and clean it into fresh drinking water – about 98% of it is reused. As astronauts like to say, today’s coffee is tomorrow’s coffee.</p></div><div class="hl"><span class="ic" aria-hidden="true">🏋️</span><h3>Staying strong in space</h3><p>Without gravity pulling on them, muscles and bones grow weaker, a bit like a leg in a plaster cast. So astronauts exercise for about two hours every day, strapped to a treadmill, a bike and a special weight machine. Studying their bodies helps doctors on Earth understand ageing and bone loss.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>Astronauts on the ISS see about 16 sunrises and 16 sunsets every single day.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1998</span><p>The first piece, the Russian module Zarya, is launched. Over the next years, dozens of pieces are added like building blocks.</p></li><li><span class="year">2000</span><p>The first crew moves in on 2 November. There have been people in space ever since.</p></li><li><span class="year">2011</span><p>The main assembly is finished, after more than 30 Space Shuttle missions helped build it.</p></li><li><span class="year">2020</span><p>SpaceX’s Crew Dragon becomes the first privately built spacecraft to carry astronauts to the station.</p></li><li><span class="year">~2030</span><p>The station is planned to be retired and steered down to burn up over a remote part of the Pacific Ocean.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Why can you only see the ISS shortly after sunset or before sunrise?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>The ISS doesn’t make its own light – it reflects sunlight. You need a dark sky where you are, while the station high above is still lit by the Sun.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>It looks like a very bright, steady star gliding across the sky in a few minutes – no blinking lights like a plane. Check the “next visible pass” times below!</p>
+            <div class="passes"></div>
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Height</dt><dd>~400 km up</dd></div><div><dt>Speed</dt><dd>~28,000 km/h</dd></div><div><dt>One orbit</dt><dd>~90 minutes</dd></div><div><dt>Size</dt><dd>About a football field</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark International Space Station as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/earth/"><div class="ph " style="--hue:200" data-id="earth"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Meteosat-12-fci-march-equinox-2025-noon.jpg/960px-Meteosat-12-fci-march-equinox-2025-noon.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Earth</b></div></a>
+        <a class="pager-card next" href="/object/moon/"><div class="ph " style="--hue:200" data-id="moon"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/960px-FullMoon2010.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>The Moon</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

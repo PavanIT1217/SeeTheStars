@@ -1,0 +1,147 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Galaxies: Islands of billions of stars | See the Stars</title>
+  <meta name="description" content="All the stars you have met so far live in one galaxy: the Milky Way. Just 100 years ago, many astronomers thought it was the entire universe. Then we…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/sector/galaxies/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Galaxies: Islands of billions of stars | See the Stars">
+  <meta property="og:description" content="All the stars you have met so far live in one galaxy: the Milky Way. Just 100 years ago, many astronomers thought it was the entire universe. Then we…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/sector/galaxies/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Andromeda_Galaxy_2025.png/1280px-Andromeda_Galaxy_2025.png">
+  <meta property="og:image:alt" content="Galaxies">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Galaxies: Islands of billions of stars | See the Stars">
+  <meta name="twitter:description" content="All the stars you have met so far live in one galaxy: the Milky Way. Just 100 years ago, many astronomers thought it was the entire universe. Then we…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Andromeda_Galaxy_2025.png/1280px-Andromeda_Galaxy_2025.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"Galaxies – Islands of billions of stars","description":"All the stars you have met so far live in one galaxy: the Milky Way. Just 100 years ago, many astronomers thought it was the entire universe. Then we discovered that the universe is full of galaxies – hundreds of billions of them.","url":"https://seethestars.webappslab.com/sector/galaxies/","inLanguage":"en","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"The Milky Way","url":"https://seethestars.webappslab.com/object/milkyway/"},{"@type":"ListItem","position":2,"name":"Large Magellanic Cloud","url":"https://seethestars.webappslab.com/object/lmc/"},{"@type":"ListItem","position":3,"name":"Small Magellanic Cloud","url":"https://seethestars.webappslab.com/object/smc/"},{"@type":"ListItem","position":4,"name":"Andromeda Galaxy (M31)","url":"https://seethestars.webappslab.com/object/andromeda/"},{"@type":"ListItem","position":5,"name":"Triangulum Galaxy (M33)","url":"https://seethestars.webappslab.com/object/triangulum/"},{"@type":"ListItem","position":6,"name":"Whirlpool Galaxy (M51)","url":"https://seethestars.webappslab.com/object/whirlpool/"},{"@type":"ListItem","position":7,"name":"Sombrero Galaxy (M104)","url":"https://seethestars.webappslab.com/object/sombrero/"}]}},{"@type":"Quiz","name":"Galaxies challenge","about":{"@type":"Thing","name":"Islands of billions of stars"},"educationalLevel":"Beginner","hasPart":[{"@type":"Question","eduQuestionType":"Multiple choice","text":"Who proved in 1923 that Andromeda is a separate galaxy?","acceptedAnswer":{"@type":"Answer","text":"Edwin Hubble","answerExplanation":{"@type":"Comment","text":"Edwin Hubble found a Cepheid variable star in Andromeda and used it to show the galaxy is far beyond the Milky Way."}},"suggestedAnswer":[{"@type":"Answer","text":"Galileo"},{"@type":"Answer","text":"Isaac Newton"},{"@type":"Answer","text":"Carl Sagan"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"Henrietta Swan Leavitt’s discovery about Cepheid stars gave astronomers…","acceptedAnswer":{"@type":"Answer","text":"A way to measure cosmic distances","answerExplanation":{"@type":"Comment","text":"She found that a Cepheid’s brightness is linked to how fast it pulses – a “cosmic measuring tape”."}},"suggestedAnswer":[{"@type":"Answer","text":"A new telescope"},{"@type":"Answer","text":"The first photo of Mars"},{"@type":"Answer","text":"A rocket design"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"What is the most distant thing most people can see without a telescope?","acceptedAnswer":{"@type":"Answer","text":"The Andromeda Galaxy","answerExplanation":{"@type":"Comment","text":"Andromeda is about 2.5 million light-years away and visible as a faint smudge from a dark site."}},"suggestedAnswer":[{"@type":"Answer","text":"Pluto"},{"@type":"Answer","text":"Sirius"},{"@type":"Answer","text":"The Crab Nebula"}]}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Galaxies","item":"https://seethestars.webappslab.com/sector/galaxies/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="sector">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <section class="banner" style="--hue:230">
+      <div class="ph " style="--hue:230" data-id="andromeda"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Andromeda_Galaxy_2025.png/1280px-Andromeda_Galaxy_2025.png" alt="Andromeda Galaxy (M31)" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/#chapter-4">Chapter 4: Galaxies and Beyond</a></nav>
+      <div class="banner-copy">
+        <span class="eyebrow">Sector 11 of 12</span>
+        <h1>Galaxies</h1>
+        <p>Islands of billions of stars</p>
+      </div>
+    </section>
+    <section class="sector-intro" style="--hue:230">
+      <p class="lead">All the stars you have met so far live in one galaxy: the Milky Way. Just 100 years ago, many astronomers thought it was the entire universe. Then we discovered that the universe is full of galaxies – hundreds of billions of them.</p>
+      <div class="side">
+        <div class="progress-line"><div class="bar"><span style="width:0%"></span></div><span>0 of 7 explored</span></div>
+        <a class="btn primary" href="/object/milkyway/">Start this sector →</a>
+        <button class="btn ghost dl-sector">⤓ Save this sector for offline</button>
+      </div>
+    </section>
+    <h2 class="visually-hidden">In this sector</h2>
+    <div class="grid objects"><a class="obj-card" href="/object/milkyway/">
+    <div class="ph " style="--hue:230" data-id="milkyway"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/ESO-VLT-Laser-phot-33a-07.jpg/960px-ESO-VLT-Laser-phot-33a-07.jpg" alt="The Milky Way" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">01</span><b>The Milky Way</b><small>Galaxy · Barred spiral · Our home</small></div>
+  </a><a class="obj-card" href="/object/lmc/">
+    <div class="ph " style="--hue:230" data-id="lmc"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Wide-field_view_of_part_of_the_Large_Magellanic_Cloud_%28eso1021c%29.jpg/960px-Wide-field_view_of_part_of_the_Large_Magellanic_Cloud_%28eso1021c%29.jpg" alt="Large Magellanic Cloud" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">02</span><b>Large Magellanic Cloud</b><small>Galaxy · Satellite of the Milky Way</small></div>
+  </a><a class="obj-card" href="/object/smc/">
+    <div class="ph " style="--hue:230" data-id="smc"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Small_Magellanic_Cloud_%28Digitized_Sky_Survey_2%29.jpg/960px-Small_Magellanic_Cloud_%28Digitized_Sky_Survey_2%29.jpg" alt="Small Magellanic Cloud" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">03</span><b>Small Magellanic Cloud</b><small>Galaxy · Satellite of the Milky Way</small></div>
+  </a><a class="obj-card" href="/object/andromeda/">
+    <div class="ph " style="--hue:230" data-id="andromeda"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Andromeda_Galaxy_2025.png/960px-Andromeda_Galaxy_2025.png" alt="Andromeda Galaxy (M31)" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">04</span><b>Andromeda Galaxy (M31)</b><small>Galaxy · Spiral</small></div>
+  </a><a class="obj-card" href="/object/triangulum/">
+    <div class="ph " style="--hue:230" data-id="triangulum"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/VST_snaps_a_very_detailed_view_of_the_Triangulum_Galaxy.jpg/960px-VST_snaps_a_very_detailed_view_of_the_Triangulum_Galaxy.jpg" alt="Triangulum Galaxy (M33)" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">05</span><b>Triangulum Galaxy (M33)</b><small>Galaxy · Spiral</small></div>
+  </a><a class="obj-card" href="/object/whirlpool/">
+    <div class="ph " style="--hue:230" data-id="whirlpool"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Messier51_sRGB.jpg/960px-Messier51_sRGB.jpg" alt="Whirlpool Galaxy (M51)" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">06</span><b>Whirlpool Galaxy (M51)</b><small>Galaxy · Interacting spiral</small></div>
+  </a><a class="obj-card" href="/object/sombrero/">
+    <div class="ph " style="--hue:230" data-id="sombrero"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Sombrero_Galaxy_%28heic2506a%29.jpg/960px-Sombrero_Galaxy_%28heic2506a%29.jpg" alt="Sombrero Galaxy (M104)" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">07</span><b>Sombrero Galaxy (M104)</b><small>Galaxy · Spiral, edge-on</small></div>
+  </a></div>
+    <section class="challenge locked">
+      <div>
+        <span class="eyebrow">Sector challenge</span>
+        <h3>Explore all 7 to unlock the challenge</h3>
+        <p>3 questions · win 50 XP and a badge</p>
+      </div>
+      <span class="lock" aria-label="Locked">🔒</span>
+    </section>
+    <nav class="pager" aria-label="Sectors">
+      <a class="pager-card" href="/sector/extreme/"><div class="ph " style="--hue:280" data-id="cygx1"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Black_Hole_Cygnus_X-1_%28Illustration%29_%284187-Image%29.png/960px-Black_Hole_Cygnus_X-1_%28Illustration%29_%284187-Image%29.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous sector</small><b>Extreme Objects</b></div></a>
+      <a class="pager-card next" href="/sector/universe/"><div class="ph " style="--hue:260" data-id="hudf"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Hubble_ultra_deep_field_high_rez_edit1.jpg/960px-Hubble_ultra_deep_field_high_rez_edit1.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next sector →</small><b>The Whole Universe</b></div></a>
+    </nav></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

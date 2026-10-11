@@ -5,6 +5,7 @@
   "scripts": {
     "start": "npx http-server -c-1 -p 8080 .",
     "test": "node --test tests/*.test.js",
+    "pages": "node scripts/build-pages.mjs",
     "build": "node scripts/build-web.mjs",
     "sync": "npm run build && npx cap sync",
     "android": "npm run sync && npx cap open android",

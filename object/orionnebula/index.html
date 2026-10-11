@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Orion Nebula (M42): facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="The Orion Nebula is a giant glowing cloud of gas and dust where thousands of new stars are being born. It is the closest large star-forming region to Earth…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/orionnebula/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Orion Nebula (M42): facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="The Orion Nebula is a giant glowing cloud of gas and dust where thousands of new stars are being born. It is the closest large star-forming region to Earth…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/orionnebula/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg/1280px-Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg">
+  <meta property="og:image:alt" content="Orion Nebula (M42)">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Orion Nebula (M42): facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="The Orion Nebula is a giant glowing cloud of gas and dust where thousands of new stars are being born. It is the closest large star-forming region to Earth…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg/1280px-Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Orion Nebula (M42)","name":"Orion Nebula (M42) – Nebula · Star nursery","description":"The Orion Nebula is a giant glowing cloud of gas and dust where thousands of new stars are being born. It is the closest large star-forming region to Earth and you can see it without a telescope.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg/1280px-Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg","url":"https://seethestars.webappslab.com/object/orionnebula/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Orion Nebula (M42)","sameAs":"https://en.wikipedia.org/wiki/Orion_Nebula"},"isPartOf":{"@type":"CollectionPage","name":"Star Nurseries & Graveyards","url":"https://seethestars.webappslab.com/sector/lifecycle/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Star Nurseries & Graveyards","item":"https://seethestars.webappslab.com/sector/lifecycle/"},{"@type":"ListItem","position":3,"name":"Orion Nebula (M42)","item":"https://seethestars.webappslab.com/object/orionnebula/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/lifecycle/">Star Nurseries & Graveyards</a><span aria-hidden="true">/</span><span aria-current="page">Orion Nebula (M42)</span></nav>
+    <article class="object" style="--hue:320">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:320" data-id="orionnebula"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg/1280px-Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg" alt="Orion Nebula (M42) – Nebula · Star nursery" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg" target="_blank" rel="noopener">NASA, ESA, M. Robberto (Space Telescope Science Institute/ESA) and the Hubble Sp · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🌫️ Nebulae · Star Nurseries & Graveyards</span>
+          <h1>Orion Nebula (M42)</h1>
+          <p class="kind">Nebula · Star nursery</p>
+          <p class="lead">The Orion Nebula is a giant glowing cloud of gas and dust where thousands of new stars are being born. It is the closest large star-forming region to Earth and you can see it without a telescope.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>1,344 light-years away</b><small>Even light – the fastest thing there is – needs 1,344 years to get here.</small></div></li><li><span class="ic" aria-hidden="true">📏</span><div><b>~24 light-years</b><small>Size</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>The Trapezium stars</b><small>Contains</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/orionnebula/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">💠</span><h3>The Trapezium’s glow</h3><p>At the nebula’s heart, a small telescope shows four bright stars in a tight little shape called the Trapezium. These young stars are fiercely hot. Their ultraviolet light makes the surrounding gas glow and has carved out a hollow in the cloud, like a cave lit from inside.</p></div><div class="hl"><span class="ic" aria-hidden="true">🧊</span><h3>Tip of the cloud</h3><p>The glowing part is only a bright blister on the near side of a far bigger, cold, dark cloud. Hidden behind it, more stars are forming in thick dust. Infrared telescopes like Webb can see through that dust to find them.</p></div><div class="hl"><span class="ic" aria-hidden="true">☀️</span><h3>Our Sun’s baby pictures</h3><p>Our Sun was probably born in a crowded star nursery much like this one, about 4.6 billion years ago. Studying the Orion Nebula helps scientists picture how our own Solar System began. Its pink colour comes from glowing hydrogen – the same gas that fuels the Sun today.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>The cloud contains enough gas to make about 2,000 stars like the Sun.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1610</span><p>Nicolas-Claude Fabri de Peiresc makes the first recorded telescope observation of the nebula.</p></li><li><span class="year">1769</span><p>Charles Messier adds it to his catalogue as M42.</p></li><li><span class="year">1880</span><p>Henry Draper takes the first-ever photograph of a nebula – this one.</p></li><li><span class="year">1990s</span><p>Hubble discovers dusty discs around young stars – baby solar systems in the making.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">How does a cloud of gas become a star?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Gravity slowly pulls clumps of gas together. As a clump shrinks, it heats up until its centre is hot enough for nuclear fusion – and a star switches on.</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off about 1,344 years ago – around the time Aryabhata wrote that the Earth spins.</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Look at the “sword” hanging below Orion’s belt. The middle “star” looks fuzzy – that’s the nebula. Binoculars make it glow.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Distance</dt><dd>~1,344 light-years</dd></div><div><dt>Size</dt><dd>~24 light-years</dd></div><div><dt>Contains</dt><dd>The Trapezium stars</dd></div><div><dt>Visible</dt><dd>To the naked eye</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Orion Nebula (M42) as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/cygnus/"><div class="ph " style="--hue:190" data-id="cygnus"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Milky_Way_in_Cygnus_2025_-_54657597165.jpg/960px-Milky_Way_in_Cygnus_2025_-_54657597165.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Cygnus</b></div></a>
+        <a class="pager-card next" href="/object/pleiades/"><div class="ph " style="--hue:320" data-id="pleiades"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Pleiades_large.jpg/960px-Pleiades_large.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>The Pleiades (M45)</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

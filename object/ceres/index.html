@@ -1,0 +1,175 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ceres: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Ceres is the biggest object in the asteroid belt and the only dwarf planet in the inner Solar System. It contains lots of water ice, and bright salty patches…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/ceres/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Ceres: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Ceres is the biggest object in the asteroid belt and the only dwarf planet in the inner Solar System. It contains lots of water ice, and bright salty patches…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/ceres/">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/7/76/Ceres_-_RC3_-_Haulani_Crater_%2822381131691%29_%28cropped%29.jpg">
+  <meta property="og:image:alt" content="Ceres">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ceres: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Ceres is the biggest object in the asteroid belt and the only dwarf planet in the inner Solar System. It contains lots of water ice, and bright salty patches…">
+  <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/7/76/Ceres_-_RC3_-_Haulani_Crater_%2822381131691%29_%28cropped%29.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Ceres","name":"Ceres – Dwarf planet · Asteroid belt","description":"Ceres is the biggest object in the asteroid belt and the only dwarf planet in the inner Solar System. It contains lots of water ice, and bright salty patches show that briny water once reached its surface.","image":"https://upload.wikimedia.org/wikipedia/commons/7/76/Ceres_-_RC3_-_Haulani_Crater_%2822381131691%29_%28cropped%29.jpg","url":"https://seethestars.webappslab.com/object/ceres/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Ceres","sameAs":"https://en.wikipedia.org/wiki/Ceres_(dwarf_planet)"},"isPartOf":{"@type":"CollectionPage","name":"The Little Worlds","url":"https://seethestars.webappslab.com/sector/dwarfs/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Little Worlds","item":"https://seethestars.webappslab.com/sector/dwarfs/"},{"@type":"ListItem","position":3,"name":"Ceres","item":"https://seethestars.webappslab.com/object/ceres/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/dwarfs/">The Little Worlds</a><span aria-hidden="true">/</span><span aria-current="page">Ceres</span></nav>
+    <article class="object" style="--hue:270">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:270" data-id="ceres"><img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Ceres_-_RC3_-_Haulani_Crater_%2822381131691%29_%28cropped%29.jpg" alt="Ceres – Dwarf planet · Asteroid belt" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Ceres_-_RC3_-_Haulani_Crater_(22381131691)_(cropped).jpg" target="_blank" rel="noopener">Justin Cowart · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🪨 Dwarf planets · The Little Worlds</span>
+          <h1>Ceres</h1>
+          <p class="kind">Dwarf planet · Asteroid belt</p>
+          <p class="lead">Ceres is the biggest object in the asteroid belt and the only dwarf planet in the inner Solar System. It contains lots of water ice, and bright salty patches show that briny water once reached its surface.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">📏</span><div><b>~940 km</b><small>You could line up 14 of them across Earth.</small></div></li><li><span class="ic" aria-hidden="true">🗓️</span><div><b>4.6 years</b><small>Year</small></div></li><li><span class="ic" aria-hidden="true">✨</span><div><b>Between Mars and Jupiter</b><small>Where</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/ceres/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🏔️</span><h3>A lonely ice mountain</h3><p>Dawn found a strange mountain on Ceres called Ahuna Mons, standing about 4 km tall all by itself on a fairly flat plain. Scientists think it is a cryovolcano – a volcano that oozed a cold, salty mud of ice and brine instead of hot lava.</p></div><div class="hl"><span class="ic" aria-hidden="true">🪶</span><h3>Light as a feather</h3><p>Gravity on Ceres is only about 3% of Earth’s. A kid who weighs 40 kg at home would feel as light as a bag of sugar there, and a good jump could keep you in the air for a long time. You would still need to be careful not to bounce too far.</p></div><div class="hl"><span class="ic" aria-hidden="true">🧪</span><h3>Ingredients for life</h3><p>Dawn’s instruments detected carbon-rich organic material on Ceres’ surface, along with clays and salts that formed in water. Organics are not life, but they are some of the building blocks it uses. That makes Ceres an important place for learning how water worlds form.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>Ceres was the very first asteroid ever discovered.</p></aside>
+
+          <div class="block">
+    <h2>Size it up</h2>
+    <div class="scale">
+      <svg viewBox="0 0 640 240" role="img" aria-label="Ceres and Earth drawn to scale">
+        <defs>
+          <radialGradient id="g-earth" cx="35%" cy="35%"><stop offset="0" stop-color="#8fd0ff"/><stop offset="0.6" stop-color="#2d6fcf"/><stop offset="1" stop-color="#123a73"/></radialGradient>
+          <radialGradient id="g-obj" cx="35%" cy="35%"><stop offset="0" stop-color="#9b9790"/><stop offset="1" stop-color="#4a4744"/></radialGradient>
+          <clipPath id="clip-scale"><rect width="640" height="240" rx="12"/></clipPath>
+        </defs>
+        <g clip-path="url(#clip-scale)" font-family="Space Grotesk, sans-serif" font-size="22" fill="#a7aec4"><circle cx="278.2129963898917" cy="120" r="92" fill="url(#g-earth)"/><text x="278.2129963898917" y="240" text-anchor="middle">Earth</text><circle cx="447" cy="120" r="6.787003610108304" fill="url(#g-obj)"/><text x="447" y="154.7870036101083" text-anchor="middle">Ceres</text></g>
+      </svg>
+      <p>You could line up 14 of them across Earth. Both are drawn to the same scale.</p>
+    </div>
+  </div>
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1801</span><p>On New Year’s Day, Giuseppe Piazzi in Palermo, Italy, discovers Ceres. For about 50 years it was counted as a planet.</p></li><li><span class="year">1801</span><p>Ceres gets lost behind the Sun. Young mathematician Carl Friedrich Gauss invents a new method to predict where it will reappear – and he is right.</p></li><li><span class="year">2006</span><p>Ceres is reclassified as a dwarf planet.</p></li><li><span class="year">2015</span><p>NASA’s Dawn becomes the first spacecraft to orbit a dwarf planet and finds bright spots made of salts in Occator crater.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Could Ceres have an ocean?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>There may be pockets of salty liquid water deep beneath its surface – which makes scientists curious about whether it could ever have supported life.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Sometimes visible in binoculars as a faint “star” that shifts position from night to night.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Diameter</dt><dd>~940 km</dd></div><div><dt>Year</dt><dd>4.6 years</dd></div><div><dt>Where</dt><dd>Between Mars and Jupiter</dd></div><div><dt>Visited by</dt><dd>Dawn (2015–2018)</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Ceres as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/neptune/"><div class="ph " style="--hue:35" data-id="neptune"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Neptune_Voyager2_color_calibrated.png/960px-Neptune_Voyager2_color_calibrated.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Neptune</b></div></a>
+        <a class="pager-card next" href="/object/pluto/"><div class="ph " style="--hue:270" data-id="pluto"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Pluto_in_True_Color_-_High-Res.png/960px-Pluto_in_True_Color_-_High-Res.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Pluto</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

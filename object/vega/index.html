@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Vega: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Vega is one of the brightest stars in the sky and part of the “Summer Triangle”. It spins so fast that it bulges at its equator. Astronomers used it as the…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/vega/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Vega: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Vega is one of the brightest stars in the sky and part of the “Summer Triangle”. It spins so fast that it bulges at its equator. Astronomers used it as the…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/vega/">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/d/d3/Vega_Spitzer.jpg">
+  <meta property="og:image:alt" content="Vega">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vega: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Vega is one of the brightest stars in the sky and part of the “Summer Triangle”. It spins so fast that it bulges at its equator. Astronomers used it as the…">
+  <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/d/d3/Vega_Spitzer.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Vega","name":"Vega – Star · White main-sequence","description":"Vega is one of the brightest stars in the sky and part of the “Summer Triangle”. It spins so fast that it bulges at its equator. Astronomers used it as the standard for measuring how bright other stars are.","image":"https://upload.wikimedia.org/wikipedia/commons/d/d3/Vega_Spitzer.jpg","url":"https://seethestars.webappslab.com/object/vega/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Vega","sameAs":"https://en.wikipedia.org/wiki/Vega"},"isPartOf":{"@type":"CollectionPage","name":"The Stars","url":"https://seethestars.webappslab.com/sector/stars/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Stars","item":"https://seethestars.webappslab.com/sector/stars/"},{"@type":"ListItem","position":3,"name":"Vega","item":"https://seethestars.webappslab.com/object/vega/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/stars/">The Stars</a><span aria-hidden="true">/</span><span aria-current="page">Vega</span></nav>
+    <article class="object" style="--hue:48">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:48" data-id="vega"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Vega_Spitzer.jpg" alt="Vega – Star · White main-sequence" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Vega_Spitzer.jpg" target="_blank" rel="noopener">Courtesy NASA/JPL-Caltech/University of Arizona · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">⭐ Stars · The Stars</span>
+          <h1>Vega</h1>
+          <p class="kind">Star · White main-sequence</p>
+          <p class="lead">Vega is one of the brightest stars in the sky and part of the “Summer Triangle”. It spins so fast that it bulges at its equator. Astronomers used it as the standard for measuring how bright other stars are.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>25 light-years away</b><small>Even light – the fastest thing there is – needs 25 years to get here.</small></div></li><li><span class="ic" aria-hidden="true">✨</span><div><b>Lyra</b><small>Constellation</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>Very fast – slightly flattened</b><small>Spin</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/vega/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🌀</span><h3>A twelve-hour day</h3><p>Vega spins all the way round in about 12 and a half hours – our Sun takes nearly a month. The spin flings its middle outwards, so its equator bulges and is cooler and dimmer than its poles. From Earth we see Vega almost pole-on, like looking down at a spinning top.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌱</span><h3>A young star</h3><p>Vega is only about 450 million years old – a tenth of the Sun’s age. It is about twice as heavy as the Sun, so it burns its fuel faster and will live only around a billion years in all. When dinosaurs walked on Earth, Vega was already shining.</p></div><div class="hl"><span class="ic" aria-hidden="true">💿</span><h3>A puzzling smooth disc</h3><p>Vega is circled by a wide disc of dust, a bit like a giant version of the icy belt beyond Neptune. When the Hubble and Webb telescopes looked closely, the disc turned out to be surprisingly smooth, with no clear gaps carved by big planets. Scientists are still puzzling over why.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>About 12,000 years ago, Vega was the North Star – and it will be again in about 12,000 years.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1850</span><p>Vega becomes the first star (after the Sun) ever photographed, at Harvard College Observatory.</p></li><li><span class="year">1872</span><p>Henry Draper takes the first photograph of a star’s spectrum – Vega’s.</p></li><li><span class="year">1983</span><p>The IRAS space telescope finds a disc of dust around Vega, a hint that planets could be forming there.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">In the movie “Contact”, a message comes from Vega. Could aliens live there?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Vega is young and spins fast; any planets would be very different from Earth. But the question of life elsewhere is one of science’s biggest – nobody knows yet!</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off 25 years ago – maybe before you were born!</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>A brilliant blue-white star high overhead on summer evenings (Northern Hemisphere).</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Distance</dt><dd>25 light-years</dd></div><div><dt>Constellation</dt><dd>Lyra</dd></div><div><dt>Spin</dt><dd>Very fast – slightly flattened</dd></div><div><dt>Disc</dt><dd>Dusty debris disc</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Vega as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/rigel/"><div class="ph " style="--hue:48" data-id="rigel"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Rigel_and_IC_2118_-_The_Witch_Head_Nebula_-_Flickr_-_gjdonatiello.jpg/960px-Rigel_and_IC_2118_-_The_Witch_Head_Nebula_-_Flickr_-_gjdonatiello.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Rigel</b></div></a>
+        <a class="pager-card next" href="/object/proxima/"><div class="ph " style="--hue:48" data-id="proxima"><img src="https://upload.wikimedia.org/wikipedia/commons/9/95/New_shot_of_Proxima_Centauri%2C_our_nearest_neighbour.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Proxima Centauri</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

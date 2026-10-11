@@ -1,0 +1,175 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Neptune: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Neptune is the most distant planet: a deep-blue ice giant with the fastest winds in the Solar System. It was the first planet found by mathematics before…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/neptune/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Neptune: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Neptune is the most distant planet: a deep-blue ice giant with the fastest winds in the Solar System. It was the first planet found by mathematics before…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/neptune/">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/b/b9/Neptune_Voyager2_color_calibrated.png">
+  <meta property="og:image:alt" content="Neptune">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Neptune: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Neptune is the most distant planet: a deep-blue ice giant with the fastest winds in the Solar System. It was the first planet found by mathematics before…">
+  <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/b/b9/Neptune_Voyager2_color_calibrated.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Neptune","name":"Neptune – Planet · Ice giant","description":"Neptune is the most distant planet: a deep-blue ice giant with the fastest winds in the Solar System. It was the first planet found by mathematics before anyone saw it.","image":"https://upload.wikimedia.org/wikipedia/commons/b/b9/Neptune_Voyager2_color_calibrated.png","url":"https://seethestars.webappslab.com/object/neptune/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Neptune","sameAs":"https://en.wikipedia.org/wiki/Neptune"},"isPartOf":{"@type":"CollectionPage","name":"The Giants","url":"https://seethestars.webappslab.com/sector/giants/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Giants","item":"https://seethestars.webappslab.com/sector/giants/"},{"@type":"ListItem","position":3,"name":"Neptune","item":"https://seethestars.webappslab.com/object/neptune/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/giants/">The Giants</a><span aria-hidden="true">/</span><span aria-current="page">Neptune</span></nav>
+    <article class="object" style="--hue:35">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:35" data-id="neptune"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Neptune_Voyager2_color_calibrated.png" alt="Neptune – Planet · Ice giant" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Neptune_Voyager2_color_calibrated.png" target="_blank" rel="noopener">NASA / Voyager 2 / PDS / OPUS / Ardenau4 · CC0</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🪐 Planets · The Giants</span>
+          <h1>Neptune</h1>
+          <p class="kind">Planet · Ice giant</p>
+          <p class="lead">Neptune is the most distant planet: a deep-blue ice giant with the fastest winds in the Solar System. It was the first planet found by mathematics before anyone saw it.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">📏</span><div><b>49,244 km</b><small>About 3.9 Earths would fit side by side across it.</small></div></li><li><span class="ic" aria-hidden="true">🗓️</span><div><b>165 years</b><small>Year</small></div></li><li><span class="ic" aria-hidden="true">💨</span><div><b>up to ~2,000 km/h</b><small>Winds</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/neptune/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🔥</span><h3>Warm from inside</h3><p>Neptune is about 30 times further from the Sun than Earth, yet it gives off more than twice as much heat as it receives from sunlight. That leftover heat from deep inside the planet helps stir up its clouds and storms. Uranus, its near-twin, gives off much less, and scientists are still puzzling over why.</p></div><div class="hl"><span class="ic" aria-hidden="true">💫</span><h3>Rings with lumps</h3><p>Neptune has thin, dark rings made of dust and ice. Its outermost ring is strange: instead of being smooth, it has bright clumpy arcs that stay bunched together. Astronomers named the arcs Liberté, Égalité and Fraternité, and the James Webb Space Telescope photographed the rings clearly in 2022.</p></div><div class="hl"><span class="ic" aria-hidden="true">📡</span><h3>A faraway twilight</h3><p>Sunlight on Neptune is about 900 times dimmer than on Earth, so noon there would feel like a gloomy evening – though still brighter than a moonlit night here. Radio signals take about four hours to travel there, so talking to a spacecraft would mean waiting more than eight hours for every reply.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>Triton orbits Neptune backwards – it was probably a dwarf planet captured by Neptune’s gravity.</p></aside>
+
+          <div class="block">
+    <h2>Size it up</h2>
+    <div class="scale">
+      <svg viewBox="0 0 640 240" role="img" aria-label="Neptune and Earth drawn to scale">
+        <defs>
+          <radialGradient id="g-earth" cx="35%" cy="35%"><stop offset="0" stop-color="#8fd0ff"/><stop offset="0.6" stop-color="#2d6fcf"/><stop offset="1" stop-color="#123a73"/></radialGradient>
+          <radialGradient id="g-obj" cx="35%" cy="35%"><stop offset="0" stop-color="#4f7cff"/><stop offset="1" stop-color="#1d2f8a"/></radialGradient>
+          <clipPath id="clip-scale"><rect width="640" height="240" rx="12"/></clipPath>
+        </defs>
+        <g clip-path="url(#clip-scale)" font-family="Space Grotesk, sans-serif" font-size="22" fill="#a7aec4"><circle cx="192.99999999999997" cy="120" r="23.80521484850946" fill="url(#g-earth)"/><text x="192.99999999999997" y="171.80521484850945" text-anchor="middle">Earth</text><circle cx="378.8052148485094" cy="120" r="92" fill="url(#g-obj)"/><text x="378.8052148485094" y="240" text-anchor="middle">Neptune</text></g>
+      </svg>
+      <p>About 3.9 Earths would fit side by side across it. Both are drawn to the same scale.</p>
+    </div>
+  </div>
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1846</span><p>Urbain Le Verrier (and John Couch Adams) calculate that an unseen planet must be tugging on Uranus. Johann Galle finds Neptune within 1° of the prediction on his first night of searching.</p></li><li><span class="year">1846</span><p>Just 17 days later, William Lassell discovers its biggest moon, Triton.</p></li><li><span class="year">1989</span><p>Voyager 2 flies past and photographs the “Great Dark Spot” storm and geysers on Triton.</p></li><li><span class="year">2011</span><p>Neptune completes its first full orbit since it was discovered.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">How can you discover a planet without seeing it?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>By noticing that something else is being pulled off course. Gravity leaves clues – scientists use the same trick today to find planets around other stars.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Needs a telescope – it looks like a tiny blue dot.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Diameter</dt><dd>49,244 km</dd></div><div><dt>Year</dt><dd>165 years</dd></div><div><dt>Winds</dt><dd>up to ~2,000 km/h</dd></div><div><dt>Moons</dt><dd>16</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Neptune as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/uranus/"><div class="ph " style="--hue:35" data-id="uranus"><img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Uranus_Voyager2_color_calibrated.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Uranus</b></div></a>
+        <a class="pager-card next" href="/object/ceres/"><div class="ph " style="--hue:270" data-id="ceres"><img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Ceres_-_RC3_-_Haulani_Crater_%2822381131691%29_%28cropped%29.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Ceres</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

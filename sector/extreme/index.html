@@ -1,0 +1,143 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Extreme Objects: Pulsars and black holes | See the Stars</title>
+  <meta name="description" content="When the biggest stars die, they leave behind the strangest things in the universe: neutron stars that spin hundreds of times a second, and black holes whose…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/sector/extreme/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Extreme Objects: Pulsars and black holes | See the Stars">
+  <meta property="og:description" content="When the biggest stars die, they leave behind the strangest things in the universe: neutron stars that spin hundreds of times a second, and black holes whose…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/sector/extreme/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Black_Hole_Cygnus_X-1_%28Illustration%29_%284187-Image%29.png/1280px-Black_Hole_Cygnus_X-1_%28Illustration%29_%284187-Image%29.png">
+  <meta property="og:image:alt" content="Extreme Objects">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Extreme Objects: Pulsars and black holes | See the Stars">
+  <meta name="twitter:description" content="When the biggest stars die, they leave behind the strangest things in the universe: neutron stars that spin hundreds of times a second, and black holes whose…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Black_Hole_Cygnus_X-1_%28Illustration%29_%284187-Image%29.png/1280px-Black_Hole_Cygnus_X-1_%28Illustration%29_%284187-Image%29.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"Extreme Objects – Pulsars and black holes","description":"When the biggest stars die, they leave behind the strangest things in the universe: neutron stars that spin hundreds of times a second, and black holes whose gravity is so strong that not even light can escape. Warning: these will bend your brain.","url":"https://seethestars.webappslab.com/sector/extreme/","inLanguage":"en","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"PSR B1919+21 – the first pulsar","url":"https://seethestars.webappslab.com/object/psr1919/"},{"@type":"ListItem","position":2,"name":"Crab Pulsar","url":"https://seethestars.webappslab.com/object/crabpulsar/"},{"@type":"ListItem","position":3,"name":"Vela Pulsar","url":"https://seethestars.webappslab.com/object/velapulsar/"},{"@type":"ListItem","position":4,"name":"Cygnus X-1","url":"https://seethestars.webappslab.com/object/cygx1/"},{"@type":"ListItem","position":5,"name":"Sagittarius A*","url":"https://seethestars.webappslab.com/object/sgra/"},{"@type":"ListItem","position":6,"name":"M87* – the first black hole photo","url":"https://seethestars.webappslab.com/object/m87bh/"}]}},{"@type":"Quiz","name":"Extreme Objects challenge","about":{"@type":"Thing","name":"Pulsars and black holes"},"educationalLevel":"Beginner","hasPart":[{"@type":"Question","eduQuestionType":"Multiple choice","text":"Who discovered the first pulsar in 1967?","acceptedAnswer":{"@type":"Answer","text":"Jocelyn Bell Burnell","answerExplanation":{"@type":"Comment","text":"Jocelyn Bell Burnell, a PhD student, noticed a tiny unusual signal in her radio data – a regular pulse every 1.34 seconds."}},"suggestedAnswer":[{"@type":"Answer","text":"Albert Einstein"},{"@type":"Answer","text":"Stephen Hawking"},{"@type":"Answer","text":"Edwin Hubble"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"What is at the centre of our Milky Way galaxy?","acceptedAnswer":{"@type":"Answer","text":"A supermassive black hole","answerExplanation":{"@type":"Comment","text":"Sagittarius A*, a black hole about 4 million times the mass of the Sun."}},"suggestedAnswer":[{"@type":"Answer","text":"A huge star"},{"@type":"Answer","text":"Nothing"},{"@type":"Answer","text":"Another galaxy"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"When was the first-ever image of a black hole released?","acceptedAnswer":{"@type":"Answer","text":"2019","answerExplanation":{"@type":"Comment","text":"The Event Horizon Telescope revealed M87* on 10 April 2019."}},"suggestedAnswer":[{"@type":"Answer","text":"1969"},{"@type":"Answer","text":"1999"},{"@type":"Answer","text":"It has never been photographed"}]}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Extreme Objects","item":"https://seethestars.webappslab.com/sector/extreme/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="sector">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <section class="banner" style="--hue:280">
+      <div class="ph " style="--hue:280" data-id="cygx1"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Black_Hole_Cygnus_X-1_%28Illustration%29_%284187-Image%29.png/1280px-Black_Hole_Cygnus_X-1_%28Illustration%29_%284187-Image%29.png" alt="Cygnus X-1" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/#chapter-3">Chapter 3: Life and Death of Stars</a></nav>
+      <div class="banner-copy">
+        <span class="eyebrow">Sector 10 of 12</span>
+        <h1>Extreme Objects</h1>
+        <p>Pulsars and black holes</p>
+      </div>
+    </section>
+    <section class="sector-intro" style="--hue:280">
+      <p class="lead">When the biggest stars die, they leave behind the strangest things in the universe: neutron stars that spin hundreds of times a second, and black holes whose gravity is so strong that not even light can escape. Warning: these will bend your brain.</p>
+      <div class="side">
+        <div class="progress-line"><div class="bar"><span style="width:0%"></span></div><span>0 of 6 explored</span></div>
+        <a class="btn primary" href="/object/psr1919/">Start this sector →</a>
+        <button class="btn ghost dl-sector">⤓ Save this sector for offline</button>
+      </div>
+    </section>
+    <h2 class="visually-hidden">In this sector</h2>
+    <div class="grid objects"><a class="obj-card" href="/object/psr1919/">
+    <div class="ph " style="--hue:280" data-id="psr1919"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Pulsar_model.jpg/960px-Pulsar_model.jpg" alt="PSR B1919+21 – the first pulsar" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">01</span><b>PSR B1919+21 – the first pulsar</b><small>Pulsar · Neutron star</small></div>
+  </a><a class="obj-card" href="/object/crabpulsar/">
+    <div class="ph " style="--hue:280" data-id="crabpulsar"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Chandra-crab.jpg/960px-Chandra-crab.jpg" alt="Crab Pulsar" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">02</span><b>Crab Pulsar</b><small>Pulsar · Neutron star</small></div>
+  </a><a class="obj-card" href="/object/velapulsar/">
+    <div class="ph " style="--hue:280" data-id="velapulsar"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Vela_Pulsar_jet.jpg" alt="Vela Pulsar" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">03</span><b>Vela Pulsar</b><small>Pulsar · Neutron star</small></div>
+  </a><a class="obj-card" href="/object/cygx1/">
+    <div class="ph " style="--hue:280" data-id="cygx1"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Black_Hole_Cygnus_X-1_%28Illustration%29_%284187-Image%29.png/960px-Black_Hole_Cygnus_X-1_%28Illustration%29_%284187-Image%29.png" alt="Cygnus X-1" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">04</span><b>Cygnus X-1</b><small>Black hole · Stellar-mass</small></div>
+  </a><a class="obj-card" href="/object/sgra/">
+    <div class="ph " style="--hue:280" data-id="sgra"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/EHT_Saggitarius_A_black_hole.tif/lossy-page1-960px-EHT_Saggitarius_A_black_hole.tif.jpg" alt="Sagittarius A*" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">05</span><b>Sagittarius A*</b><small>Supermassive black hole</small></div>
+  </a><a class="obj-card" href="/object/m87bh/">
+    <div class="ph " style="--hue:280" data-id="m87bh"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/Messier_87_Hubble_WikiSky.jpg/960px-Messier_87_Hubble_WikiSky.jpg" alt="M87* – the first black hole photo" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">06</span><b>M87* – the first black hole photo</b><small>Supermassive black hole</small></div>
+  </a></div>
+    <section class="challenge locked">
+      <div>
+        <span class="eyebrow">Sector challenge</span>
+        <h3>Explore all 6 to unlock the challenge</h3>
+        <p>3 questions · win 50 XP and a badge</p>
+      </div>
+      <span class="lock" aria-label="Locked">🔒</span>
+    </section>
+    <nav class="pager" aria-label="Sectors">
+      <a class="pager-card" href="/sector/lifecycle/"><div class="ph " style="--hue:320" data-id="pillars"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Eagle_nebula_pillars.jpg/960px-Eagle_nebula_pillars.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous sector</small><b>Star Nurseries & Graveyards</b></div></a>
+      <a class="pager-card next" href="/sector/galaxies/"><div class="ph " style="--hue:230" data-id="andromeda"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Andromeda_Galaxy_2025.png/960px-Andromeda_Galaxy_2025.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next sector →</small><b>Galaxies</b></div></a>
+    </nav></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

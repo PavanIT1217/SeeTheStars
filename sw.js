@@ -1,10 +1,11 @@
 // Service worker (web version only – the iOS/Android apps bundle these files directly).
 // Every app file is cached on install, so lessons, quizzes, artwork and the Sky Finder work offline.
-// Photos the explorer saves live in IndexedDB (see js/media.js); recently viewed ones are kept here briefly.
-const VERSION = 'v3';
+// Photos the explorer saves live in IndexedDB (see js/media.js); recently viewed ones are kept here too.
+// Pages like /object/saturn/ fall back to the cached index.html offline – the app then renders the right page.
+const VERSION = 'v4';
 const SHELL = `stg-shell-${VERSION}`;
 const RUNTIME = 'stg-runtime-v1';
-const RUNTIME_LIMIT = 40;
+const RUNTIME_LIMIT = 150;
 
 // Keep in sync with the files on disk – tests/sw.test.js checks this list.
 const APP_FILES = [
@@ -13,7 +14,6 @@ const APP_FILES = [
   'css/style.css',
   'fonts/JetBrainsMono-latin-ext-tDbv2o-flE.woff2',
   'fonts/JetBrainsMono-latin-tDbv2o-flE.woff2',
-  'fonts/Orbitron-latin-yMJRMIlzdp.woff2',
   'fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2',
   'fonts/SpaceGrotesk-latin-ext-V8mDoQDjQS.woff2',
   'icons/icon-192.png',
@@ -24,6 +24,8 @@ const APP_FILES = [
   'js/art.js',
   'js/astro.js',
   'js/data/catalog.js',
+  'js/data/highlights.js',
+  'js/data/photos.js',
   'js/iss.js',
   'js/kidfacts.js',
   'js/media.js',
@@ -51,6 +53,7 @@ const APP_FILES = [
   'js/vendor/satellite/shadow.js',
   'js/vendor/satellite/sun.js',
   'js/vendor/satellite/transforms.js',
+  'js/views.js',
   'js/where.js',
   'manifest.webmanifest',
 ];

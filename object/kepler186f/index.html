@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kepler-186f: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Kepler-186f was the first Earth-sized planet discovered in the habitable zone of another star. It gets about a third of the energy Earth gets from the Sun,…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/kepler186f/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Kepler-186f: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Kepler-186f was the first Earth-sized planet discovered in the habitable zone of another star. It gets about a third of the energy Earth gets from the Sun,…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/kepler186f/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Kepler186f-ArtistConcept-20140417.jpg/1280px-Kepler186f-ArtistConcept-20140417.jpg">
+  <meta property="og:image:alt" content="Kepler-186f">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kepler-186f: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Kepler-186f was the first Earth-sized planet discovered in the habitable zone of another star. It gets about a third of the energy Earth gets from the Sun,…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Kepler186f-ArtistConcept-20140417.jpg/1280px-Kepler186f-ArtistConcept-20140417.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Kepler-186f","name":"Kepler-186f – Rocky planet · First Earth-sized world in a habitable zone","description":"Kepler-186f was the first Earth-sized planet discovered in the habitable zone of another star. It gets about a third of the energy Earth gets from the Sun, so if it has water, it may be cold – but not necessarily frozen.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Kepler186f-ArtistConcept-20140417.jpg/1280px-Kepler186f-ArtistConcept-20140417.jpg","url":"https://seethestars.webappslab.com/object/kepler186f/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Kepler-186f","sameAs":"https://en.wikipedia.org/wiki/Kepler-186f"},"isPartOf":{"@type":"CollectionPage","name":"Other Worlds","url":"https://seethestars.webappslab.com/sector/exoplanets/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Other Worlds","item":"https://seethestars.webappslab.com/sector/exoplanets/"},{"@type":"ListItem","position":3,"name":"Kepler-186f","item":"https://seethestars.webappslab.com/object/kepler186f/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/exoplanets/">Other Worlds</a><span aria-hidden="true">/</span><span aria-current="page">Kepler-186f</span></nav>
+    <article class="object" style="--hue:140">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:140" data-id="kepler186f"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Kepler186f-ArtistConcept-20140417.jpg/1280px-Kepler186f-ArtistConcept-20140417.jpg" alt="Kepler-186f – Rocky planet · First Earth-sized world in a habitable zone" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Kepler186f-ArtistConcept-20140417.jpg" target="_blank" rel="noopener">NASA Ames/SETI Institute/JPL-Caltech · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🌍 Exoplanets · Other Worlds</span>
+          <h1>Kepler-186f</h1>
+          <p class="kind">Rocky planet · First Earth-sized world in a habitable zone</p>
+          <p class="lead">Kepler-186f was the first Earth-sized planet discovered in the habitable zone of another star. It gets about a third of the energy Earth gets from the Sun, so if it has water, it may be cold – but not necessarily frozen.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>580 light-years away</b><small>Even light – the fastest thing there is – needs 580 years to get here.</small></div></li><li><span class="ic" aria-hidden="true">📏</span><div><b>~1.1 × Earth</b><small>About 1.1 times as wide as Earth.</small></div></li><li><span class="ic" aria-hidden="true">🗓️</span><div><b>130 days</b><small>Year</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/kepler186f/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🌅</span><h3>Noon like sunset</h3><p>Kepler-186f’s star is a red dwarf about half the size of the Sun. Standing on the planet at midday, its light would look about as bright as sunlight here an hour before sunset. Everything would be lit by a warm, orangey glow, all day long.</p></div><div class="hl"><span class="ic" aria-hidden="true">⚖️</span><h3>Size known, weight unknown</h3><p>Kepler measured the planet’s size from the tiny dip in starlight each time it passed in front of its star. But the star is too faint to measure its wobble, so we don’t know the planet’s mass. Without that, scientists can’t be certain it is made of rock like Earth.</p></div><div class="hl"><span class="ic" aria-hidden="true">🕰️</span><h3>Old light</h3><p>Kepler-186f is about 580 light-years away, so the light Kepler saw had been travelling for nearly six centuries. It set out in the 1400s, around the time the printing press was invented in Europe. We see this star system as it was back then, not as it is now.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>If plants grow there, scientists have suggested they might be dark red or even black, to soak up the reddish light of their star.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">2009</span><p>NASA launches the Kepler space telescope to stare at one patch of sky in Cygnus and Lyra.</p></li><li><span class="year">2014</span><p>Elisa Quintana’s team announces Kepler-186f, the outermost of five planets around its star.</p></li><li><span class="year">2018</span><p>Kepler retires after finding more than 2,600 confirmed planets.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">What makes a planet a good home for life?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Liquid water, a protective atmosphere, the right temperature and probably a magnetic field. Being Earth-sized helps – but it doesn’t guarantee any of these.</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off about 580 years ago – around the time Columbus crossed the Atlantic.</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Only with large telescopes. It lies in Cygnus, the Swan.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Size</dt><dd>~1.1 × Earth</dd></div><div><dt>Year</dt><dd>130 days</dd></div><div><dt>Star</dt><dd>Red dwarf</dd></div><div><dt>Found by</dt><dd>Kepler telescope (2014)</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Kepler-186f as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/trappist1/"><div class="ph " style="--hue:140" data-id="trappist1"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Artist_impression_of_TRAPPIST-1_d.jpg/960px-Artist_impression_of_TRAPPIST-1_d.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>TRAPPIST-1</b></div></a>
+        <a class="pager-card next" href="/object/k218b/"><div class="ph " style="--hue:140" data-id="k218b"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Exoplanet_K2-18_b_%28Illustration%29.jpg/960px-Exoplanet_K2-18_b_%28Illustration%29.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>K2-18 b</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

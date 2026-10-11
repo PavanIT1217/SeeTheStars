@@ -1,0 +1,175 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Haumea: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Haumea is one of the fastest-spinning large objects in the Solar System, completing a full turn in about 4 hours. All that spinning has stretched it into an…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/haumea/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Haumea: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Haumea is one of the fastest-spinning large objects in the Solar System, completing a full turn in about 4 hours. All that spinning has stretched it into an…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/haumea/">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/1/1d/Haumea_and_two_moons_art.png">
+  <meta property="og:image:alt" content="Haumea">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Haumea: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Haumea is one of the fastest-spinning large objects in the Solar System, completing a full turn in about 4 hours. All that spinning has stretched it into an…">
+  <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/1/1d/Haumea_and_two_moons_art.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Haumea","name":"Haumea – Dwarf planet · Kuiper Belt","description":"Haumea is one of the fastest-spinning large objects in the Solar System, completing a full turn in about 4 hours. All that spinning has stretched it into an egg shape. It is covered in crystalline water ice and has its own ring.","image":"https://upload.wikimedia.org/wikipedia/commons/1/1d/Haumea_and_two_moons_art.png","url":"https://seethestars.webappslab.com/object/haumea/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Haumea","sameAs":"https://en.wikipedia.org/wiki/Haumea"},"isPartOf":{"@type":"CollectionPage","name":"The Little Worlds","url":"https://seethestars.webappslab.com/sector/dwarfs/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Little Worlds","item":"https://seethestars.webappslab.com/sector/dwarfs/"},{"@type":"ListItem","position":3,"name":"Haumea","item":"https://seethestars.webappslab.com/object/haumea/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/dwarfs/">The Little Worlds</a><span aria-hidden="true">/</span><span aria-current="page">Haumea</span></nav>
+    <article class="object" style="--hue:270">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:270" data-id="haumea"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Haumea_and_two_moons_art.png" alt="Haumea – Dwarf planet · Kuiper Belt" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Haumea_and_two_moons_art.png" target="_blank" rel="noopener">José Antonio Peñas/SINC (edited by PlanetUser) · CC BY 3.0</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🪨 Dwarf planets · The Little Worlds</span>
+          <h1>Haumea</h1>
+          <p class="kind">Dwarf planet · Kuiper Belt</p>
+          <p class="lead">Haumea is one of the fastest-spinning large objects in the Solar System, completing a full turn in about 4 hours. All that spinning has stretched it into an egg shape. It is covered in crystalline water ice and has its own ring.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">📏</span><div><b>~2,100 km long</b><small>You could line up 6 of them across Earth.</small></div></li><li><span class="ic" aria-hidden="true">🌗</span><div><b>~3.9 hours</b><small>Day</small></div></li><li><span class="ic" aria-hidden="true">🌙</span><div><b>2: Hiʻiaka and Namaka</b><small>Moons</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/haumea/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">💥</span><h3>A family from a crash</h3><p>Haumea has a family of smaller icy objects travelling on similar paths around the Sun. Scientists think they are pieces knocked off in a giant collision long ago – the same crash that may have set Haumea spinning so fast. It was the first family like this found in the Kuiper Belt.</p></div><div class="hl"><span class="ic" aria-hidden="true">🔦</span><h3>Reading a flicker</h3><p>From Earth, Haumea is just a faint dot, yet astronomers know its shape. As it spins, its brightness rises and falls: brighter when its long side faces us, dimmer when its narrow end does. Timing that flicker reveals both how fast it spins and how stretched it is.</p></div><div class="hl"><span class="ic" aria-hidden="true">🗓️</span><h3>A very long year</h3><p>Haumea takes about 284 Earth years to go once around the Sun. Its oval path carries it between roughly 35 and 51 times Earth’s distance from the Sun. Since it was found in 2004, it has travelled less than a tenth of the way around.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>A day on Haumea lasts less than 4 hours.</p></aside>
+
+          <div class="block">
+    <h2>Size it up</h2>
+    <div class="scale">
+      <svg viewBox="0 0 640 240" role="img" aria-label="Haumea and Earth drawn to scale">
+        <defs>
+          <radialGradient id="g-earth" cx="35%" cy="35%"><stop offset="0" stop-color="#8fd0ff"/><stop offset="0.6" stop-color="#2d6fcf"/><stop offset="1" stop-color="#123a73"/></radialGradient>
+          <radialGradient id="g-obj" cx="35%" cy="35%"><stop offset="0" stop-color="#eef2f7"/><stop offset="1" stop-color="#8c96a6"/></radialGradient>
+          <clipPath id="clip-scale"><rect width="640" height="240" rx="12"/></clipPath>
+        </defs>
+        <g clip-path="url(#clip-scale)" font-family="Space Grotesk, sans-serif" font-size="22" fill="#a7aec4"><circle cx="269.8375451263538" cy="120" r="92" fill="url(#g-earth)"/><text x="269.8375451263538" y="240" text-anchor="middle">Earth</text><circle cx="447" cy="120" r="15.162454873646208" fill="url(#g-obj)"/><text x="447" y="163.1624548736462" text-anchor="middle">Haumea</text></g>
+      </svg>
+      <p>You could line up 6 of them across Earth. Both are drawn to the same scale.</p>
+    </div>
+  </div>
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">2004–05</span><p>Two teams – one led by Mike Brown in the USA and one led by José Luis Ortiz in Spain – both find it. Who found it first is still debated.</p></li><li><span class="year">2008</span><p>Named after Haumea, the Hawaiian goddess of childbirth. Its moons are named after her daughters.</p></li><li><span class="year">2017</span><p>Astronomers watch Haumea pass in front of a star and discover it has a ring – the first found around a trans-Neptunian object.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Why would spinning make something egg-shaped?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Spinning flings material outward at the “equator”. Spin fast enough and a ball stretches into an elongated shape – like pizza dough tossed in the air.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Only with large telescopes.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Size</dt><dd>~2,100 km long</dd></div><div><dt>Day</dt><dd>~3.9 hours</dd></div><div><dt>Moons</dt><dd>2: Hiʻiaka and Namaka</dd></div><div><dt>Ring</dt><dd>Yes!</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Haumea as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/pluto/"><div class="ph " style="--hue:270" data-id="pluto"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Pluto_in_True_Color_-_High-Res.png/960px-Pluto_in_True_Color_-_High-Res.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Pluto</b></div></a>
+        <a class="pager-card next" href="/object/makemake/"><div class="ph " style="--hue:270" data-id="makemake"><img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Makemake_and_its_moon.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Makemake</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

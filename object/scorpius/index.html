@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Scorpius: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Scorpius really looks like a scorpion, with a curling tail and a bright red heart: the supergiant star Antares. It lies along the rich, star-packed band of…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/scorpius/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Scorpius: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Scorpius really looks like a scorpion, with a curling tail and a bright red heart: the supergiant star Antares. It lies along the rich, star-packed band of…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/scorpius/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Scorpius_-_Corbinian_Thomas.jpg/1280px-Scorpius_-_Corbinian_Thomas.jpg">
+  <meta property="og:image:alt" content="Scorpius">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Scorpius: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Scorpius really looks like a scorpion, with a curling tail and a bright red heart: the supergiant star Antares. It lies along the rich, star-packed band of…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Scorpius_-_Corbinian_Thomas.jpg/1280px-Scorpius_-_Corbinian_Thomas.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Scorpius","name":"Scorpius – Constellation · The Scorpion","description":"Scorpius really looks like a scorpion, with a curling tail and a bright red heart: the supergiant star Antares. It lies along the rich, star-packed band of the Milky Way.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Scorpius_-_Corbinian_Thomas.jpg/1280px-Scorpius_-_Corbinian_Thomas.jpg","url":"https://seethestars.webappslab.com/object/scorpius/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Scorpius","sameAs":"https://en.wikipedia.org/wiki/Scorpius"},"isPartOf":{"@type":"CollectionPage","name":"Constellations","url":"https://seethestars.webappslab.com/sector/constellations/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Constellations","item":"https://seethestars.webappslab.com/sector/constellations/"},{"@type":"ListItem","position":3,"name":"Scorpius","item":"https://seethestars.webappslab.com/object/scorpius/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/constellations/">Constellations</a><span aria-hidden="true">/</span><span aria-current="page">Scorpius</span></nav>
+    <article class="object" style="--hue:190">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:190" data-id="scorpius"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Scorpius_-_Corbinian_Thomas.jpg/1280px-Scorpius_-_Corbinian_Thomas.jpg" alt="Scorpius – Constellation · The Scorpion" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Scorpius_-_Corbinian_Thomas.jpg" target="_blank" rel="noopener">Corbinian Thomas · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">✨ Constellations · Constellations</span>
+          <h1>Scorpius</h1>
+          <p class="kind">Constellation · The Scorpion</p>
+          <p class="lead">Scorpius really looks like a scorpion, with a curling tail and a bright red heart: the supergiant star Antares. It lies along the rich, star-packed band of the Milky Way.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">⭐</span><div><b>Antares</b><small>Brightest star</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>A curving tail</b><small>Shape</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>June – August</b><small>Best seen</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/scorpius/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">💙</span><h3>A heart with a partner</h3><p>Red Antares has a hidden companion: a smaller, hotter blue-white star orbiting it. It is hard to see because Antares outshines it, but a good telescope on a steady night can show it. Antares itself is so massive that it will probably end its life as a supernova.</p></div><div class="hl"><span class="ic" aria-hidden="true">✨</span><h3>An ancient star city</h3><p>Just beside Antares sits M4, a globular cluster – a tight ball of tens of thousands of stars. It is one of the closest clusters of its kind to Earth, and its stars are more than 10 billion years old. In binoculars it looks like a soft, round glow.</p></div><div class="hl"><span class="ic" aria-hidden="true">📡</span><h3>The X-ray surprise</h3><p>In 1962 a rocket carrying X-ray detectors found Scorpius X-1, the first X-ray source discovered beyond the Solar System. It is a neutron star pulling gas from a partner star. Apart from the Sun, it is the brightest steady X-ray source in our sky.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>Antares is so big that if it replaced the Sun, its surface would reach past the orbit of Mars.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">Ancient Greece</span><p>The scorpion that defeated Orion. The two were placed on opposite sides of the sky, so when Scorpius rises, Orion sets.</p></li><li><span class="year">Polynesia</span><p>The curving stars are seen as the magic fishhook of the hero Māui, used to pull islands up from the sea.</p></li><li><span class="year">Name</span><p>Antares means “rival of Mars” – both are red and often appear near each other.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Why can you never see Orion and Scorpius in the sky at the same time?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>They are on almost opposite sides of the sky. One rises as the other sets – just like in the myth!</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Look low in the south on summer evenings (Northern Hemisphere) or high overhead in winter (Southern Hemisphere). Find the red star Antares.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Brightest star</dt><dd>Antares</dd></div><div><dt>Shape</dt><dd>A curving tail</dd></div><div><dt>Best seen</dt><dd>June – August</dd></div><div><dt>Lies in</dt><dd>The Milky Way</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Scorpius as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/cassiopeia/"><div class="ph " style="--hue:190" data-id="cassiopeia"><img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Cassiopeia_Constellation.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Cassiopeia</b></div></a>
+        <a class="pager-card next" href="/object/crux/"><div class="ph " style="--hue:190" data-id="crux"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/ESO_-_Alpha_Centauri_and_the_Southern_Cross_%28by%29.jpg/960px-ESO_-_Alpha_Centauri_and_the_Southern_Cross_%28by%29.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Crux – the Southern Cross</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

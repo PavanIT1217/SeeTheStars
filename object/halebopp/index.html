@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Comet Hale–Bopp: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Hale–Bopp was one of the most-watched comets in history. It was so big and bright that it could be seen even from city streets, and it stayed visible to the…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/halebopp/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Comet Hale–Bopp: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Hale–Bopp was one of the most-watched comets in history. It was so big and bright that it could be seen even from city streets, and it stayed visible to the…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/halebopp/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Comet_Hale-Bopp_1995O1.jpg/1280px-Comet_Hale-Bopp_1995O1.jpg">
+  <meta property="og:image:alt" content="Comet Hale–Bopp">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Comet Hale–Bopp: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Hale–Bopp was one of the most-watched comets in history. It was so big and bright that it could be seen even from city streets, and it stayed visible to the…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Comet_Hale-Bopp_1995O1.jpg/1280px-Comet_Hale-Bopp_1995O1.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Comet Hale–Bopp","name":"Comet Hale–Bopp – Comet · The Great Comet of 1997","description":"Hale–Bopp was one of the most-watched comets in history. It was so big and bright that it could be seen even from city streets, and it stayed visible to the naked eye for about a year and a half – a record.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Comet_Hale-Bopp_1995O1.jpg/1280px-Comet_Hale-Bopp_1995O1.jpg","url":"https://seethestars.webappslab.com/object/halebopp/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Comet Hale–Bopp","sameAs":"https://en.wikipedia.org/wiki/Comet_Hale%E2%80%93Bopp"},"isPartOf":{"@type":"CollectionPage","name":"Comets & Space Visitors","url":"https://seethestars.webappslab.com/sector/comets/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Comets & Space Visitors","item":"https://seethestars.webappslab.com/sector/comets/"},{"@type":"ListItem","position":3,"name":"Comet Hale–Bopp","item":"https://seethestars.webappslab.com/object/halebopp/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/comets/">Comets & Space Visitors</a><span aria-hidden="true">/</span><span aria-current="page">Comet Hale–Bopp</span></nav>
+    <article class="object" style="--hue:170">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:170" data-id="halebopp"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Comet_Hale-Bopp_1995O1.jpg/1280px-Comet_Hale-Bopp_1995O1.jpg" alt="Comet Hale–Bopp – Comet · The Great Comet of 1997" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Comet_Hale-Bopp_1995O1.jpg" target="_blank" rel="noopener">E. Kolmhofer, H. Raab; Johannes-Kepler-Observatory, Linz, Austria (https://stern · CC BY-SA 3.0</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">☄️ Comets · Comets & Space Visitors</span>
+          <h1>Comet Hale–Bopp</h1>
+          <p class="kind">Comet · The Great Comet of 1997</p>
+          <p class="lead">Hale–Bopp was one of the most-watched comets in history. It was so big and bright that it could be seen even from city streets, and it stayed visible to the naked eye for about a year and a half – a record.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">⭐</span><div><b>~60 km – huge for a comet</b><small>Nucleus</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>~18 months</b><small>Visible by eye</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>1 April 1997</b><small>Closest to Sun</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/halebopp/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🔭</span><h3>Spotted from afar</h3><p>When Hale–Bopp was discovered in 1995, it was still out beyond the orbit of Jupiter – much farther away than comets are usually found. Being visible from so far away was the first clue that its icy nucleus was enormous, several times wider than Halley’s.</p></div><div class="hl"><span class="ic" aria-hidden="true">✨</span><h3>A secret third tail</h3><p>Besides its famous dust and gas tails, Hale–Bopp had a faint third tail that nobody had seen on a comet before. It was made of sodium – the same element that makes old street lamps glow orange – and astronomers found it using special filters on their telescopes.</p></div><div class="hl"><span class="ic" aria-hidden="true">🪐</span><h3>A tug from Jupiter</h3><p>In 1996, on its way towards the Sun, Hale–Bopp passed fairly close to Jupiter. The giant planet’s gravity tugged on it and changed its path, shortening its trip around the Sun from more than 4,000 years to about 2,400. Planets can steer comets like this.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>Hale–Bopp’s last visit before 1997 was more than 4,000 years ago – a few centuries after the Great Pyramid of Giza was built.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1995</span><p>On the same night, 23 July, Alan Hale in New Mexico and Thomas Bopp in Arizona independently discover it.</p></li><li><span class="year">1996–97</span><p>It becomes visible without a telescope and stays that way for about 18 months.</p></li><li><span class="year">1997</span><p>It passes closest to the Sun on 1 April, showing off two bright tails.</p></li><li><span class="year">Today</span><p>It is heading back into the cold outer Solar System. Large telescopes still track it.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Why do some comets have two tails?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>One tail is dust, pushed gently by sunlight into a curved, yellowish fan. The other is gas, blown straight back by the solar wind and glowing blue.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Not any more – it is far beyond Neptune, deep in the southern sky.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Nucleus</dt><dd>~60 km – huge for a comet</dd></div><div><dt>Visible by eye</dt><dd>~18 months</dd></div><div><dt>Closest to Sun</dt><dd>1 April 1997</dd></div><div><dt>Returns in</dt><dd>~2,400 years</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Comet Hale–Bopp as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/c67p/"><div class="ph " style="--hue:170" data-id="c67p"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Comet_67P_True_color.jpg/960px-Comet_67P_True_color.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Comet 67P/Churyumov–Gerasimenko</b></div></a>
+        <a class="pager-card next" href="/object/oumuamua/"><div class="ph " style="--hue:170" data-id="oumuamua"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/A2017U1_5gsmoothWHT_enhanced.jpg/960px-A2017U1_5gsmoothWHT_enhanced.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>ʻOumuamua</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>51 Pegasi b: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="51 Pegasi b was the first planet found orbiting a star like our Sun. It shocked astronomers: a giant planet like Jupiter, but so close to its star that it…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/peg51b/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="51 Pegasi b: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="51 Pegasi b was the first planet found orbiting a star like our Sun. It shocked astronomers: a giant planet like Jupiter, but so close to its star that it…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/peg51b/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg/1280px-Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg">
+  <meta property="og:image:alt" content="51 Pegasi b">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="51 Pegasi b: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="51 Pegasi b was the first planet found orbiting a star like our Sun. It shocked astronomers: a giant planet like Jupiter, but so close to its star that it…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg/1280px-Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"51 Pegasi b","name":"51 Pegasi b – Hot Jupiter · First planet around a Sun-like star","description":"51 Pegasi b was the first planet found orbiting a star like our Sun. It shocked astronomers: a giant planet like Jupiter, but so close to its star that it races around it in just over four days.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg/1280px-Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg","url":"https://seethestars.webappslab.com/object/peg51b/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"51 Pegasi b","sameAs":"https://en.wikipedia.org/wiki/51_Pegasi_b"},"isPartOf":{"@type":"CollectionPage","name":"Other Worlds","url":"https://seethestars.webappslab.com/sector/exoplanets/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Other Worlds","item":"https://seethestars.webappslab.com/sector/exoplanets/"},{"@type":"ListItem","position":3,"name":"51 Pegasi b","item":"https://seethestars.webappslab.com/object/peg51b/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/exoplanets/">Other Worlds</a><span aria-hidden="true">/</span><span aria-current="page">51 Pegasi b</span></nav>
+    <article class="object" style="--hue:140">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:140" data-id="peg51b"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg/1280px-Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg" alt="51 Pegasi b – Hot Jupiter · First planet around a Sun-like star" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg" target="_blank" rel="noopener">ESO/M. Kornmesser/Nick Risinger (skysurvey.org) · CC BY 4.0</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🌍 Exoplanets · Other Worlds</span>
+          <h1>51 Pegasi b</h1>
+          <p class="kind">Hot Jupiter · First planet around a Sun-like star</p>
+          <p class="lead">51 Pegasi b was the first planet found orbiting a star like our Sun. It shocked astronomers: a giant planet like Jupiter, but so close to its star that it races around it in just over four days.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>50.6 light-years away</b><small>Even light – the fastest thing there is – needs 50.6 years to get here.</small></div></li><li><span class="ic" aria-hidden="true">🔎</span><div><b>1995</b><small>Discovered</small></div></li><li><span class="ic" aria-hidden="true">🗓️</span><div><b>4.2 days</b><small>Year</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/peg51b/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🎂</span><h3>A birthday every 4 days</h3><p>51 Pegasi b goes all the way round its star in just over four days, so a ten-year-old there would have had hundreds of birthdays. It orbits about seven times closer to its star than Mercury is to our Sun, so it is roasted by starlight all the time.</p></div><div class="hl"><span class="ic" aria-hidden="true">🧳</span><h3>A wandering giant</h3><p>Giant planets like Jupiter are thought to form far from their star, where it is cold enough for ice to gather. So most scientists think 51 Pegasi b was born much farther out and slowly drifted inwards. Finding it showed that planets can move around after they form.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌊</span><h3>The start of a flood</h3><p>The star 51 Pegasi sways back and forth at about 200 kilometres per hour – the speed of a racing car – and astronomers measured that from 50 light-years away. Since this first find in 1995, more than 6,000 planets around other stars have been confirmed.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>It is about 20 times closer to its star than Earth is to the Sun, so its clouds are hotter than 1,000 °C.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1995</span><p>Michel Mayor and Didier Queloz detect the star wobbling back and forth, pulled by an unseen planet.</p></li><li><span class="year">2015</span><p>In a worldwide public naming contest, the planet becomes “Dimidium” and its star “Helvetios”.</p></li><li><span class="year">2019</span><p>Mayor and Queloz win the Nobel Prize in Physics for the discovery.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">How can you find a planet by watching its star wobble?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>As the planet orbits, it tugs the star towards and away from us. That makes the starlight very slightly bluer, then redder – a shift that sensitive instruments can measure.</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off about 51 years ago – around the time humans first walked on the Moon.</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>The star 51 Pegasi is just visible to the eye from a dark site, in the constellation Pegasus.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Discovered</dt><dd>1995</dd></div><div><dt>Year</dt><dd>4.2 days</dd></div><div><dt>Mass</dt><dd>~½ Jupiter</dd></div><div><dt>Official name</dt><dd>Dimidium</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark 51 Pegasi b as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/psr1257/"><div class="ph " style="--hue:140" data-id="psr1257"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Artist%27s_concept_of_PSR_B1257%2B12_system.jpg/960px-Artist%27s_concept_of_PSR_B1257%2B12_system.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>PSR B1257+12 planets</b></div></a>
+        <a class="pager-card next" href="/object/hd209458b/"><div class="ph " style="--hue:140" data-id="hd209458b"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Artist_conception_of_HD_209458_b.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>HD 209458 b (Osiris)</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

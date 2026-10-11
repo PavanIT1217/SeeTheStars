@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ursa Major &amp; the Big Dipper: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="The Big Dipper is a pattern of seven bright stars inside the larger constellation Ursa Major, the Great Bear. Two of its stars point straight to the North…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/ursamajor/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Ursa Major &amp; the Big Dipper: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="The Big Dipper is a pattern of seven bright stars inside the larger constellation Ursa Major, the Great Bear. Two of its stars point straight to the North…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/ursamajor/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Big_Dipper_Constellation_Over_Dunes_%2838836718054%29.jpg/1280px-Big_Dipper_Constellation_Over_Dunes_%2838836718054%29.jpg">
+  <meta property="og:image:alt" content="Ursa Major &amp; the Big Dipper">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ursa Major &amp; the Big Dipper: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="The Big Dipper is a pattern of seven bright stars inside the larger constellation Ursa Major, the Great Bear. Two of its stars point straight to the North…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Big_Dipper_Constellation_Over_Dunes_%2838836718054%29.jpg/1280px-Big_Dipper_Constellation_Over_Dunes_%2838836718054%29.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Ursa Major & the Big Dipper","name":"Ursa Major & the Big Dipper – Constellation · The Great Bear","description":"The Big Dipper is a pattern of seven bright stars inside the larger constellation Ursa Major, the Great Bear. Two of its stars point straight to the North Star, which makes it one of the most useful star patterns.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Big_Dipper_Constellation_Over_Dunes_%2838836718054%29.jpg/1280px-Big_Dipper_Constellation_Over_Dunes_%2838836718054%29.jpg","url":"https://seethestars.webappslab.com/object/ursamajor/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Ursa Major & the Big Dipper","sameAs":"https://en.wikipedia.org/wiki/Big_Dipper"},"isPartOf":{"@type":"CollectionPage","name":"Constellations","url":"https://seethestars.webappslab.com/sector/constellations/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Constellations","item":"https://seethestars.webappslab.com/sector/constellations/"},{"@type":"ListItem","position":3,"name":"Ursa Major & the Big Dipper","item":"https://seethestars.webappslab.com/object/ursamajor/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/constellations/">Constellations</a><span aria-hidden="true">/</span><span aria-current="page">Ursa Major & the Big Dipper</span></nav>
+    <article class="object" style="--hue:190">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:190" data-id="ursamajor"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Big_Dipper_Constellation_Over_Dunes_%2838836718054%29.jpg/1280px-Big_Dipper_Constellation_Over_Dunes_%2838836718054%29.jpg" alt="Ursa Major &amp; the Big Dipper – Constellation · The Great Bear" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Big_Dipper_Constellation_Over_Dunes_(38836718054).jpg" target="_blank" rel="noopener">Great Sand Dunes National Park and Preserve · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">✨ Constellations · Constellations</span>
+          <h1>Ursa Major & the Big Dipper</h1>
+          <p class="kind">Constellation · The Great Bear</p>
+          <p class="lead">The Big Dipper is a pattern of seven bright stars inside the larger constellation Ursa Major, the Great Bear. Two of its stars point straight to the North Star, which makes it one of the most useful star patterns.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">⭐</span><div><b>Seven bright stars</b><small>Shape</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>The Plough, Saptarishi</b><small>Also called</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>Polaris</b><small>Points to</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/ursamajor/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🌸</span><h3>The arc to Arcturus</h3><p>Follow the curve of the Dipper’s handle away from the bowl and you “arc to Arcturus”, a bright orange star. Keep the same curve going and you can “speed on to Spica”, a blue-white star. One star pattern helps you find two more.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌌</span><h3>Galaxies in the Bear</h3><p>Point binoculars just beyond the bowl and you may spot two faint smudges: the galaxies M81 and M82, millions of light-years away. M82 is a “starburst” galaxy, making new stars many times faster than our Milky Way. A tug from its bigger neighbour M81 helped set it off.</p></div><div class="hl"><span class="ic" aria-hidden="true">👀</span><h3>Six stars, not two</h3><p>Mizar and Alcor look like a pair, but telescopes reveal much more. Mizar splits into two stars, and each of those is itself a tight pair. Alcor has a small partner too – so this little spot in the handle holds at least six stars.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>The middle star of the handle, Mizar, has a faint companion called Alcor. Seeing both was once used as an eyesight test.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">Ancient India</span><p>The seven stars are known as the Saptarishi – the seven great sages.</p></li><li><span class="year">Ancient Greece</span><p>In Greek myth the stars are the nymph Callisto, turned into a bear and placed in the sky.</p></li><li><span class="year">1800s USA</span><p>A famous folk song tells of people escaping slavery by “following the Drinking Gourd” – the Big Dipper – north to freedom.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Will the Big Dipper always look like this?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>No – stars move. In about 100,000 years the Dipper will look quite different, because two of its stars are moving in a different direction from the other five.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Northern Hemisphere: look north. Draw a line through the two stars at the end of the “cup” and continue about five times as far to reach Polaris.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Shape</dt><dd>Seven bright stars</dd></div><div><dt>Also called</dt><dd>The Plough, Saptarishi</dd></div><div><dt>Points to</dt><dd>Polaris</dd></div><div><dt>Best seen</dt><dd>Northern spring</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Ursa Major &amp; the Big Dipper as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/orion/"><div class="ph " style="--hue:190" data-id="orion"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Orion_Head_to_Toe.jpg/960px-Orion_Head_to_Toe.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Orion</b></div></a>
+        <a class="pager-card next" href="/object/cassiopeia/"><div class="ph " style="--hue:190" data-id="cassiopeia"><img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Cassiopeia_Constellation.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Cassiopeia</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

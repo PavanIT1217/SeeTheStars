@@ -1,0 +1,175 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Jupiter: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Jupiter is the king of the planets – more than twice as massive as all the other planets combined. It is a ball of mostly hydrogen and helium with colourful…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/jupiter/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Jupiter: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Jupiter is the king of the planets – more than twice as massive as all the other planets combined. It is a ball of mostly hydrogen and helium with colourful…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/jupiter/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/1280px-Jupiter_OPAL_2024.png">
+  <meta property="og:image:alt" content="Jupiter">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jupiter: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Jupiter is the king of the planets – more than twice as massive as all the other planets combined. It is a ball of mostly hydrogen and helium with colourful…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/1280px-Jupiter_OPAL_2024.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Jupiter","name":"Jupiter – Planet · Gas giant","description":"Jupiter is the king of the planets – more than twice as massive as all the other planets combined. It is a ball of mostly hydrogen and helium with colourful cloud stripes and the Great Red Spot, a storm wider than Earth.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/1280px-Jupiter_OPAL_2024.png","url":"https://seethestars.webappslab.com/object/jupiter/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Jupiter","sameAs":"https://en.wikipedia.org/wiki/Jupiter"},"isPartOf":{"@type":"CollectionPage","name":"The Giants","url":"https://seethestars.webappslab.com/sector/giants/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Giants","item":"https://seethestars.webappslab.com/sector/giants/"},{"@type":"ListItem","position":3,"name":"Jupiter","item":"https://seethestars.webappslab.com/object/jupiter/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/giants/">The Giants</a><span aria-hidden="true">/</span><span aria-current="page">Jupiter</span></nav>
+    <article class="object" style="--hue:35">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:35" data-id="jupiter"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/1280px-Jupiter_OPAL_2024.png" alt="Jupiter – Planet · Gas giant" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Jupiter_OPAL_2024.png" target="_blank" rel="noopener">NASA/STSCI (S.T.A.R.S) · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🪐 Planets · The Giants</span>
+          <h1>Jupiter</h1>
+          <p class="kind">Planet · Gas giant</p>
+          <p class="lead">Jupiter is the king of the planets – more than twice as massive as all the other planets combined. It is a ball of mostly hydrogen and helium with colourful cloud stripes and the Great Red Spot, a storm wider than Earth.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">📏</span><div><b>139,820 km</b><small>About 11 Earths would fit side by side across it.</small></div></li><li><span class="ic" aria-hidden="true">🌗</span><div><b>9 h 56 min</b><small>Day</small></div></li><li><span class="ic" aria-hidden="true">🗓️</span><div><b>11.9 years</b><small>Year</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/jupiter/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🧲</span><h3>An ocean of metal</h3><p>Deep inside Jupiter, the crushing pressure squeezes hydrogen into a liquid that conducts electricity like metal. As the planet spins, this sea of liquid metal creates the strongest magnetic field of any planet. If we could see it from Earth, it would look bigger than the full Moon in our sky.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌕</span><h3>Bigger than a planet</h3><p>Ganymede, Jupiter’s largest moon, is the biggest moon in the Solar System – wider than the planet Mercury. It is the only moon known to have its own magnetic field, and scientists think a salty ocean is hidden beneath its icy crust. ESA’s JUICE spacecraft is on its way to orbit it.</p></div><div class="hl"><span class="ic" aria-hidden="true">🪂</span><h3>No ground to land on</h3><p>Jupiter has no solid surface. A probe falling in would sink through ever thicker, hotter gas until it was crushed. In 1995 NASA’s Galileo spacecraft dropped a small probe into the clouds, and it radioed back measurements for about an hour before it went silent.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>About 1,300 Earths could fit inside Jupiter.</p></aside>
+
+          <div class="block">
+    <h2>Size it up</h2>
+    <div class="scale">
+      <svg viewBox="0 0 640 240" role="img" aria-label="Jupiter and Earth drawn to scale">
+        <defs>
+          <radialGradient id="g-earth" cx="35%" cy="35%"><stop offset="0" stop-color="#8fd0ff"/><stop offset="0.6" stop-color="#2d6fcf"/><stop offset="1" stop-color="#123a73"/></radialGradient>
+          <radialGradient id="g-obj" cx="35%" cy="35%"><stop offset="0" stop-color="#d8b48a"/><stop offset="1" stop-color="#8a5a36"/></radialGradient>
+          <clipPath id="clip-scale"><rect width="640" height="240" rx="12"/></clipPath>
+        </defs>
+        <g clip-path="url(#clip-scale)" font-family="Space Grotesk, sans-serif" font-size="22" fill="#a7aec4"><circle cx="193" cy="120" r="8.384093834930624" fill="url(#g-earth)"/><text x="193" y="156.38409383493064" text-anchor="middle">Earth</text><circle cx="363.3840938349306" cy="120" r="92" fill="url(#g-obj)"/><text x="363.3840938349306" y="240" text-anchor="middle">Jupiter</text></g>
+      </svg>
+      <p>About 11 Earths would fit side by side across it. Both are drawn to the same scale.</p>
+    </div>
+  </div>
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1610</span><p>Galileo discovers Jupiter’s four large moons – Io, Europa, Ganymede and Callisto. It proves that not everything goes around Earth.</p></li><li><span class="year">1979</span><p>Voyager 1 and 2 discover faint rings and volcanoes on Io.</p></li><li><span class="year">1994</span><p>Comet Shoemaker–Levy 9 smashes into Jupiter, leaving dark scars bigger than Earth.</p></li><li><span class="year">2016</span><p>NASA’s Juno spacecraft begins orbiting Jupiter.</p></li><li><span class="year">2023–24</span><p>ESA’s JUICE and NASA’s Europa Clipper launch to study Jupiter’s icy moons, which may hide oceans.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Could there be life on one of Jupiter’s moons?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Maybe! Europa probably has a salty ocean under its icy crust with more water than all of Earth’s oceans. Europa Clipper will help find out.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>One of the brightest “stars” in the sky. Hold binoculars very steady and you can see up to four tiny moons lined up beside it.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Diameter</dt><dd>139,820 km (11 Earths)</dd></div><div><dt>Day</dt><dd>9 h 56 min</dd></div><div><dt>Year</dt><dd>11.9 years</dd></div><div><dt>Moons</dt><dd>90+</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Jupiter as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/mars/"><div class="ph " style="--hue:18" data-id="mars"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png/960px-Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Mars</b></div></a>
+        <a class="pager-card next" href="/object/saturn/"><div class="ph " style="--hue:35" data-id="saturn"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png/960px-Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Saturn</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

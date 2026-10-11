@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dark Matter &amp; Dark Energy: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Everything we can see – stars, planets, people – is only about 5% of the universe. The rest is dark matter, invisible stuff that pulls on galaxies with its…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/darkmatter/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Dark Matter &amp; Dark Energy: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Everything we can see – stars, planets, people – is only about 5% of the universe. The rest is dark matter, invisible stuff that pulls on galaxies with its…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/darkmatter/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Hubble_helps_astronomers_map_dark_matter_in_Abell_1689_%28opo1037a%29.jpg/1280px-Hubble_helps_astronomers_map_dark_matter_in_Abell_1689_%28opo1037a%29.jpg">
+  <meta property="og:image:alt" content="Dark Matter &amp; Dark Energy">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dark Matter &amp; Dark Energy: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Everything we can see – stars, planets, people – is only about 5% of the universe. The rest is dark matter, invisible stuff that pulls on galaxies with its…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Hubble_helps_astronomers_map_dark_matter_in_Abell_1689_%28opo1037a%29.jpg/1280px-Hubble_helps_astronomers_map_dark_matter_in_Abell_1689_%28opo1037a%29.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Dark Matter & Dark Energy","name":"Dark Matter & Dark Energy – Cosmology · The great mystery","description":"Everything we can see – stars, planets, people – is only about 5% of the universe. The rest is dark matter, invisible stuff that pulls on galaxies with its gravity, and dark energy, which is making the expansion of the universe speed up. Nobody yet knows what either of them is.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Hubble_helps_astronomers_map_dark_matter_in_Abell_1689_%28opo1037a%29.jpg/1280px-Hubble_helps_astronomers_map_dark_matter_in_Abell_1689_%28opo1037a%29.jpg","url":"https://seethestars.webappslab.com/object/darkmatter/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Dark Matter & Dark Energy","sameAs":"https://en.wikipedia.org/wiki/Dark_matter"},"isPartOf":{"@type":"CollectionPage","name":"The Whole Universe","url":"https://seethestars.webappslab.com/sector/universe/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Whole Universe","item":"https://seethestars.webappslab.com/sector/universe/"},{"@type":"ListItem","position":3,"name":"Dark Matter & Dark Energy","item":"https://seethestars.webappslab.com/object/darkmatter/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/universe/">The Whole Universe</a><span aria-hidden="true">/</span><span aria-current="page">Dark Matter & Dark Energy</span></nav>
+    <article class="object" style="--hue:260">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:260" data-id="darkmatter"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Hubble_helps_astronomers_map_dark_matter_in_Abell_1689_%28opo1037a%29.jpg/1280px-Hubble_helps_astronomers_map_dark_matter_in_Abell_1689_%28opo1037a%29.jpg" alt="Dark Matter &amp; Dark Energy – Cosmology · The great mystery" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Hubble_helps_astronomers_map_dark_matter_in_Abell_1689_(opo1037a).jpg" target="_blank" rel="noopener">NASA, ESA, D. Coe (NASA Jet Propulsion Laboratory/California Institute of Techno · CC BY 4.0</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">💥 Cosmology · The Whole Universe</span>
+          <h1>Dark Matter & Dark Energy</h1>
+          <p class="kind">Cosmology · The great mystery</p>
+          <p class="lead">Everything we can see – stars, planets, people – is only about 5% of the universe. The rest is dark matter, invisible stuff that pulls on galaxies with its gravity, and dark energy, which is making the expansion of the universe speed up. Nobody yet knows what either of them is.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>3.7 billion light-years away</b><small>Even light – the fastest thing there is – needs 3.7 billion years to get here.</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>~5%</b><small>Ordinary matter</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>~27%</b><small>Dark matter</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/darkmatter/">🔭 Find it in the sky (Bullet Cluster)</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">👻</span><h3>Not Made of Atoms</h3><p>Dark matter doesn’t shine, reflect or block light, and it isn’t made of ordinary atoms. There is roughly five times more of it than all the normal matter in the universe. Without its extra gravity, gas in the young universe may never have clumped into galaxies like ours.</p></div><div class="hl"><span class="ic" aria-hidden="true">🔍</span><h3>Gravity’s Magnifying Glass</h3><p>Dark matter’s gravity bends light from more distant galaxies, a bit like the bottom of a glass bends the view of things behind it. By measuring how background galaxies are stretched and distorted, astronomers draw maps of where the invisible dark matter must be.</p></div><div class="hl"><span class="ic" aria-hidden="true">⛏️</span><h3>Hunting Deep Underground</h3><p>Some dark matter detectors sit in old mines more than a kilometre underground, where rock shields them from cosmic rays. Giant tanks of cold liquid xenon wait for a dark matter particle to bump into an atom. So far, none has been caught – the hunt continues.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>Dark matter particles might be passing through your body right now – maybe billions every second – without touching anything.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1933</span><p>Fritz Zwicky sees galaxies in the Coma Cluster moving too fast and suggests “dark matter” holds them together.</p></li><li><span class="year">1970s</span><p>Vera Rubin and Kent Ford show that the outer parts of galaxies spin too fast – strong evidence for dark matter.</p></li><li><span class="year">1998</span><p>Two teams discover that the universe’s expansion is speeding up – dark energy. (Nobel Prize 2011.)</p></li><li><span class="year">2006</span><p>The Bullet Cluster – two colliding galaxy clusters – shows dark matter separated from ordinary matter.</p></li><li><span class="year">2024–25</span><p>The DESI survey finds hints that dark energy might be changing over time. The Euclid telescope and the Vera C. Rubin Observatory are now mapping the dark universe.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Could the next big discovery be yours?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Absolutely. Dark matter and dark energy are among the biggest unsolved problems in science. Today’s students will be the ones to solve them.</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off about 3.7 billion years ago – a while after the Sun and Earth were forming.</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>The phone points to the Bullet Cluster, about 3.7 billion light-years away, where dark matter was “seen” through its gravity.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Ordinary matter</dt><dd>~5%</dd></div><div><dt>Dark matter</dt><dd>~27%</dd></div><div><dt>Dark energy</dt><dd>~68%</dd></div><div><dt>Status</dt><dd>Unsolved!</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Dark Matter &amp; Dark Energy as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/cmb/"><div class="ph " style="--hue:260" data-id="cmb"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Cosmic_Microwave_Background_%28CMB%29.jpeg/960px-Cosmic_Microwave_Background_%28CMB%29.jpeg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Cosmic Microwave Background</b></div></a>
+        <a class="pager-card next" href="/sky/"><div class="ph " style="--hue:230" data-id="milkyway"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/ESO-VLT-Laser-phot-33a-07.jpg/960px-ESO-VLT-Laser-phot-33a-07.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>You did it →</small><b>Explore the real sky</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>
