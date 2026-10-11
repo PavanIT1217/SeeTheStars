@@ -453,6 +453,7 @@ async function savedView() {
       <span class="hud-label">EXPLORER LOG</span>
       <p>Your progress is stored on this device only.</p>
       <button class="btn ghost reset">Reset my progress</button>
+      <p class="fine"><a href="https://pavanit1217.github.io/SeeTheStars/privacy.html" target="_blank" rel="noopener">Privacy policy</a> · No accounts, no ads, no tracking.</p>
     </section>`;
   view.querySelectorAll('.rm').forEach((b) => b.addEventListener('click', async () => { await media.removeOffline(b.dataset.id); savedView(); }));
   view.querySelector('.clear-all')?.addEventListener('click', async () => { for (const id of ids) await media.removeOffline(id); savedView(); });
