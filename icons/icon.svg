@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#1b1c5a"/><stop offset="1" stop-color="#04050d"/></radialGradient>
+    <radialGradient id="sun" cx="40%" cy="38%" r="65%"><stop offset="0" stop-color="#fff6d8"/><stop offset="0.5" stop-color="#ffd36b"/><stop offset="1" stop-color="#ff8a3a"/></radialGradient>
+    <radialGradient id="glow"><stop offset="0" stop-color="#ffd36b" stop-opacity="0.5"/><stop offset="1" stop-color="#ffd36b" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g fill="#fff"><circle cx="90" cy="110" r="3"/><circle cx="420" cy="80" r="2.5"/><circle cx="440" cy="400" r="3"/><circle cx="70" cy="420" r="2"/><circle cx="160" cy="60" r="1.8"/><circle cx="380" cy="460" r="2"/></g>
+  <circle cx="256" cy="256" r="170" fill="url(#glow)"/>
+  <ellipse cx="256" cy="256" rx="210" ry="70" fill="none" stroke="#7fdcff" stroke-width="10" stroke-opacity="0.85" transform="rotate(-25 256 256)"/>
+  <circle cx="256" cy="256" r="84" fill="url(#sun)"/>
+  <circle cx="440" cy="168" r="22" fill="#9a7bff"/>
+  <path d="M120 360 l12 -28 l12 28 l28 12 l-28 12 l-12 28 l-12 -28 l-28 -12z" fill="#fff"/>
+</svg>

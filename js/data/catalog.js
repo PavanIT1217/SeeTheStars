@@ -1,0 +1,893 @@
+// The learning journey. Sectors are meant to be explored in order: each one builds on the last.
+//
+// Object fields
+//   id, name, kind        identity
+//   art                   offline illustration: { type: planet|star|galaxy|nebula|pulsar|blackhole|constellation|cosmos|earth, ... }
+//   wiki                  English Wikipedia page title (photo + encyclopedia extract, downloadable for offline)
+//   pos                   { body } for solar-system bodies, { ra, dec } J2000 degrees, { everywhere: true }, or { down: true }
+//   ly                    distance in light-years (deep-sky objects) – drives the "time machine"
+//   facts                 [label, value] pairs for the data panel
+//   nutshell              short explanation
+//   story                 [year, event] timeline of how humans figured it out
+//   wow                   one mind-blowing fact
+//   wonder                [question, answer] to spark curiosity
+//   see                   how to see it yourself
+
+export const SECTORS = [
+  {
+    id: 'home',
+    code: '01',
+    title: 'Home Base',
+    subtitle: 'Earth, Moon and Sun',
+    hue: 200,
+    briefing: 'Every space journey starts at home. Before we fly to distant galaxies, let’s get to know the three worlds that shape every single day of your life: the planet under your feet, the Moon that lights up the night, and the star that keeps us warm.',
+    items: ['earth', 'moon', 'sun'],
+    quiz: [
+      { q: 'About how long does sunlight take to reach Earth?', options: ['8 seconds', '8 minutes', '8 hours', '8 days'], answer: 1, why: 'Light travels about 300,000 km every second, and the Sun is about 150 million km away – so the trip takes roughly 8 minutes and 20 seconds.' },
+      { q: 'Why do we always see the same face of the Moon?', options: ['The Moon doesn’t spin', 'It spins exactly once per orbit', 'Earth blocks the other side', 'The far side is invisible'], answer: 1, why: 'The Moon is “tidally locked”: it turns once on its axis in the same time it takes to go once around Earth.' },
+      { q: 'Who measured the size of the Earth more than 2,000 years ago using shadows?', options: ['Galileo', 'Newton', 'Eratosthenes', 'Copernicus'], answer: 2, why: 'Around 240 BC, Eratosthenes compared shadows in two Egyptian cities and calculated Earth’s size surprisingly well.' },
+    ],
+  },
+  {
+    id: 'rocky',
+    code: '02',
+    title: 'The Rocky Worlds',
+    subtitle: 'Mercury, Venus and Mars',
+    hue: 18,
+    briefing: 'Earth has three rocky neighbours. One is scorched by the Sun, one is hidden under poisonous clouds, and one is a rusty red desert where robots are driving around right now. Each tells us something about why Earth turned out so special.',
+    items: ['mercury', 'venus', 'mars'],
+    quiz: [
+      { q: 'Which planet is the hottest?', options: ['Mercury', 'Venus', 'Mars', 'Jupiter'], answer: 1, why: 'Venus! Its thick carbon-dioxide atmosphere traps heat, making it hotter than Mercury even though Mercury is closer to the Sun.' },
+      { q: 'What makes Mars red?', options: ['Lava', 'Rust (iron oxide)', 'Red plants', 'Reflected sunsets'], answer: 1, why: 'Martian dust is full of iron oxide – basically rust.' },
+      { q: 'What did the Ingenuity helicopter do on Mars in 2021?', options: ['Found water', 'First powered flight on another planet', 'Brought rocks home', 'Landed humans'], answer: 1, why: 'Ingenuity made the first powered, controlled flight on another planet.' },
+    ],
+  },
+  {
+    id: 'giants',
+    code: '03',
+    title: 'The Giants',
+    subtitle: 'Jupiter, Saturn, Uranus and Neptune',
+    hue: 35,
+    briefing: 'Beyond the rocky worlds live the giants – enormous planets made mostly of gas and ice, with storms bigger than Earth, dozens of moons and spectacular rings. One of them was even discovered with mathematics before anyone saw it.',
+    items: ['jupiter', 'saturn', 'uranus', 'neptune'],
+    quiz: [
+      { q: 'Which planet would float in a (gigantic) bathtub?', options: ['Jupiter', 'Saturn', 'Uranus', 'Neptune'], answer: 1, why: 'Saturn is less dense than water.' },
+      { q: 'How was Neptune first found?', options: ['By accident', 'By a space probe', 'By mathematics predicting where it should be', 'Ancient people always knew'], answer: 2, why: 'Urbain Le Verrier calculated its position from the way it tugged on Uranus. Johann Galle found it on the first night of searching in 1846.' },
+      { q: 'Which planet rolls around the Sun on its side?', options: ['Saturn', 'Neptune', 'Uranus', 'Jupiter'], answer: 2, why: 'Uranus is tilted about 98°, probably knocked over by a giant collision long ago.' },
+    ],
+  },
+  {
+    id: 'dwarfs',
+    code: '04',
+    title: 'The Little Worlds',
+    subtitle: 'Dwarf planets',
+    hue: 270,
+    briefing: 'In 2006 astronomers had a big argument: what exactly IS a planet? They decided on a new family – the dwarf planets. They are round like planets but share their orbits with lots of other objects. Meet the five official members, from the asteroid belt to the frozen edge of the Solar System.',
+    items: ['ceres', 'pluto', 'haumea', 'makemake', 'eris'],
+    quiz: [
+      { q: 'Who suggested the name “Pluto”?', options: ['Clyde Tombaugh', 'An 11-year-old girl', 'NASA', 'A newspaper'], answer: 1, why: 'Venetia Burney, an 11-year-old in Oxford, England, suggested it in 1930.' },
+      { q: 'Which discovery led to Pluto being re-classified as a dwarf planet?', options: ['Ceres', 'Eris', 'Haumea', 'Charon'], answer: 1, why: 'Eris is almost the same size as Pluto and more massive. Astronomers had to decide: call it a planet too, or define “planet” more carefully.' },
+      { q: 'Why is Haumea shaped like an egg?', options: ['It was hit by a comet', 'It spins very fast', 'It is made of jelly', 'It is two objects stuck together'], answer: 1, why: 'Haumea spins once every ~4 hours, which stretches it out.' },
+    ],
+  },
+  {
+    id: 'stars',
+    code: '05',
+    title: 'The Stars',
+    subtitle: 'Suns of other worlds',
+    hue: 48,
+    briefing: 'Every star you see at night is a sun – some smaller than ours, some so huge they would swallow Mars’ orbit. Their colours tell you how hot they are: red stars are “cool”, blue stars are scorching. Let’s meet some famous ones.',
+    items: ['sirius', 'polaris', 'betelgeuse', 'rigel', 'vega', 'proxima'],
+    quiz: [
+      { q: 'What does a star’s colour tell you?', options: ['Its age', 'Its temperature', 'Its distance', 'Its name'], answer: 1, why: 'Blue stars are the hottest, then white, yellow, orange, and red stars are the coolest.' },
+      { q: 'Why does Polaris seem to stay still all night?', options: ['It’s very close', 'It’s almost straight above Earth’s North Pole', 'It doesn’t shine', 'It moves with the Moon'], answer: 1, why: 'Earth’s axis points almost exactly at Polaris, so the whole sky seems to spin around it.' },
+      { q: 'Which is the closest star to the Sun?', options: ['Sirius', 'Vega', 'Proxima Centauri', 'Polaris'], answer: 2, why: 'Proxima Centauri, about 4.2 light-years away.' },
+    ],
+  },
+  {
+    id: 'constellations',
+    code: '06',
+    title: 'Constellations',
+    subtitle: 'Pictures in the sky',
+    hue: 190,
+    briefing: 'For thousands of years, people joined the stars into pictures and told stories about them. Today astronomers use 88 official constellations as a map of the sky – like countries on a world map. Learn a few and you will never feel lost under the night sky again.',
+    items: ['orion', 'ursamajor', 'cassiopeia', 'scorpius', 'crux', 'cygnus'],
+    quiz: [
+      { q: 'How many official constellations are there?', options: ['12', '48', '88', '100'], answer: 2, why: 'The International Astronomical Union recognises 88 constellations covering the whole sky.' },
+      { q: 'Which two stars of the Big Dipper point to the North Star?', options: ['Mizar and Alcor', 'Dubhe and Merak', 'Alioth and Alkaid', 'Rigel and Sirius'], answer: 1, why: 'Follow the line from Merak through Dubhe and you arrive at Polaris.' },
+      { q: 'Are the stars in a constellation close to each other?', options: ['Yes, always', 'No – they just look close from Earth', 'Only in Orion', 'They are touching'], answer: 1, why: 'Stars in a constellation can be at wildly different distances. They only line up from our point of view.' },
+    ],
+  },
+  {
+    id: 'lifecycle',
+    code: '07',
+    title: 'Star Nurseries & Graveyards',
+    subtitle: 'How stars are born and how they die',
+    hue: 320,
+    briefing: 'Stars are not forever. They are born in giant glowing clouds called nebulae, live for millions or billions of years, and then die – some gently puffing off colourful shells, some in gigantic explosions. The atoms in your body were made inside stars like these.',
+    items: ['orionnebula', 'pleiades', 'pillars', 'ringnebula', 'crabnebula'],
+    quiz: [
+      { q: 'What is a nebula?', options: ['A small planet', 'A giant cloud of gas and dust', 'A black hole', 'A type of comet'], answer: 1, why: 'Nebulae are huge clouds of gas and dust. Some are where new stars are born, some are what is left after a star dies.' },
+      { q: 'The Crab Nebula is left over from an explosion seen on Earth in which year?', options: ['1054', '1492', '1969', '200 BC'], answer: 0, why: 'Astronomers in China recorded a “guest star” in 1054 that was bright enough to see in daylight for weeks.' },
+      { q: 'What will our Sun probably become at the end of its life?', options: ['A black hole', 'A planetary nebula and a white dwarf', 'A pulsar', 'A galaxy'], answer: 1, why: 'Stars like the Sun shed their outer layers as a planetary nebula, leaving a small, hot white dwarf.' },
+    ],
+  },
+  {
+    id: 'extreme',
+    code: '08',
+    title: 'Extreme Objects',
+    subtitle: 'Pulsars and black holes',
+    hue: 280,
+    briefing: 'When the biggest stars die, they leave behind the strangest things in the universe: neutron stars that spin hundreds of times a second, and black holes whose gravity is so strong that not even light can escape. Warning: these will bend your brain.',
+    items: ['psr1919', 'crabpulsar', 'velapulsar', 'cygx1', 'sgra', 'm87bh'],
+    quiz: [
+      { q: 'Who discovered the first pulsar in 1967?', options: ['Albert Einstein', 'Jocelyn Bell Burnell', 'Stephen Hawking', 'Edwin Hubble'], answer: 1, why: 'Jocelyn Bell Burnell, a PhD student, noticed a tiny unusual signal in her radio data – a regular pulse every 1.34 seconds.' },
+      { q: 'What is at the centre of our Milky Way galaxy?', options: ['A huge star', 'Nothing', 'A supermassive black hole', 'Another galaxy'], answer: 2, why: 'Sagittarius A*, a black hole about 4 million times the mass of the Sun.' },
+      { q: 'When was the first-ever image of a black hole released?', options: ['1969', '1999', '2019', 'It has never been photographed'], answer: 2, why: 'The Event Horizon Telescope revealed M87* on 10 April 2019.' },
+    ],
+  },
+  {
+    id: 'galaxies',
+    code: '09',
+    title: 'Galaxies',
+    subtitle: 'Islands of billions of stars',
+    hue: 230,
+    briefing: 'All the stars you have met so far live in one galaxy: the Milky Way. Just 100 years ago, many astronomers thought it was the entire universe. Then we discovered that the universe is full of galaxies – hundreds of billions of them.',
+    items: ['milkyway', 'lmc', 'smc', 'andromeda', 'triangulum', 'whirlpool', 'sombrero'],
+    quiz: [
+      { q: 'Who proved in 1923 that Andromeda is a separate galaxy?', options: ['Galileo', 'Edwin Hubble', 'Isaac Newton', 'Carl Sagan'], answer: 1, why: 'Edwin Hubble found a Cepheid variable star in Andromeda and used it to show the galaxy is far beyond the Milky Way.' },
+      { q: 'Henrietta Swan Leavitt’s discovery about Cepheid stars gave astronomers…', options: ['A way to measure cosmic distances', 'A new telescope', 'The first photo of Mars', 'A rocket design'], answer: 0, why: 'She found that a Cepheid’s brightness is linked to how fast it pulses – a “cosmic measuring tape”.' },
+      { q: 'What is the most distant thing most people can see without a telescope?', options: ['Pluto', 'The Andromeda Galaxy', 'Sirius', 'The Crab Nebula'], answer: 1, why: 'Andromeda is about 2.5 million light-years away and visible as a faint smudge from a dark site.' },
+    ],
+  },
+  {
+    id: 'universe',
+    code: '10',
+    title: 'The Whole Universe',
+    subtitle: 'Cosmology: the biggest questions',
+    hue: 260,
+    briefing: 'You have travelled from your backyard to distant galaxies. Now for the biggest questions of all: How did the universe begin? How big is it? What is it made of? Humans have found some astonishing answers – and some mysteries that may be solved by someone your age.',
+    items: ['hudf', 'expansion', 'cmb', 'darkmatter'],
+    quiz: [
+      { q: 'How old is the universe?', options: ['6,000 years', '4.5 billion years', '13.8 billion years', 'It has always existed'], answer: 2, why: 'Measurements of the cosmic microwave background and the expansion of space give about 13.8 billion years.' },
+      { q: 'Where did the Big Bang happen?', options: ['Near the Milky Way', 'At the centre of the universe', 'Everywhere at once', 'Inside a black hole'], answer: 2, why: 'The Big Bang was not an explosion at one spot – space itself was expanding everywhere.' },
+      { q: 'About how much of the universe is ordinary matter (atoms)?', options: ['About 5%', 'About 50%', 'About 95%', '100%'], answer: 0, why: 'Only about 5%. The rest is dark matter (~27%) and dark energy (~68%).' },
+    ],
+  },
+];
+
+export const OBJECTS = {
+  // ───────────────────────── 01 Home Base ─────────────────────────
+  earth: {
+    name: 'Earth', kind: 'Planet · Our home', art: { type: 'earth' }, wiki: 'Earth', pos: { down: true },
+    facts: [['Diameter', '12,742 km'], ['Age', '4.54 billion years'], ['Day', '24 hours'], ['Moons', '1']],
+    nutshell: 'Earth is the third planet from the Sun and the only place in the universe where we know life exists. About 71% of its surface is covered by liquid water, and a thin blanket of air protects us from the cold and radiation of space.',
+    story: [
+      ['~240 BC', 'Eratosthenes measures the size of Earth by comparing shadows in Syene and Alexandria, Egypt.'],
+      ['499 AD', 'The Indian astronomer Aryabhata writes that the stars only seem to move because Earth spins.'],
+      ['1543', 'Nicolaus Copernicus publishes his idea that Earth goes around the Sun, not the other way around.'],
+      ['1968', 'Apollo 8 astronauts photograph “Earthrise” – Earth rising over the Moon.'],
+      ['1990', 'Voyager 1 looks back from about 6 billion km away and sees Earth as a “Pale Blue Dot”.'],
+    ],
+    wow: 'Right now you are flying around the Sun at about 30 km every second – over 100,000 km per hour – and you can’t feel a thing.',
+    wonder: ['If Earth is spinning so fast, why don’t we feel it?', 'Because everything – you, the air, the oceans – moves along with it smoothly. You only feel changes in speed, like when a car brakes, not steady motion.'],
+    see: 'Look down! You’re standing on it. In the Sky Finder, Earth is always “below your feet”.',
+  },
+  moon: {
+    name: 'The Moon', kind: 'Natural satellite', art: { type: 'planet', color: '#c9c9c9', color2: '#6d6d72' }, wiki: 'Moon', pos: { body: 'moon' },
+    facts: [['Diameter', '3,474 km'], ['Orbit', '27.3 days'], ['Gravity', '1/6 of Earth'], ['People who walked on it', '12']],
+    nutshell: 'The Moon is Earth’s only natural satellite. Scientists think it formed about 4.5 billion years ago when a Mars-sized world crashed into the young Earth and the debris clumped together. Its gravity creates the ocean tides.',
+    story: [
+      ['1609', 'Galileo points a telescope at the Moon and sees mountains and craters – it is a world, not a perfect sphere.'],
+      ['1959', 'The Soviet probe Luna 3 takes the first pictures of the Moon’s far side.'],
+      ['1969', 'Apollo 11: Neil Armstrong and Buzz Aldrin become the first humans to walk on the Moon.'],
+      ['2019', 'China’s Chang’e 4 makes the first soft landing on the far side.'],
+      ['2023', 'India’s Chandrayaan-3 lands near the Moon’s south pole, a first for any country.'],
+    ],
+    wow: 'The Moon is slowly drifting away from Earth – about 3.8 cm every year, roughly as fast as your fingernails grow.',
+    wonder: ['Why do we always see the same face of the Moon?', 'The Moon spins exactly once for every trip around Earth (it is “tidally locked”), so the same side always faces us.'],
+    see: 'Easy with your eyes. With binoculars, look along the line between light and dark – the craters cast long shadows there.',
+  },
+  sun: {
+    name: 'The Sun', kind: 'Star · Yellow dwarf', art: { type: 'star', color: '#ffd36b', size: 1.4 }, wiki: 'Sun', pos: { body: 'sun' }, safety: true,
+    facts: [['Diameter', '1.39 million km (109 Earths)'], ['Surface', '~5,500 °C'], ['Core', '~15 million °C'], ['Age', '4.6 billion years']],
+    nutshell: 'The Sun is a star – a giant ball of hot gas. In its core, hydrogen atoms smash together to make helium, releasing the energy that lights and warms our planet. It holds about 99.8% of all the mass in the Solar System.',
+    story: [
+      ['1543', 'Copernicus puts the Sun at the centre of the Solar System.'],
+      ['1610s', 'Galileo and others observe sunspots, showing the Sun changes and rotates.'],
+      ['1868', 'Astronomers discover a new element in sunlight and name it helium, after Helios, the Greek Sun god. It is found on Earth only in 1895.'],
+      ['1939', 'Hans Bethe explains how fusion powers the stars.'],
+      ['2024', 'NASA’s Parker Solar Probe flies just 6.1 million km from the Sun’s surface – the closest any human-made object has ever been.'],
+    ],
+    wow: 'The energy that reaches you as sunlight today was made in the Sun’s core tens of thousands of years ago; it takes that long to bounce its way out to the surface.',
+    wonder: ['What will happen when the Sun runs out of fuel?', 'In about 5 billion years it will swell into a red giant, then puff off its outer layers and shrink into a white dwarf about the size of Earth.'],
+    see: '⚠️ NEVER look directly at the Sun, and never through binoculars or a telescope – it can blind you instantly. Use certified eclipse glasses or a pinhole projector.',
+  },
+
+  // ───────────────────────── 02 Rocky worlds ─────────────────────────
+  mercury: {
+    name: 'Mercury', kind: 'Planet · Rocky', art: { type: 'planet', color: '#b5a593', color2: '#5e554c' }, wiki: 'Mercury (planet)', pos: { body: 'mercury' },
+    facts: [['Diameter', '4,879 km'], ['Year', '88 days'], ['Temperature', '−180 °C to 430 °C'], ['Moons', '0']],
+    nutshell: 'Mercury is the smallest planet and the closest to the Sun. With almost no air to hold heat, its days are hot enough to melt lead and its nights are colder than Antarctica.',
+    story: [
+      ['Ancient times', 'Known to the Sumerians and Babylonians. The Romans named it after their fast messenger god, because it moves quickly across the sky.'],
+      ['1631', 'Pierre Gassendi watches Mercury cross in front of the Sun, as Johannes Kepler predicted.'],
+      ['1974', 'Mariner 10 becomes the first spacecraft to fly past Mercury.'],
+      ['2011', 'MESSENGER goes into orbit and finds water ice hidden in craters at the poles that never see sunlight.'],
+      ['2026', 'The European–Japanese mission BepiColombo is due to arrive in orbit around Mercury.'],
+    ],
+    wow: 'One day on Mercury (sunrise to sunrise) lasts 176 Earth days – that is two whole Mercury years!',
+    wonder: ['How can there be ice on the planet closest to the Sun?', 'Some craters at Mercury’s poles are so deep that sunlight never reaches their floors. They stay colder than −170 °C forever.'],
+    see: 'Low in the sky just after sunset or just before sunrise, a few times a year. It never strays far from the Sun.',
+  },
+  venus: {
+    name: 'Venus', kind: 'Planet · Rocky', art: { type: 'planet', color: '#f1d9a6', color2: '#a7804a' }, wiki: 'Venus', pos: { body: 'venus' },
+    facts: [['Diameter', '12,104 km'], ['Surface', '~465 °C'], ['Year', '225 days'], ['Day', '243 Earth days']],
+    nutshell: 'Venus is almost Earth’s twin in size, but it is a nightmare world: its thick carbon-dioxide air traps heat so well that it is the hottest planet, and its clouds are made of sulfuric acid. It also spins backwards compared to most planets.',
+    story: [
+      ['~1600 BC', 'Babylonian astronomers record Venus’ appearances on the “Venus tablet of Ammisaduqa”.'],
+      ['1610', 'Galileo sees Venus go through phases like the Moon – evidence that it orbits the Sun.'],
+      ['1769', 'Expeditions around the world, including James Cook’s, time Venus crossing the Sun to measure the size of the Solar System.'],
+      ['1962', 'Mariner 2 becomes the first spacecraft to successfully fly past another planet.'],
+      ['1970', 'The Soviet Venera 7 makes the first landing on another planet that sends back data.'],
+    ],
+    wow: 'A day on Venus (one spin) is longer than its year. And the Sun rises in the west there.',
+    wonder: ['Venus is further from the Sun than Mercury. Why is it hotter?', 'Its thick atmosphere acts like a blanket – a runaway greenhouse effect – trapping the Sun’s heat.'],
+    see: 'The brightest thing in the night sky after the Moon. Look for a brilliant “evening star” after sunset or “morning star” before dawn.',
+  },
+  mars: {
+    name: 'Mars', kind: 'Planet · Rocky', art: { type: 'planet', color: '#d9653b', color2: '#7a2a14' }, wiki: 'Mars', pos: { body: 'mars' },
+    facts: [['Diameter', '6,779 km'], ['Day', '24 h 37 min'], ['Year', '687 days'], ['Moons', '2: Phobos and Deimos']],
+    nutshell: 'Mars is a cold desert world, red because its dust is full of iron oxide (rust). It has the tallest volcano in the Solar System, ancient dry riverbeds, and ice at its poles. Billions of years ago it had lakes – maybe even life.',
+    story: [
+      ['1877', 'Asaph Hall discovers Mars’ two small moons, Phobos and Deimos.'],
+      ['1965', 'Mariner 4 sends the first close-up pictures: a cratered, Moon-like world.'],
+      ['1976', 'Viking 1 lands and photographs the surface.'],
+      ['2014', 'India’s Mangalyaan reaches Mars orbit on its very first try.'],
+      ['2021', 'Perseverance lands and the Ingenuity helicopter makes the first powered flight on another planet. China’s Zhurong rover lands too.'],
+    ],
+    wow: 'Olympus Mons, a volcano on Mars, is about 22 km tall – roughly two and a half times the height of Mount Everest.',
+    wonder: ['On Mars, what colour is the sunset?', 'Blue! Fine Martian dust scatters blue light forward towards the setting Sun – the opposite of Earth.'],
+    see: 'A reddish-orange “star” that shines with a steady light. It’s brightest around “opposition”, about every 26 months.',
+  },
+
+  // ───────────────────────── 03 Giants ─────────────────────────
+  jupiter: {
+    name: 'Jupiter', kind: 'Planet · Gas giant', art: { type: 'planet', color: '#d8b48a', color2: '#8a5a36', bands: true }, wiki: 'Jupiter', pos: { body: 'jupiter' },
+    facts: [['Diameter', '139,820 km (11 Earths)'], ['Day', '9 h 56 min'], ['Year', '11.9 years'], ['Moons', '90+']],
+    nutshell: 'Jupiter is the king of the planets – more than twice as massive as all the other planets combined. It is a ball of mostly hydrogen and helium with colourful cloud stripes and the Great Red Spot, a storm wider than Earth.',
+    story: [
+      ['1610', 'Galileo discovers Jupiter’s four large moons – Io, Europa, Ganymede and Callisto. It proves that not everything goes around Earth.'],
+      ['1979', 'Voyager 1 and 2 discover faint rings and volcanoes on Io.'],
+      ['1994', 'Comet Shoemaker–Levy 9 smashes into Jupiter, leaving dark scars bigger than Earth.'],
+      ['2016', 'NASA’s Juno spacecraft begins orbiting Jupiter.'],
+      ['2023–24', 'ESA’s JUICE and NASA’s Europa Clipper launch to study Jupiter’s icy moons, which may hide oceans.'],
+    ],
+    wow: 'About 1,300 Earths could fit inside Jupiter.',
+    wonder: ['Could there be life on one of Jupiter’s moons?', 'Maybe! Europa probably has a salty ocean under its icy crust with more water than all of Earth’s oceans. Europa Clipper will help find out.'],
+    see: 'One of the brightest “stars” in the sky. Hold binoculars very steady and you can see up to four tiny moons lined up beside it.',
+  },
+  saturn: {
+    name: 'Saturn', kind: 'Planet · Gas giant', art: { type: 'planet', color: '#e8cf98', color2: '#9a7b45', ring: true, bands: true }, wiki: 'Saturn', pos: { body: 'saturn' },
+    facts: [['Diameter', '116,460 km'], ['Year', '29.4 years'], ['Rings', 'Mostly water ice'], ['Moons', '270+']],
+    nutshell: 'Saturn is famous for its rings: billions of chunks of ice and rock, from dust grains to house-sized boulders. The rings are about 280,000 km wide but in most places only about 10 metres thick.',
+    story: [
+      ['1610', 'Galileo sees strange “ears” on Saturn but can’t work out what they are.'],
+      ['1655', 'Christiaan Huygens explains they are a ring and discovers the giant moon Titan.'],
+      ['1675', 'Giovanni Cassini spots a gap in the rings – now called the Cassini Division.'],
+      ['2004–2017', 'The Cassini spacecraft orbits Saturn for 13 years. Its Huygens probe lands on Titan in 2005.'],
+      ['2025', 'Astronomers announce 128 newly found small moons, taking Saturn’s total to 274.'],
+    ],
+    wow: 'Saturn is less dense than water – if you had a bathtub big enough, it would float!',
+    wonder: ['Is it raining anywhere on Saturn’s moons?', 'Yes – on Titan it rains liquid methane, which fills lakes and seas on its surface.'],
+    see: 'A steady, golden “star”. Even a small telescope shows the rings – a view people never forget.',
+  },
+  uranus: {
+    name: 'Uranus', kind: 'Planet · Ice giant', art: { type: 'planet', color: '#a6e3e9', color2: '#4f9ca6', ring: 'thin' }, wiki: 'Uranus', pos: { body: 'uranus' },
+    facts: [['Diameter', '50,724 km'], ['Year', '84 years'], ['Tilt', '98°'], ['Moons', '28+']],
+    nutshell: 'Uranus is an ice giant that rolls around the Sun on its side, probably knocked over by an enormous collision long ago. Methane gas in its atmosphere gives it a pale blue-green colour.',
+    story: [
+      ['1781', 'William Herschel discovers Uranus with his homemade telescope – the first planet found with a telescope. He wanted to name it after King George III.'],
+      ['1787', 'Herschel finds its two largest moons, Titania and Oberon.'],
+      ['1977', 'Rings are discovered when Uranus passes in front of a star and the starlight flickers.'],
+      ['1986', 'Voyager 2 flies past – still the only spacecraft ever to visit.'],
+    ],
+    wow: 'Because of its tilt, each pole gets about 42 years of sunlight, then 42 years of darkness.',
+    wonder: ['Why are Uranus’ moons named after characters from Shakespeare?', 'The tradition started with Herschel’s son John. Moons like Miranda, Ariel, Puck and Juliet are named after characters from plays and poems.'],
+    see: 'Just barely visible to the eye from a very dark site. Binoculars show a tiny blue-green dot.',
+  },
+  neptune: {
+    name: 'Neptune', kind: 'Planet · Ice giant', art: { type: 'planet', color: '#4f7cff', color2: '#1d2f8a' }, wiki: 'Neptune', pos: { body: 'neptune' },
+    facts: [['Diameter', '49,244 km'], ['Year', '165 years'], ['Winds', 'up to ~2,000 km/h'], ['Moons', '16']],
+    nutshell: 'Neptune is the most distant planet: a deep-blue ice giant with the fastest winds in the Solar System. It was the first planet found by mathematics before anyone saw it.',
+    story: [
+      ['1846', 'Urbain Le Verrier (and John Couch Adams) calculate that an unseen planet must be tugging on Uranus. Johann Galle finds Neptune within 1° of the prediction on his first night of searching.'],
+      ['1846', 'Just 17 days later, William Lassell discovers its biggest moon, Triton.'],
+      ['1989', 'Voyager 2 flies past and photographs the “Great Dark Spot” storm and geysers on Triton.'],
+      ['2011', 'Neptune completes its first full orbit since it was discovered.'],
+    ],
+    wow: 'Triton orbits Neptune backwards – it was probably a dwarf planet captured by Neptune’s gravity.',
+    wonder: ['How can you discover a planet without seeing it?', 'By noticing that something else is being pulled off course. Gravity leaves clues – scientists use the same trick today to find planets around other stars.'],
+    see: 'Needs a telescope – it looks like a tiny blue dot.',
+  },
+
+  // ───────────────────────── 04 Dwarf planets ─────────────────────────
+  ceres: {
+    name: 'Ceres', kind: 'Dwarf planet · Asteroid belt', art: { type: 'planet', color: '#9b9790', color2: '#4a4744' }, wiki: 'Ceres (dwarf planet)', pos: { body: 'ceres' },
+    facts: [['Diameter', '~940 km'], ['Year', '4.6 years'], ['Where', 'Between Mars and Jupiter'], ['Visited by', 'Dawn (2015–2018)']],
+    nutshell: 'Ceres is the biggest object in the asteroid belt and the only dwarf planet in the inner Solar System. It contains lots of water ice, and bright salty patches show that briny water once reached its surface.',
+    story: [
+      ['1801', 'On New Year’s Day, Giuseppe Piazzi in Palermo, Italy, discovers Ceres. For about 50 years it was counted as a planet.'],
+      ['1801', 'Ceres gets lost behind the Sun. Young mathematician Carl Friedrich Gauss invents a new method to predict where it will reappear – and he is right.'],
+      ['2006', 'Ceres is reclassified as a dwarf planet.'],
+      ['2015', 'NASA’s Dawn becomes the first spacecraft to orbit a dwarf planet and finds bright spots made of salts in Occator crater.'],
+    ],
+    wow: 'Ceres was the very first asteroid ever discovered.',
+    wonder: ['Could Ceres have an ocean?', 'There may be pockets of salty liquid water deep beneath its surface – which makes scientists curious about whether it could ever have supported life.'],
+    see: 'Sometimes visible in binoculars as a faint “star” that shifts position from night to night.',
+  },
+  pluto: {
+    name: 'Pluto', kind: 'Dwarf planet · Kuiper Belt', art: { type: 'planet', color: '#e3c9a8', color2: '#7a5a43', heart: true }, wiki: 'Pluto', pos: { body: 'pluto' },
+    facts: [['Diameter', '2,377 km'], ['Year', '248 years'], ['Moons', '5 (biggest: Charon)'], ['Visited by', 'New Horizons (2015)']],
+    nutshell: 'Pluto is a small icy world in the Kuiper Belt, a zone of frozen objects beyond Neptune. It has mountains of water ice, glaciers of frozen nitrogen, a thin blue atmosphere, and a giant heart-shaped plain.',
+    story: [
+      ['1930', 'Clyde Tombaugh, 24, discovers Pluto at Lowell Observatory by comparing photographs taken nights apart.'],
+      ['1930', 'Venetia Burney, an 11-year-old in Oxford, suggests the name “Pluto”, the Roman god of the underworld.'],
+      ['1978', 'James Christy discovers Pluto’s large moon Charon.'],
+      ['2006', 'The International Astronomical Union reclassifies Pluto as a dwarf planet.'],
+      ['2015', 'New Horizons flies past on 14 July and reveals the famous “heart”. Some of Tombaugh’s ashes are on board.'],
+    ],
+    wow: 'Since it was discovered in 1930, Pluto has not yet completed one orbit around the Sun – it will in 2178.',
+    wonder: ['Should Pluto be a planet?', 'Scientists still debate it! What do YOU think makes something a planet – its size, its shape, or how it shares its orbit?'],
+    see: 'Very faint – you need a large telescope and a star chart.',
+  },
+  haumea: {
+    name: 'Haumea', kind: 'Dwarf planet · Kuiper Belt', art: { type: 'planet', color: '#eef2f7', color2: '#8c96a6', egg: true }, wiki: 'Haumea', pos: { body: 'haumea' },
+    facts: [['Size', '~2,100 km long'], ['Day', '~3.9 hours'], ['Moons', '2: Hiʻiaka and Namaka'], ['Ring', 'Yes!']],
+    nutshell: 'Haumea is one of the fastest-spinning large objects in the Solar System, completing a full turn in about 4 hours. All that spinning has stretched it into an egg shape. It is covered in crystalline water ice and has its own ring.',
+    story: [
+      ['2004–05', 'Two teams – one led by Mike Brown in the USA and one led by José Luis Ortiz in Spain – both find it. Who found it first is still debated.'],
+      ['2008', 'Named after Haumea, the Hawaiian goddess of childbirth. Its moons are named after her daughters.'],
+      ['2017', 'Astronomers watch Haumea pass in front of a star and discover it has a ring – the first found around a trans-Neptunian object.'],
+    ],
+    wow: 'A day on Haumea lasts less than 4 hours.',
+    wonder: ['Why would spinning make something egg-shaped?', 'Spinning flings material outward at the “equator”. Spin fast enough and a ball stretches into an elongated shape – like pizza dough tossed in the air.'],
+    see: 'Only with large telescopes.',
+  },
+  makemake: {
+    name: 'Makemake', kind: 'Dwarf planet · Kuiper Belt', art: { type: 'planet', color: '#d89a7a', color2: '#7b4231' }, wiki: 'Makemake', pos: { body: 'makemake' },
+    facts: [['Diameter', '~1,430 km'], ['Year', '~305 years'], ['Moons', '1 (tiny and dark)'], ['Surface', 'Frozen methane']],
+    nutshell: 'Makemake is a reddish-brown dwarf planet in the Kuiper Belt, covered in frozen methane and ethane. It is one of the brightest objects out there, but still far too faint to see without a big telescope.',
+    story: [
+      ['2005', 'Discovered on 31 March by Mike Brown, Chad Trujillo and David Rabinowitz, just after Easter – the team nicknamed it “Easterbunny”.'],
+      ['2008', 'Officially named after Makemake, the creator god of the people of Rapa Nui (Easter Island).'],
+      ['2016', 'Hubble discovers a tiny, very dark moon nicknamed “MK2”.'],
+    ],
+    wow: 'Its moon is so dark it reflects about as much light as charcoal.',
+    wonder: ['Why are distant icy worlds often reddish?', 'Sunlight and cosmic rays slowly change methane ice into dark reddish compounds called tholins.'],
+    see: 'Only with large telescopes.',
+  },
+  eris: {
+    name: 'Eris', kind: 'Dwarf planet · Scattered disc', art: { type: 'planet', color: '#f4f4f4', color2: '#9c9ca4' }, wiki: 'Eris (dwarf planet)', pos: { body: 'eris' },
+    facts: [['Diameter', '~2,326 km'], ['Year', '~559 years'], ['Distance now', '~96 times Earth–Sun'], ['Moon', 'Dysnomia']],
+    nutshell: 'Eris is almost the same size as Pluto but more massive. It is currently about three times further away than Pluto, on a long, tilted orbit. Its discovery started the great debate about what a planet is.',
+    story: [
+      ['2005', 'Discovered by Mike Brown, Chad Trujillo and David Rabinowitz in images taken in 2003. Its nickname was “Xena”.'],
+      ['2006', 'Because Eris is about as big as Pluto, astronomers have to define the word “planet” – and Pluto and Eris both become dwarf planets.'],
+      ['2006', 'Named after the Greek goddess of strife and discord – fitting for an object that caused so much argument!'],
+    ],
+    wow: 'Sunlight takes about 13 hours to reach Eris right now.',
+    wonder: ['Are there more dwarf planets we haven’t found yet?', 'Almost certainly! The outer Solar System is huge and dark. Some astronomers even search for an undiscovered big planet far beyond Neptune.'],
+    see: 'Only with large telescopes.',
+  },
+
+  // ───────────────────────── 05 Stars ─────────────────────────
+  sirius: {
+    name: 'Sirius', kind: 'Star · White main-sequence (binary)', art: { type: 'star', color: '#cfe3ff' }, wiki: 'Sirius', pos: { ra: 101.287, dec: -16.716 }, ly: 8.6,
+    facts: [['Distance', '8.6 light-years'], ['Brightness', 'Brightest star at night'], ['Mass', '2 × Sun'], ['Constellation', 'Canis Major']],
+    nutshell: 'Sirius, the “Dog Star”, is the brightest star in the night sky. It shines so brightly because it is both powerful (about 25 times brighter than the Sun) and close. It has a tiny companion: a white dwarf called Sirius B.',
+    story: [
+      ['Ancient Egypt', 'The first appearance of Sirius before dawn each year warned Egyptians that the Nile flood was coming.'],
+      ['1844', 'Friedrich Bessel notices Sirius wobbling and predicts an invisible companion.'],
+      ['1862', 'Alvan Graham Clark spots the companion, Sirius B, while testing a new telescope lens.'],
+    ],
+    wow: 'Sirius B is about the size of Earth but has almost the mass of the Sun. A teaspoon of it would weigh several tonnes.',
+    wonder: ['Why do stars twinkle?', 'Their light passes through moving layers of Earth’s air that bend it slightly this way and that. Bright stars near the horizon twinkle the most – Sirius often flashes colours!'],
+    see: 'Follow the three stars of Orion’s belt downwards to the left – the dazzling star you reach is Sirius.',
+  },
+  polaris: {
+    name: 'Polaris', kind: 'Star · Yellow supergiant', art: { type: 'star', color: '#fff1c4' }, wiki: 'Polaris', pos: { ra: 37.954, dec: 89.264 }, ly: 430,
+    facts: [['Distance', '~430 light-years'], ['Also called', 'North Star'], ['Type', 'Cepheid variable'], ['Constellation', 'Ursa Minor']],
+    nutshell: 'Polaris is the North Star. It isn’t the brightest star, but it’s special: Earth’s axis points almost straight at it, so while all other stars circle through the night, Polaris stays put. For centuries it guided sailors and travellers.',
+    story: [
+      ['For centuries', 'Navigators use Polaris to find north and to estimate their latitude at sea.'],
+      ['1780', 'William Herschel discovers that Polaris has a companion star. We now know it is a triple star system.'],
+      ['1911', 'Astronomers discover that Polaris gently pulses in brightness – it is a Cepheid variable.'],
+    ],
+    wow: 'The height of Polaris above your horizon (in degrees) equals your latitude. At the North Pole it’s straight overhead; at the equator it sits on the horizon.',
+    wonder: ['Will Polaris always be the North Star?', 'No! Earth’s axis slowly wobbles like a spinning top. In about 12,000 years, the bright star Vega will be close to the pole instead.'],
+    see: 'Only from the Northern Hemisphere. Follow the two “pointer stars” at the end of the Big Dipper.',
+  },
+  betelgeuse: {
+    name: 'Betelgeuse', kind: 'Star · Red supergiant', art: { type: 'star', color: '#ff8a4c', size: 1.3 }, wiki: 'Betelgeuse', pos: { ra: 88.793, dec: 7.407 }, ly: 550,
+    facts: [['Distance', '~550 light-years'], ['Size', '~700 × Sun'], ['Constellation', 'Orion'], ['Fate', 'Supernova']],
+    nutshell: 'Betelgeuse is a red supergiant in Orion’s shoulder. If it replaced our Sun, it would swallow Mercury, Venus, Earth and Mars. It is near the end of its life and will one day explode as a supernova.',
+    story: [
+      ['Medieval times', 'Its name comes from Arabic and is often translated as “the hand of al-Jawzāʾ”, a figure in the sky.'],
+      ['1920', 'Albert Michelson and Francis Pease make Betelgeuse the first star (other than the Sun) to have its size measured.'],
+      ['2019–20', 'The “Great Dimming”: Betelgeuse fades noticeably. Astronomers find it puffed out a cloud of dust that blocked some of its light.'],
+      ['2025', 'Astronomers report the first glimpse of a small companion star orbiting it.'],
+    ],
+    wow: 'When it explodes – maybe tomorrow, maybe in 100,000 years – it will be bright enough to see in daylight for weeks. (Don’t worry: it is far enough away to be safe.)',
+    wonder: ['If Betelgeuse exploded 500 years ago, would we know?', 'Not yet! Its light takes about 550 years to reach us. It could have already exploded and the news simply hasn’t arrived.'],
+    see: 'The bright orange-red star at Orion’s upper-left shoulder (as seen from the Northern Hemisphere).',
+  },
+  rigel: {
+    name: 'Rigel', kind: 'Star · Blue supergiant', art: { type: 'star', color: '#a9c8ff', size: 1.2 }, wiki: 'Rigel', pos: { ra: 78.634, dec: -8.202 }, ly: 860,
+    facts: [['Distance', '~860 light-years'], ['Temperature', '~12,000 °C'], ['Constellation', 'Orion'], ['Brightness', 'Tens of thousands × Sun']],
+    nutshell: 'Rigel is a blue supergiant marking Orion’s foot. It is much hotter than our Sun and pours out tens of thousands of times more light. Blue supergiants live fast and die young.',
+    story: [
+      ['Ancient times', 'Its name comes from the Arabic word for “foot”.'],
+      ['1831', 'Friedrich Georg Wilhelm von Struve measures a faint companion star close to Rigel.'],
+    ],
+    wow: 'Rigel and Betelgeuse are in the same constellation but have opposite colours – one of the best places in the sky to see that stars really are different colours.',
+    wonder: ['Why are hot stars blue and cooler stars red?', 'Same reason a heated metal rod glows red, then orange, then white-blue as it gets hotter. Hotter things give off light of shorter wavelengths.'],
+    see: 'The bright blue-white star at Orion’s lower-right foot (from the Northern Hemisphere).',
+  },
+  vega: {
+    name: 'Vega', kind: 'Star · White main-sequence', art: { type: 'star', color: '#dbe8ff' }, wiki: 'Vega', pos: { ra: 279.234, dec: 38.784 }, ly: 25,
+    facts: [['Distance', '25 light-years'], ['Constellation', 'Lyra'], ['Spin', 'Very fast – slightly flattened'], ['Disc', 'Dusty debris disc']],
+    nutshell: 'Vega is one of the brightest stars in the sky and part of the “Summer Triangle”. It spins so fast that it bulges at its equator. Astronomers used it as the standard for measuring how bright other stars are.',
+    story: [
+      ['1850', 'Vega becomes the first star (after the Sun) ever photographed, at Harvard College Observatory.'],
+      ['1872', 'Henry Draper takes the first photograph of a star’s spectrum – Vega’s.'],
+      ['1983', 'The IRAS space telescope finds a disc of dust around Vega, a hint that planets could be forming there.'],
+    ],
+    wow: 'About 12,000 years ago, Vega was the North Star – and it will be again in about 12,000 years.',
+    wonder: ['In the movie “Contact”, a message comes from Vega. Could aliens live there?', 'Vega is young and spins fast; any planets would be very different from Earth. But the question of life elsewhere is one of science’s biggest – nobody knows yet!'],
+    see: 'A brilliant blue-white star high overhead on summer evenings (Northern Hemisphere).',
+  },
+  proxima: {
+    name: 'Proxima Centauri', kind: 'Star · Red dwarf', art: { type: 'star', color: '#ff6a4a', size: 0.7 }, wiki: 'Proxima Centauri', pos: { ra: 217.429, dec: -62.680 }, ly: 4.24,
+    facts: [['Distance', '4.24 light-years'], ['Size', '~1/7 of Sun'], ['Planets', 'At least 2'], ['Constellation', 'Centaurus']],
+    nutshell: 'Proxima Centauri is the closest star to the Sun. It is a small, cool red dwarf – too faint to see without a telescope. It belongs to the Alpha Centauri triple-star system.',
+    story: [
+      ['1915', 'Robert Innes, working in Johannesburg, South Africa, discovers Proxima.'],
+      ['2016', 'Astronomers find Proxima b, a planet in the zone where liquid water might be possible.'],
+      ['2022', 'A third possible planet, Proxima d, is reported – one of the lightest planets ever detected.'],
+    ],
+    wow: 'Even the closest star is so far away that the Voyager 1 spacecraft would need more than 70,000 years to get there.',
+    wonder: ['How could humans ever visit another star?', 'Ideas include tiny probes pushed by giant lasers to a fifth of the speed of light (the Breakthrough Starshot idea). Maybe you will invent a better way!'],
+    see: 'Too faint for your eyes, and best from the Southern Hemisphere. Its bright neighbour Alpha Centauri is easy to see.',
+  },
+
+  // ───────────────────────── 06 Constellations ─────────────────────────
+  orion: {
+    name: 'Orion', kind: 'Constellation · The Hunter', art: { type: 'constellation', id: 'orion' }, wiki: 'Orion (constellation)', pos: { ra: 84.05, dec: -1.2 },
+    facts: [['Brightest stars', 'Rigel, Betelgeuse'], ['Famous for', 'The three-star belt'], ['Best seen', 'Dec – Mar evenings'], ['Visible from', 'The whole world']],
+    nutshell: 'Orion is one of the easiest constellations to recognise, thanks to three bright stars in a row forming the hunter’s belt. Because it sits on the celestial equator, everyone on Earth can see it.',
+    story: [
+      ['Ancient Egypt', 'Egyptians linked these stars with Osiris, their god of the afterlife.'],
+      ['Ancient Greece', 'The Greeks told of Orion, a giant hunter. He was placed in the sky opposite the Scorpion that defeated him.'],
+      ['Around the world', 'In parts of India, the stars are seen as Mriga, a deer. To some Aboriginal Australian groups they form a canoe.'],
+    ],
+    wow: 'The fuzzy “star” in Orion’s sword is actually the Orion Nebula – a place where new stars are being born right now.',
+    wonder: ['Why does Orion appear upside-down from Australia?', 'From the Southern Hemisphere you are looking at the sky from the “other side” of Earth – so the hunter appears to stand on his head!'],
+    see: 'Find three bright stars in a short straight row. Above and below them are Betelgeuse and Rigel.',
+  },
+  ursamajor: {
+    name: 'Ursa Major & the Big Dipper', kind: 'Constellation · The Great Bear', art: { type: 'constellation', id: 'ursamajor' }, wiki: 'Big Dipper', pos: { ra: 182, dec: 56 },
+    facts: [['Shape', 'Seven bright stars'], ['Also called', 'The Plough, Saptarishi'], ['Points to', 'Polaris'], ['Best seen', 'Northern spring']],
+    nutshell: 'The Big Dipper is a pattern of seven bright stars inside the larger constellation Ursa Major, the Great Bear. Two of its stars point straight to the North Star, which makes it one of the most useful star patterns.',
+    story: [
+      ['Ancient India', 'The seven stars are known as the Saptarishi – the seven great sages.'],
+      ['Ancient Greece', 'In Greek myth the stars are the nymph Callisto, turned into a bear and placed in the sky.'],
+      ['1800s USA', 'A famous folk song tells of people escaping slavery by “following the Drinking Gourd” – the Big Dipper – north to freedom.'],
+    ],
+    wow: 'The middle star of the handle, Mizar, has a faint companion called Alcor. Seeing both was once used as an eyesight test.',
+    wonder: ['Will the Big Dipper always look like this?', 'No – stars move. In about 100,000 years the Dipper will look quite different, because two of its stars are moving in a different direction from the other five.'],
+    see: 'Northern Hemisphere: look north. Draw a line through the two stars at the end of the “cup” and continue about five times as far to reach Polaris.',
+  },
+  cassiopeia: {
+    name: 'Cassiopeia', kind: 'Constellation · The Queen', art: { type: 'constellation', id: 'cassiopeia' }, wiki: 'Cassiopeia (constellation)', pos: { ra: 14, dec: 60 },
+    facts: [['Shape', 'A “W” or “M”'], ['Famous for', 'Tycho’s Supernova (1572)'], ['Hidden inside', 'Cassiopeia A remnant'], ['Visible', 'All year (far north)']],
+    nutshell: 'Cassiopeia is a bright “W” of five stars on the opposite side of Polaris from the Big Dipper. In Greek myth she was a vain queen who boasted about her beauty.',
+    story: [
+      ['1572', 'Tycho Brahe sees a brilliant “new star” in Cassiopeia – a supernova. It shows that the heavens are not unchanging, a shocking idea at the time.'],
+      ['1947', 'Radio astronomers detect Cassiopeia A, the remains of another exploded star and one of the strongest radio sources in the sky.'],
+    ],
+    wow: 'Tycho’s supernova was so bright that it could be seen in daylight.',
+    wonder: ['How can you use Cassiopeia to find the North Star?', 'Polaris sits roughly halfway between Cassiopeia and the Big Dipper. When one is low, the other is high.'],
+    see: 'Northern Hemisphere: look for a big “W” in the north. It never sets for people north of about 35° latitude.',
+  },
+  scorpius: {
+    name: 'Scorpius', kind: 'Constellation · The Scorpion', art: { type: 'constellation', id: 'scorpius' }, wiki: 'Scorpius', pos: { ra: 253, dec: -32 },
+    facts: [['Brightest star', 'Antares'], ['Shape', 'A curving tail'], ['Best seen', 'June – August'], ['Lies in', 'The Milky Way']],
+    nutshell: 'Scorpius really looks like a scorpion, with a curling tail and a bright red heart: the supergiant star Antares. It lies along the rich, star-packed band of the Milky Way.',
+    story: [
+      ['Ancient Greece', 'The scorpion that defeated Orion. The two were placed on opposite sides of the sky, so when Scorpius rises, Orion sets.'],
+      ['Polynesia', 'The curving stars are seen as the magic fishhook of the hero Māui, used to pull islands up from the sea.'],
+      ['Name', 'Antares means “rival of Mars” – both are red and often appear near each other.'],
+    ],
+    wow: 'Antares is so big that if it replaced the Sun, its surface would reach past the orbit of Mars.',
+    wonder: ['Why can you never see Orion and Scorpius in the sky at the same time?', 'They are on almost opposite sides of the sky. One rises as the other sets – just like in the myth!'],
+    see: 'Look low in the south on summer evenings (Northern Hemisphere) or high overhead in winter (Southern Hemisphere). Find the red star Antares.',
+  },
+  crux: {
+    name: 'Crux – the Southern Cross', kind: 'Constellation', art: { type: 'constellation', id: 'crux' }, wiki: 'Crux', pos: { ra: 187, dec: -60 },
+    facts: [['Size', 'Smallest of the 88'], ['Brightest star', 'Acrux'], ['On flags of', 'Australia, NZ, Brazil…'], ['Visible from', 'South of ~25° N']],
+    nutshell: 'Crux is the smallest constellation but one of the most famous. Its four bright stars form a cross that points towards the south celestial pole, guiding travellers in the Southern Hemisphere.',
+    story: [
+      ['Ancient times', 'Visible from Greece and the Middle East thousands of years ago, but Earth’s wobble slowly moved it out of sight there.'],
+      ['1500s', 'European sailors exploring the southern oceans use it to navigate.'],
+      ['Today', 'It appears on the flags of Australia, New Zealand, Brazil, Papua New Guinea and Samoa.'],
+    ],
+    wow: 'Right next to the cross is the Coalsack – a dark cloud of dust that blocks the stars behind it. Some Aboriginal Australians see it as the head of an emu in the sky.',
+    wonder: ['How do you find south using the Southern Cross?', 'Extend the long arm of the cross about four and a half times its length – that point is near the south celestial pole. Drop straight down to the horizon: that’s south.'],
+    see: 'Best from the Southern Hemisphere, and from southern India and the tropics in spring.',
+  },
+  cygnus: {
+    name: 'Cygnus', kind: 'Constellation · The Swan', art: { type: 'constellation', id: 'cygnus' }, wiki: 'Cygnus (constellation)', pos: { ra: 305.6, dec: 40.3 },
+    facts: [['Also called', 'The Northern Cross'], ['Brightest star', 'Deneb'], ['Part of', 'The Summer Triangle'], ['Hidden inside', 'Black hole Cygnus X-1']],
+    nutshell: 'Cygnus is a swan flying along the Milky Way. Its brightest star, Deneb, together with Vega and Altair, forms the Summer Triangle. The Kepler space telescope stared at a patch of sky near Cygnus to discover thousands of planets around other stars.',
+    story: [
+      ['Ancient Greece', 'In one story the swan is the god Zeus in disguise.'],
+      ['1964', 'Cygnus X-1 is discovered – later the first object widely accepted to be a black hole.'],
+      ['2009–2013', 'NASA’s Kepler telescope watches about 150,000 stars in Cygnus and Lyra and finds thousands of exoplanets.'],
+    ],
+    wow: 'The star Albireo, at the swan’s head, is actually two stars – one gold and one blue. A small telescope shows them beautifully.',
+    wonder: ['How can you find a planet around another star if you can’t see it?', 'Kepler looked for tiny dips in a star’s brightness when a planet passed in front of it – like a moth flying past a distant streetlight.'],
+    see: 'High overhead on northern summer evenings. Look for a long cross shape along the Milky Way.',
+  },
+
+  // ───────────────────────── 07 Nurseries & graveyards ─────────────────────────
+  orionnebula: {
+    name: 'Orion Nebula (M42)', kind: 'Nebula · Star nursery', art: { type: 'nebula', color: '#ff6fb1', color2: '#5ad7ff' }, wiki: 'Orion Nebula', pos: { ra: 83.822, dec: -5.391 }, ly: 1344,
+    facts: [['Distance', '~1,344 light-years'], ['Size', '~24 light-years'], ['Contains', 'The Trapezium stars'], ['Visible', 'To the naked eye']],
+    nutshell: 'The Orion Nebula is a giant glowing cloud of gas and dust where thousands of new stars are being born. It is the closest large star-forming region to Earth and you can see it without a telescope.',
+    story: [
+      ['1610', 'Nicolas-Claude Fabri de Peiresc makes the first recorded telescope observation of the nebula.'],
+      ['1769', 'Charles Messier adds it to his catalogue as M42.'],
+      ['1880', 'Henry Draper takes the first-ever photograph of a nebula – this one.'],
+      ['1990s', 'Hubble discovers dusty discs around young stars – baby solar systems in the making.'],
+    ],
+    wow: 'The cloud contains enough gas to make about 2,000 stars like the Sun.',
+    wonder: ['How does a cloud of gas become a star?', 'Gravity slowly pulls clumps of gas together. As a clump shrinks, it heats up until its centre is hot enough for nuclear fusion – and a star switches on.'],
+    see: 'Look at the “sword” hanging below Orion’s belt. The middle “star” looks fuzzy – that’s the nebula. Binoculars make it glow.',
+  },
+  pleiades: {
+    name: 'The Pleiades (M45)', kind: 'Open star cluster', art: { type: 'cluster', color: '#9cc4ff' }, wiki: 'Pleiades', pos: { ra: 56.75, dec: 24.12 }, ly: 444,
+    facts: [['Distance', '~444 light-years'], ['Age', '~100 million years'], ['Stars', '1,000+'], ['Also called', 'Seven Sisters, Subaru, Krittika']],
+    nutshell: 'The Pleiades are a family of young, hot, blue stars that were born together. Six or seven are visible to the eye, but there are more than a thousand. The blue haze around them is a dust cloud they are passing through.',
+    story: [
+      ['~1600 BC', 'The Nebra sky disc, found in Germany, may show the Pleiades – one of the oldest known images of the sky.'],
+      ['1610', 'Galileo turns his telescope on them and counts dozens of stars.'],
+      ['Around the world', 'In Japan they’re Subaru (the car company’s logo shows them). In India they’re Krittika. For Māori people, their rising (Matariki) marks the New Year.'],
+    ],
+    wow: 'Compared with our 4.6-billion-year-old Sun, these stars are babies – about 100 million years old. Dinosaurs were alive when they were born.',
+    wonder: ['Why do so many cultures have a story about “seven sisters”?', 'Nobody is sure. One idea: the stories are extremely old, and one of the seven stars has since faded or moved closer to its neighbour.'],
+    see: 'A tiny, misty “mini-dipper” of stars. Follow Orion’s belt up and to the right past the orange star Aldebaran.',
+  },
+  pillars: {
+    name: 'Pillars of Creation', kind: 'Nebula · Eagle Nebula (M16)', art: { type: 'nebula', color: '#ffb36b', color2: '#3fb3a6', pillars: true }, wiki: 'Pillars of Creation', pos: { ra: 274.7, dec: -13.82 }, ly: 6500,
+    facts: [['Distance', '~6,500 light-years'], ['Height', 'About 4–5 light-years'], ['In', 'The Eagle Nebula'], ['Constellation', 'Serpens']],
+    nutshell: 'The Pillars of Creation are towering columns of cold gas and dust inside the Eagle Nebula. Inside them, new stars are forming, while intense light from nearby young stars slowly erodes them away.',
+    story: [
+      ['1745–46', 'Philippe Loys de Chéseaux discovers the star cluster in the Eagle Nebula.'],
+      ['1995', 'Hubble takes the famous image of the Pillars – one of the most iconic science photos ever.'],
+      ['2014', 'Hubble photographs them again in sharper detail.'],
+      ['2022', 'The James Webb Space Telescope captures them in infrared, revealing newborn stars hidden inside.'],
+    ],
+    wow: 'The left pillar is about four light-years tall. If you travelled at the speed of light, it would take you four years to fly from the bottom to the top.',
+    wonder: ['Why do Hubble and Webb pictures of the same place look different?', 'Hubble sees mostly visible light; Webb sees infrared light, which passes through dust – so it can peek inside the clouds.'],
+    see: 'The Eagle Nebula is visible in a small telescope; the pillars themselves need photographs.',
+  },
+  ringnebula: {
+    name: 'Ring Nebula (M57)', kind: 'Planetary nebula · Dying star', art: { type: 'ring', color: '#69f0d6', color2: '#ff7a59' }, wiki: 'Ring Nebula', pos: { ra: 283.396, dec: 33.029 }, ly: 2570,
+    facts: [['Distance', '~2,570 light-years'], ['Constellation', 'Lyra'], ['Centre', 'A white dwarf'], ['Age', '~4,000 years']],
+    nutshell: 'The Ring Nebula is a glowing shell of gas thrown off by a dying Sun-like star. The hot leftover core, a white dwarf, makes the gas glow. Despite the name, planetary nebulae have nothing to do with planets.',
+    story: [
+      ['1779', 'Discovered by Antoine Darquier de Pellepoix and, within weeks, by Charles Messier.'],
+      ['1780s', 'William Herschel calls objects like this “planetary nebulae” because their round shapes reminded him of planets.'],
+      ['2023', 'The James Webb Space Telescope reveals thousands of delicate clumps in the ring.'],
+    ],
+    wow: 'This is a preview of our Sun’s future, about 5 billion years from now.',
+    wonder: ['Where do the colours come from?', 'Different elements glow in different colours – oxygen often green-blue, hydrogen and nitrogen red. The colours map out what the star was made of.'],
+    see: 'A small telescope shows a tiny, ghostly smoke ring between two stars of Lyra, near Vega.',
+  },
+  crabnebula: {
+    name: 'Crab Nebula (M1)', kind: 'Supernova remnant', art: { type: 'nebula', color: '#ff9a5a', color2: '#7aa8ff', filaments: true }, wiki: 'Crab Nebula', pos: { ra: 83.633, dec: 22.015 }, ly: 6500,
+    facts: [['Distance', '~6,500 light-years'], ['Exploded', 'Seen in 1054'], ['Heart', 'A pulsar'], ['Constellation', 'Taurus']],
+    nutshell: 'The Crab Nebula is the wreckage of a star that exploded as a supernova. The explosion was seen on Earth in 1054. At its centre spins a pulsar, the star’s collapsed core.',
+    story: [
+      ['1054', 'Chinese astronomers record a “guest star” bright enough to see in daylight for 23 days.'],
+      ['1758', 'Charles Messier mistakes it for a comet. To avoid more mix-ups he starts his famous catalogue – and it becomes M1.'],
+      ['1840s', 'Lord Rosse draws it and names it the Crab.'],
+      ['1968', 'Astronomers discover the pulsar at its centre.'],
+    ],
+    wow: 'The cloud is still expanding at about 1,500 km per second.',
+    wonder: ['Where do atoms like gold and iron come from?', 'Many heavy elements were made in exploding and colliding stars and spread through space. Some ended up in Earth – and in you!'],
+    see: 'A faint smudge in a small telescope, near the tip of Taurus’ horn.',
+  },
+
+  // ───────────────────────── 08 Extreme objects ─────────────────────────
+  psr1919: {
+    name: 'PSR B1919+21 – the first pulsar', kind: 'Pulsar · Neutron star', art: { type: 'pulsar', color: '#7af4ff' }, wiki: 'PSR B1919+21', pos: { ra: 290.437, dec: 21.884 }, ly: 2300,
+    facts: [['Distance', '~2,300 light-years'], ['Pulse every', '1.337 seconds'], ['Discovered', '1967'], ['Constellation', 'Vulpecula']],
+    nutshell: 'This was the first pulsar ever found: a spinning neutron star that sweeps a beam of radio waves across Earth like a lighthouse. Its pulses are so regular that at first scientists wondered whether they were an alien signal.',
+    story: [
+      ['1967', 'Jocelyn Bell Burnell, a PhD student at Cambridge, spots a strange “bit of scruff” in her radio telescope data. It pulses every 1.337 seconds.'],
+      ['1967', 'Half-jokingly, the signal is nicknamed “LGM-1” – Little Green Men 1.'],
+      ['1974', 'The Nobel Prize for the discovery goes to her supervisor Antony Hewish (and Martin Ryle), not to her – a decision many people consider unfair.'],
+      ['2018', 'Bell Burnell wins a $3 million Breakthrough Prize and donates it all to help students from under-represented groups become physicists.'],
+    ],
+    wow: 'A chart of this pulsar’s signals became the famous cover of a 1979 rock album, Unknown Pleasures by Joy Division.',
+    wonder: ['How can something the size of a city spin once a second?', 'When a giant star collapses, it spins faster – like an ice skater pulling in their arms – just much, much more extreme.'],
+    see: 'Only with radio telescopes. But you can point to where it is!',
+  },
+  crabpulsar: {
+    name: 'Crab Pulsar', kind: 'Pulsar · Neutron star', art: { type: 'pulsar', color: '#ffd27a' }, wiki: 'Crab Pulsar', pos: { ra: 83.633, dec: 22.015 }, ly: 6500,
+    facts: [['Spins', '~30 times per second'], ['Size', '~20 km across'], ['Born', 'Supernova seen in 1054'], ['Home', 'Crab Nebula']],
+    nutshell: 'At the heart of the Crab Nebula is a neutron star only about 20 km across but heavier than the Sun. It spins about 30 times every second, blasting out beams of radiation that light up the whole nebula.',
+    story: [
+      ['1968', 'Radio astronomers discover the pulsar inside the Crab Nebula, linking pulsars to supernovae.'],
+      ['1969', 'It becomes one of the first pulsars seen flashing in visible light.'],
+    ],
+    wow: 'Neutron star material is so dense that a teaspoonful would weigh billions of tonnes.',
+    wonder: ['What is a neutron star made of?', 'Mostly neutrons squeezed so tightly together that they form a kind of giant atomic nucleus the size of a city.'],
+    see: 'Inside the Crab Nebula in Taurus – only big telescopes can see its flashes.',
+  },
+  velapulsar: {
+    name: 'Vela Pulsar', kind: 'Pulsar · Neutron star', art: { type: 'pulsar', color: '#b58cff' }, wiki: 'Vela Pulsar', pos: { ra: 128.836, dec: -45.176 }, ly: 950,
+    facts: [['Distance', '~950 light-years'], ['Spins', '~11 times per second'], ['Age', '~11,000 years'], ['Constellation', 'Vela']],
+    nutshell: 'The Vela Pulsar is the collapsed core of a star that exploded about 11,000 years ago. It is one of the brightest sources of gamma rays in the sky, and sometimes it suddenly spins a little faster – a “glitch”.',
+    story: [
+      ['1968', 'Australian astronomers at the Molonglo radio telescope discover it inside the Vela supernova remnant.'],
+      ['1968', 'Together with the Crab Pulsar, it proves that pulsars are born in supernova explosions.'],
+      ['Since then', 'Scientists study its glitches to learn about the weird matter inside neutron stars.'],
+    ],
+    wow: 'When its supernova exploded, it would have been extremely bright in the skies of our ancestors.',
+    wonder: ['Why would a spinning star suddenly speed up?', 'Scientists think the neutron star’s interior is partly a “superfluid” that occasionally transfers spin to the crust all at once.'],
+    see: 'Southern sky, in the constellation Vela (the Sails). Radio and gamma-ray telescopes only.',
+  },
+  cygx1: {
+    name: 'Cygnus X-1', kind: 'Black hole · Stellar-mass', art: { type: 'blackhole', color: '#7ab8ff' }, wiki: 'Cygnus X-1', pos: { ra: 299.590, dec: 35.202 }, ly: 7200,
+    facts: [['Distance', '~7,200 light-years'], ['Mass', '~21 × Sun'], ['Partner', 'A blue supergiant star'], ['Orbit', '5.6 days']],
+    nutshell: 'Cygnus X-1 is a black hole pulling gas off a giant blue companion star. As the gas spirals in, it heats up to millions of degrees and glows in X-rays. It was the first object most astronomers agreed was a black hole.',
+    story: [
+      ['1964', 'Discovered by X-ray detectors on a rocket flight.'],
+      ['1971–72', 'Astronomers find its companion star and work out the hidden object is too heavy to be a neutron star.'],
+      ['1974', 'Stephen Hawking bets physicist Kip Thorne that Cygnus X-1 is NOT a black hole – hoping to lose.'],
+      ['1990', 'Hawking concedes the bet.'],
+    ],
+    wow: 'Hawking bet against black holes as an “insurance policy”: if all his work on black holes turned out wrong, at least he’d win the bet.',
+    wonder: ['If black holes don’t let light escape, how can we see them?', 'We see what happens around them: gas heating up as it falls in, and stars being pulled into orbits around “nothing”.'],
+    see: 'Near the star Eta Cygni in the Swan’s neck. You can see the companion star with binoculars – but not the black hole!',
+  },
+  sgra: {
+    name: 'Sagittarius A*', kind: 'Supermassive black hole', art: { type: 'blackhole', color: '#ffb35a' }, wiki: 'Sagittarius A*', pos: { ra: 266.417, dec: -29.008 }, ly: 26700,
+    facts: [['Distance', '~26,700 light-years'], ['Mass', '~4 million × Sun'], ['Location', 'Centre of the Milky Way'], ['Imaged', '2022']],
+    nutshell: 'At the centre of our galaxy lies Sagittarius A* (say “A-star”), a supermassive black hole. Stars race around it in tight orbits, and by tracking them astronomers proved it’s there.',
+    story: [
+      ['1974', 'Bruce Balick and Robert Brown discover a compact radio source at the galactic centre.'],
+      ['1990s–2010s', 'Teams led by Reinhard Genzel and Andrea Ghez track stars orbiting an invisible heavy object.'],
+      ['2020', 'Genzel and Ghez share the Nobel Prize in Physics (with Roger Penrose).'],
+      ['2022', 'The Event Horizon Telescope releases the first image of Sagittarius A*.'],
+    ],
+    wow: 'A star called S2 orbits it every 16 years, reaching speeds of over 7,000 km per second.',
+    wonder: ['Will Sagittarius A* swallow the Milky Way?', 'No. It is enormous, but tiny compared to the galaxy. Stars far from it orbit safely, just as planets orbit the Sun without falling in.'],
+    see: 'Point towards the “teapot” of Sagittarius, where the Milky Way is brightest. The centre is hidden behind dust.',
+  },
+  m87bh: {
+    name: 'M87* – the first black hole photo', kind: 'Supermassive black hole', art: { type: 'blackhole', color: '#ff7a3a', big: true }, wiki: 'Messier 87', pos: { ra: 187.706, dec: 12.391 }, ly: 55000000,
+    facts: [['Distance', '~55 million light-years'], ['Mass', '~6.5 billion × Sun'], ['Galaxy', 'Messier 87 (Virgo)'], ['Imaged', '2019']],
+    nutshell: 'M87* is a gigantic black hole in the galaxy Messier 87. In 2019 it became the first black hole ever photographed: a dark shadow surrounded by a glowing ring of hot gas.',
+    story: [
+      ['1918', 'Heber Curtis notices a “curious straight ray” coming from M87 – a jet blasted out from near the black hole.'],
+      ['2017', 'Eight radio observatories around the world observe together as the Event Horizon Telescope – effectively a telescope the size of Earth.'],
+      ['2019', 'On 10 April, the first image of a black hole is revealed to the world.'],
+      ['2021', 'A new image shows the swirling magnetic fields around it.'],
+    ],
+    wow: 'This black hole’s event horizon is bigger than our whole Solar System out to Neptune.',
+    wonder: ['How can a telescope be the size of Earth?', 'By linking radio dishes on different continents and combining their data with super-precise atomic clocks.'],
+    see: 'The galaxy M87 is visible in a small telescope as a fuzzy ball in Virgo.',
+  },
+
+  // ───────────────────────── 09 Galaxies ─────────────────────────
+  milkyway: {
+    name: 'The Milky Way', kind: 'Galaxy · Barred spiral · Our home', art: { type: 'galaxy', color: '#ffe3b0', color2: '#7aa0ff', bar: true }, wiki: 'Milky Way', pos: { ra: 266.417, dec: -29.008 }, ly: 26700,
+    facts: [['Width', '~100,000 light-years'], ['Stars', '100–400 billion'], ['Our position', '~26,000 ly from centre'], ['Galactic year', '~230 million years']],
+    nutshell: 'The Milky Way is our home galaxy – a huge spinning disc of stars, gas and dust with a bar in the middle and spiral arms. The Sun is in one of the arms. The pale band of light across a dark sky is the galaxy seen edge-on from inside.',
+    story: [
+      ['Ancient times', 'The Greeks saw a river of milk (“galaxias”, which gives us the word galaxy). In India it is Akash Ganga – the river of the sky.'],
+      ['1610', 'Galileo shows the band is made of countless faint stars.'],
+      ['1785', 'William Herschel counts stars to map the galaxy’s shape.'],
+      ['1918', 'Harlow Shapley shows that the Sun is not at the centre of the galaxy.'],
+      ['2013–2025', 'The Gaia spacecraft maps the positions and motions of nearly 2 billion stars.'],
+    ],
+    wow: 'The Sun takes about 230 million years to go once around the galaxy. The last time we were at this point in our orbit, the first dinosaurs were appearing.',
+    wonder: ['How can we know the shape of the galaxy if we are inside it?', 'Like mapping a forest from inside it: astronomers measure distances and motions of millions of stars and gas clouds, then put the 3D picture together.'],
+    see: 'Get far away from city lights on a moonless night and look for a faint, cloudy band stretching across the sky.',
+  },
+  lmc: {
+    name: 'Large Magellanic Cloud', kind: 'Galaxy · Satellite of the Milky Way', art: { type: 'galaxy', color: '#cfe0ff', color2: '#ff8fb8', irregular: true }, wiki: 'Large Magellanic Cloud', pos: { ra: 80.894, dec: -69.756 }, ly: 160000,
+    facts: [['Distance', '~160,000 light-years'], ['Type', 'Irregular / dwarf spiral'], ['Contains', 'Tarantula Nebula'], ['Visible from', 'Southern Hemisphere']],
+    nutshell: 'The Large Magellanic Cloud is a small galaxy orbiting our own. To the eye it looks like a detached piece of the Milky Way. It contains the Tarantula Nebula, the most active star-forming region in our neighbourhood of galaxies.',
+    story: [
+      ['964', 'The Persian astronomer ʿAbd al-Raḥmān al-Ṣūfī mentions it in his Book of Fixed Stars.'],
+      ['1519–22', 'Antonio Pigafetta, on Ferdinand Magellan’s voyage, describes the clouds – which is why they carry Magellan’s name.'],
+      ['1987', 'Supernova 1987A explodes in the LMC – the closest supernova seen since 1604. Detectors on Earth catch neutrinos from it.'],
+    ],
+    wow: 'Supernova 1987A sent a burst of ghostly particles called neutrinos through the entire Earth – 25 of them were caught by detectors.',
+    wonder: ['Will the Magellanic Clouds stay near the Milky Way forever?', 'Probably not. In a few billion years, the Milky Way may swallow the Large Magellanic Cloud.'],
+    see: 'From the Southern Hemisphere, on a dark night: a big misty patch near the south celestial pole.',
+  },
+  smc: {
+    name: 'Small Magellanic Cloud', kind: 'Galaxy · Satellite of the Milky Way', art: { type: 'galaxy', color: '#d6e2ff', color2: '#a0b4ff', irregular: true }, wiki: 'Small Magellanic Cloud', pos: { ra: 13.187, dec: -72.829 }, ly: 200000,
+    facts: [['Distance', '~200,000 light-years'], ['Type', 'Dwarf irregular'], ['Famous for', 'The cosmic measuring tape'], ['Visible from', 'Southern Hemisphere']],
+    nutshell: 'The Small Magellanic Cloud is a dwarf galaxy orbiting the Milky Way. It is famous because studying its stars gave astronomers a way to measure the size of the universe.',
+    story: [
+      ['1908–1912', 'Henrietta Swan Leavitt, studying photographic plates at Harvard, finds that Cepheid variable stars in the SMC that pulse more slowly are brighter.'],
+      ['1913', 'Ejnar Hertzsprung uses her discovery to estimate the distance to the SMC.'],
+      ['1920s', 'Edwin Hubble uses Leavitt’s law to measure the distance to Andromeda – and other galaxies.'],
+    ],
+    wow: 'Leavitt’s discovery, made by measuring tiny dots on glass photographic plates, turned out to be the key to measuring the entire universe.',
+    wonder: ['How can you tell how far away a light is?', 'If you know how bright it really is, you can compare it to how bright it looks. Leavitt’s Cepheids are “standard candles” with a known real brightness.'],
+    see: 'From the Southern Hemisphere: a smaller misty patch near the bright star Achernar.',
+  },
+  andromeda: {
+    name: 'Andromeda Galaxy (M31)', kind: 'Galaxy · Spiral', art: { type: 'galaxy', color: '#ffe8c8', color2: '#8fb0ff', tilt: true }, wiki: 'Andromeda Galaxy', pos: { ra: 10.685, dec: 41.269 }, ly: 2500000,
+    facts: [['Distance', '~2.5 million light-years'], ['Stars', '~1 trillion'], ['Width', '~150,000+ light-years'], ['Approaching at', '~110 km/s']],
+    nutshell: 'The Andromeda Galaxy is the nearest large galaxy to the Milky Way – a giant spiral with about a trillion stars. It is the most distant thing most people can see with their own eyes.',
+    story: [
+      ['964', 'Al-Ṣūfī describes it as a “little cloud” in his Book of Fixed Stars.'],
+      ['1923', 'Edwin Hubble finds a Cepheid variable star in Andromeda. He crosses out “N” (nova) on his photographic plate and writes “VAR!” – proof that Andromeda is a separate galaxy far beyond our own.'],
+      ['2015', 'Hubble’s PHAT survey maps over 100 million of its stars.'],
+      ['2025', 'A new study finds only about a 50:50 chance that Andromeda and the Milky Way will merge in the next 10 billion years.'],
+    ],
+    wow: 'The light you see from Andromeda left it about 2.5 million years ago – before modern humans existed.',
+    wonder: ['What happens when two galaxies collide?', 'Stars almost never hit each other – the space between them is enormous. But gas clouds crash together and can spark bursts of new stars.'],
+    see: 'From a dark site, a faint fuzzy oval near Cassiopeia. Binoculars make it easy.',
+  },
+  triangulum: {
+    name: 'Triangulum Galaxy (M33)', kind: 'Galaxy · Spiral', art: { type: 'galaxy', color: '#cfe0ff', color2: '#ff9ad0', faceOn: true }, wiki: 'Triangulum Galaxy', pos: { ra: 23.462, dec: 30.660 }, ly: 2730000,
+    facts: [['Distance', '~2.7 million light-years'], ['Stars', '~40 billion'], ['Rank', '3rd largest in the Local Group'], ['Contains', 'NGC 604 star factory']],
+    nutshell: 'The Triangulum Galaxy is the third-largest galaxy in our Local Group, after Andromeda and the Milky Way. It is a beautiful, loosely wound spiral, full of pink star-forming regions.',
+    story: [
+      ['Before 1654', 'Giovanni Battista Hodierna probably observes it first.'],
+      ['1764', 'Charles Messier catalogues it as M33.'],
+      ['2019', 'Hubble releases a huge, detailed mosaic of the galaxy.'],
+    ],
+    wow: 'Under perfectly dark skies, some people with excellent eyes can see it without a telescope – one of the most distant things a human eye can see.',
+    wonder: ['What is the “Local Group”?', 'Our galaxy’s neighbourhood: the Milky Way, Andromeda, Triangulum and dozens of smaller dwarf galaxies, held together by gravity.'],
+    see: 'Binoculars from a dark site, near Andromeda.',
+  },
+  whirlpool: {
+    name: 'Whirlpool Galaxy (M51)', kind: 'Galaxy · Interacting spiral', art: { type: 'galaxy', color: '#fff0d6', color2: '#7aa0ff', faceOn: true, companion: true }, wiki: 'Whirlpool Galaxy', pos: { ra: 202.47, dec: 47.195 }, ly: 30000000,
+    facts: [['Distance', '~30 million light-years'], ['Partner', 'NGC 5195'], ['Constellation', 'Canes Venatici'], ['Famous for', 'First spiral seen']],
+    nutshell: 'The Whirlpool Galaxy is a classic spiral seen face-on, tugged by a smaller companion galaxy. Their gravitational dance has sharpened its spiral arms and triggered the birth of many new stars.',
+    story: [
+      ['1773', 'Charles Messier discovers it.'],
+      ['1845', 'Lord Rosse, using a giant telescope in Ireland called the “Leviathan”, sees and draws its spiral arms – the first time a spiral structure was recognised.'],
+      ['2005', 'Hubble releases one of its most famous images of the galaxy.'],
+    ],
+    wow: 'Before anyone knew what galaxies were, Lord Rosse’s drawing of the Whirlpool showed the world that some “nebulae” had a spiral shape.',
+    wonder: ['Why do galaxies have spiral arms?', 'The arms are like traffic jams of stars and gas: regions where material piles up as it orbits, causing bursts of new, bright blue stars.'],
+    see: 'A small telescope from a dark site, below the handle of the Big Dipper.',
+  },
+  sombrero: {
+    name: 'Sombrero Galaxy (M104)', kind: 'Galaxy · Spiral, edge-on', art: { type: 'galaxy', color: '#fff2d8', color2: '#b08a5a', edgeOn: true }, wiki: 'Sombrero Galaxy', pos: { ra: 189.998, dec: -11.623 }, ly: 31000000,
+    facts: [['Distance', '~31 million light-years'], ['Black hole', '~1 billion × Sun'], ['Constellation', 'Virgo'], ['Shape', 'Like a Mexican hat']],
+    nutshell: 'The Sombrero Galaxy has a brilliant bulge of stars and a dark lane of dust around its edge, making it look like a wide-brimmed hat. It was one of the galaxies that revealed the universe is expanding.',
+    story: [
+      ['1781', 'Pierre Méchain discovers it.'],
+      ['1912', 'Vesto Slipher measures that it is moving away from us at about 1,000 km/s – an early clue that the universe is expanding.'],
+      ['2024', 'The James Webb Space Telescope shows its dusty ring in infrared, looking like a glowing hoop.'],
+    ],
+    wow: 'When Slipher measured how fast it was moving, the speed was so high that many astronomers didn’t believe it at first.',
+    wonder: ['Why would most galaxies be moving away from us?', 'Because space itself is expanding. It’s not that we are at the centre – every galaxy would see the others moving away. (Find out more in Sector 10!)'],
+    see: 'Small telescope, in Virgo.',
+  },
+
+  // ───────────────────────── 10 The universe ─────────────────────────
+  hudf: {
+    name: 'Hubble Ultra Deep Field', kind: 'Deep field · ~10,000 galaxies', art: { type: 'cosmos', color: '#ffffff' }, wiki: 'Hubble Ultra-Deep Field', pos: { ra: 53.1625, dec: -27.791 }, ly: 13000000000,
+    facts: [['Exposure', '~11 days in total'], ['Galaxies', '~10,000'], ['Sky area', 'Like a grain of sand at arm’s length'], ['Constellation', 'Fornax']],
+    nutshell: 'Astronomers pointed Hubble at a tiny, seemingly empty patch of sky and collected light for days. The image revealed about 10,000 galaxies – some seen as they were less than a billion years after the Big Bang.',
+    story: [
+      ['1995', 'The first Hubble Deep Field shows that “empty” sky is full of galaxies.'],
+      ['2004', 'The Hubble Ultra Deep Field is released, built from about 800 exposures.'],
+      ['2022', 'The James Webb Space Telescope begins taking even deeper images.'],
+      ['2024–25', 'Webb finds galaxies that existed less than 300 million years after the Big Bang.'],
+    ],
+    wow: 'If one tiny patch holds 10,000 galaxies, the whole sky holds hundreds of billions – maybe trillions – of galaxies.',
+    wonder: ['How can a telescope see back in time?', 'Light takes time to travel. The farther away something is, the older the light we see. Deep fields are baby pictures of the universe.'],
+    see: 'Point your phone where it is: you are pointing at 10,000 galaxies hidden in a tiny dark patch.',
+  },
+  expansion: {
+    name: 'The Big Bang & expanding universe', kind: 'Cosmology', art: { type: 'cosmos', expanding: true }, wiki: 'Big Bang', pos: { everywhere: true },
+    facts: [['Age of universe', '13.8 billion years'], ['Key idea', 'Space itself expands'], ['First proposed', '1927, by Georges Lemaître'], ['Where', 'Everywhere at once']],
+    nutshell: 'The universe began in an extremely hot, dense state about 13.8 billion years ago and has been expanding and cooling ever since. Galaxies are moving apart not because they fly through space, but because space between them is stretching.',
+    story: [
+      ['1912', 'Vesto Slipher finds that most galaxies are moving away from us.'],
+      ['1922', 'Alexander Friedmann shows Einstein’s equations allow an expanding universe.'],
+      ['1927', 'Georges Lemaître, a Belgian priest and physicist, proposes the expanding universe; in 1931 he imagines it began from a “primeval atom”.'],
+      ['1929', 'Edwin Hubble shows that the farther away a galaxy is, the faster it moves away.'],
+      ['1949', 'Fred Hoyle, who disliked the idea, calls it the “Big Bang” on BBC radio – and the name sticks.'],
+    ],
+    wow: 'The Big Bang was not an explosion IN space – it was the expansion OF space. So it didn’t happen at a point; it happened everywhere, including right where you’re sitting.',
+    wonder: ['What is the universe expanding into?', 'Probably nothing! Space doesn’t need anything “outside” to grow into – the distances inside it simply get bigger. It is one of the strangest ideas in science.'],
+    see: 'Every direction you point is “towards the Big Bang”.',
+  },
+  cmb: {
+    name: 'Cosmic Microwave Background', kind: 'Cosmology · The oldest light', art: { type: 'cosmos', cmb: true }, wiki: 'Cosmic microwave background', pos: { everywhere: true },
+    facts: [['Released', '~380,000 years after the Big Bang'], ['Temperature', '2.7 degrees above absolute zero'], ['Found', '1964–65'], ['Where', 'Every direction']],
+    nutshell: 'The cosmic microwave background is the afterglow of the Big Bang: light released when the universe first became transparent, about 380,000 years after it began. It has been stretched by the expanding universe into faint microwaves that come from every direction.',
+    story: [
+      ['1948', 'Ralph Alpher and Robert Herman predict a leftover glow from the hot early universe.'],
+      ['1964–65', 'Arno Penzias and Robert Wilson find a mysterious hiss in their antenna. They even clean out pigeon droppings! It turns out to be the Big Bang’s afterglow.'],
+      ['1978', 'Penzias and Wilson win the Nobel Prize in Physics.'],
+      ['1989–2013', 'The COBE, WMAP and Planck satellites map the tiny ripples in the glow – the seeds of all galaxies.'],
+    ],
+    wow: 'On old analogue TVs, a small part of the “snow” static between channels came from the cosmic microwave background.',
+    wonder: ['Why can’t we see further back than the CMB with light?', 'Before then, the universe was a hot, glowing fog: light could not travel freely. The CMB is the moment the fog cleared.'],
+    see: 'It’s all around you, all the time – but only special microwave telescopes can detect it.',
+  },
+  darkmatter: {
+    name: 'Dark Matter & Dark Energy', kind: 'Cosmology · The great mystery', art: { type: 'cosmos', dark: true }, wiki: 'Dark matter', pos: { ra: 104.66, dec: -55.95 }, ly: 3700000000, pointLabel: 'Bullet Cluster',
+    facts: [['Ordinary matter', '~5%'], ['Dark matter', '~27%'], ['Dark energy', '~68%'], ['Status', 'Unsolved!']],
+    nutshell: 'Everything we can see – stars, planets, people – is only about 5% of the universe. The rest is dark matter, invisible stuff that pulls on galaxies with its gravity, and dark energy, which is making the expansion of the universe speed up. Nobody yet knows what either of them is.',
+    story: [
+      ['1933', 'Fritz Zwicky sees galaxies in the Coma Cluster moving too fast and suggests “dark matter” holds them together.'],
+      ['1970s', 'Vera Rubin and Kent Ford show that the outer parts of galaxies spin too fast – strong evidence for dark matter.'],
+      ['1998', 'Two teams discover that the universe’s expansion is speeding up – dark energy. (Nobel Prize 2011.)'],
+      ['2006', 'The Bullet Cluster – two colliding galaxy clusters – shows dark matter separated from ordinary matter.'],
+      ['2024–25', 'The DESI survey finds hints that dark energy might be changing over time. The Euclid telescope and the Vera C. Rubin Observatory are now mapping the dark universe.'],
+    ],
+    wow: 'Dark matter particles might be passing through your body right now – maybe billions every second – without touching anything.',
+    wonder: ['Could the next big discovery be yours?', 'Absolutely. Dark matter and dark energy are among the biggest unsolved problems in science. Today’s students will be the ones to solve them.'],
+    see: 'The phone points to the Bullet Cluster, about 3.7 billion light-years away, where dark matter was “seen” through its gravity.',
+  },
+};
+
+// Constellation figures for the Sky Finder and artwork: stars [name, ra, dec] and lines [i, j].
+export const FIGURES = {
+  orion: {
+    stars: [['Betelgeuse', 88.79, 7.41], ['Bellatrix', 81.28, 6.35], ['Alnitak', 85.19, -1.94], ['Alnilam', 84.05, -1.2], ['Mintaka', 83.0, -0.3], ['Saiph', 86.94, -9.67], ['Rigel', 78.63, -8.2], ['Meissa', 83.78, 9.93]],
+    lines: [[7, 0], [7, 1], [0, 2], [1, 4], [4, 3], [3, 2], [2, 5], [4, 6]],
+  },
+  ursamajor: {
+    stars: [['Dubhe', 165.93, 61.75], ['Merak', 165.46, 56.38], ['Phecda', 178.46, 53.69], ['Megrez', 183.86, 57.03], ['Alioth', 193.51, 55.96], ['Mizar', 200.98, 54.93], ['Alkaid', 206.89, 49.31]],
+    lines: [[0, 1], [1, 2], [2, 3], [3, 0], [3, 4], [4, 5], [5, 6]],
+  },
+  cassiopeia: {
+    stars: [['Caph', 2.29, 59.15], ['Schedar', 10.13, 56.54], ['Navi', 14.18, 60.72], ['Ruchbah', 21.45, 60.24], ['Segin', 28.6, 63.67]],
+    lines: [[0, 1], [1, 2], [2, 3], [3, 4]],
+  },
+  scorpius: {
+    stars: [['Acrab', 241.36, -19.81], ['Dschubba', 240.08, -22.62], ['Fang', 239.71, -26.11], ['Alniyat', 245.3, -25.59], ['Antares', 247.35, -26.43], ['Paikauhale', 248.97, -28.22], ['Larawag', 252.54, -34.29], ['Xamidimura', 252.97, -38.05], ['ζ Sco', 254.66, -42.36], ['η Sco', 258.04, -43.24], ['Sargas', 264.33, -43.0], ['ι Sco', 266.9, -40.13], ['Girtab', 265.62, -39.03], ['Shaula', 263.4, -37.1]],
+    lines: [[0, 1], [1, 2], [1, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [12, 13]],
+  },
+  crux: {
+    stars: [['Acrux', 186.65, -63.1], ['Mimosa', 191.93, -59.69], ['Gacrux', 187.79, -57.11], ['Imai', 183.79, -58.75]],
+    lines: [[0, 2], [1, 3]],
+  },
+  cygnus: {
+    stars: [['Deneb', 310.36, 45.28], ['Sadr', 305.56, 40.26], ['η Cyg', 299.08, 35.08], ['Albireo', 292.68, 27.96], ['Fawaris', 296.24, 45.13], ['Aljanah', 311.55, 33.97], ['ζ Cyg', 318.23, 30.23]],
+    lines: [[0, 1], [1, 2], [2, 3], [4, 1], [1, 5], [5, 6]],
+  },
+};
+
+// Bright guide stars drawn in the Sky Finder to help orientation.
+export const GUIDE_STARS = [
+  ['Sirius', 101.29, -16.72], ['Canopus', 95.99, -52.7], ['Arcturus', 213.92, 19.18], ['Vega', 279.23, 38.78], ['Capella', 79.17, 45.99],
+  ['Procyon', 114.83, 5.22], ['Achernar', 24.43, -57.24], ['Altair', 297.7, 8.87], ['Aldebaran', 68.98, 16.51], ['Spica', 201.3, -11.16],
+  ['Fomalhaut', 344.41, -29.62], ['Pollux', 116.33, 28.03], ['Castor', 113.65, 31.89], ['Regulus', 152.09, 11.97], ['Polaris', 37.95, 89.26],
+  ['Rigil Kentaurus', 219.9, -60.83], ['Hadar', 210.96, -60.37],
+];
+
+// Flat list in journey order, with sector info attached.
+export const JOURNEY = SECTORS.flatMap((s) => s.items.map((id) => ({ id, sector: s.id })));
+for (const [id, o] of Object.entries(OBJECTS)) o.id = id;
+for (const s of SECTORS) for (const id of s.items) OBJECTS[id].sector = s.id;
+export const sectorById = (id) => SECTORS.find((s) => s.id === id);

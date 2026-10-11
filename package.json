@@ -1,0 +1,9 @@
+{
+  "name": "see-the-stars",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx http-server -c-1 -p 8080 .",
+    "test": "node --test tests/*.test.js"
+  }
+}
