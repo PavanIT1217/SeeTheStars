@@ -6,6 +6,11 @@ import { mountSky } from './sky.js';
 import { startStarfield } from './starfield.js';
 import { horizontalFor, formatRA, formatDec, lightTime, compassName, julianDate, skyPosition, KM_PER_AU } from './astro.js';
 import { timeMachine, formatYears } from './timemachine.js';
+import { issState, predictPasses, refreshTLE, tleAgeDays } from './iss.js';
+
+let liveTimer = 0;
+const fmtTime = (d) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+const fmtDay = (d) => (d.toDateString() === new Date().toDateString() ? 'Today' : d.toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' }));
 
 const view = document.getElementById('view');
 const starfield = startStarfield(document.getElementById('starfield'));
@@ -50,7 +55,7 @@ function category(o) {
   const t = o.art?.type;
   if (o.id === 'moon') return 'Moons';
   if (t === 'planet' || t === 'earth') return o.sector === 'dwarfs' ? 'Dwarf planets' : 'Planets';
-  return { star: 'Stars', constellation: 'Constellations', nebula: 'Nebulae', ring: 'Nebulae', cluster: 'Star clusters', pulsar: 'Pulsars', blackhole: 'Black holes', galaxy: 'Galaxies', cosmos: 'Cosmology' }[t] || 'Other';
+  return { star: 'Stars', constellation: 'Constellations', nebula: 'Nebulae', ring: 'Nebulae', cluster: 'Star clusters', pulsar: 'Pulsars', blackhole: 'Black holes', galaxy: 'Galaxies', cosmos: 'Cosmology', comet: 'Comets', exoplanet: 'Exoplanets', system: 'Exoplanets', iss: 'Spacecraft' }[t] || 'Other';
 }
 
 function observer() {
@@ -97,14 +102,14 @@ function homeView() {
     <section class="hero">
       <div class="hud-label">MISSION CONTROL · ${new Date().toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })}</div>
       <h1 class="title">See the <span>Universe</span></h1>
-      <p class="lead">Ten sectors. Forty-nine wonders. From the ground under your feet to the edge of the observable universe – explore them in order, and point your phone to find each one in the real sky.</p>
+      <p class="lead">${SECTORS.length} sectors. ${JOURNEY.length} wonders. From the ground under your feet to the edge of the observable universe – explore them in order, and point your phone to find each one in the real sky.</p>
       <div class="rank-card glass">
         <div class="rank-ring" style="--p:${r.next ? (xp - r.floor) / (r.next.at - r.floor) : 1}"><span>${xp}</span><small>XP</small></div>
         <div class="rank-info">
           <span class="hud-label">CURRENT RANK</span>
           <b>${r.title}</b>
           <small>${r.next ? `${r.next.at - xp} XP to <i>${r.next.title}</i>` : 'Highest rank reached!'}</small>
-          <div class="stats"><span><b>${learned}</b>/${JOURNEY.length} learned</span><span><b>${spotted}</b> spotted</span><span><b>${store.badges().length}</b>/10 badges</span></div>
+          <div class="stats"><span><b>${learned}</b>/${JOURNEY.length} learned</span><span><b>${spotted}</b> spotted</span><span><b>${store.badges().length}</b>/${SECTORS.length} badges</span></div>
         </div>
       </div>
       ${nextObj ? `
@@ -146,7 +151,7 @@ function sectorView(id) {
   view.innerHTML = `
     <a class="back" href="#/">← Star map</a>
     <section class="sector-hero" style="--hue:${s.hue}">
-      <div class="hud-label">SECTOR ${s.code} OF 10</div>
+      <div class="hud-label">SECTOR ${s.code} OF ${SECTORS.length}</div>
       <h1 class="title">${s.title}</h1>
       <p class="sub">${s.subtitle}</p>
       <div class="briefing glass"><span class="hud-label">MISSION BRIEFING</span><p>${s.briefing}</p></div>
@@ -182,6 +187,17 @@ function liveData(o) {
   const rows = [];
   const obs = observer();
   const now = new Date();
+  if (o.pos?.iss) {
+    const st = issState(obs, now);
+    if (st) {
+      rows.push(['Flying over right now', `${Math.abs(st.lat).toFixed(1)}°${st.lat >= 0 ? 'N' : 'S'}, ${Math.abs(st.lon).toFixed(1)}°${st.lon >= 0 ? 'E' : 'W'}`]);
+      rows.push(['Height', `${Math.round(st.heightKm)} km`]);
+      rows.push(['Speed', `${(st.speedKms * 3600).toLocaleString('en-US', { maximumFractionDigits: 0 })} km/h`]);
+      rows.push([`From you now${obs.approx ? '*' : ''}`, st.alt >= 0 ? `${st.alt.toFixed(0)}° up, towards the ${compassName(st.az)}` : `Below your horizon, ${Math.round(st.km).toLocaleString('en-US')} km away`]);
+      rows.push(['In sunlight', st.sunlit ? 'Yes' : 'No – in Earth’s shadow']);
+    }
+    return rows;
+  }
   if (o.pos?.body) {
     const eq = skyPosition(o.pos, julianDate(now));
     const millions = (eq.km / 1e6).toLocaleString('en-US', { maximumFractionDigits: eq.km > 1e9 ? 0 : 1 });
@@ -234,6 +250,7 @@ function objectView(id) {
 
       ${o.pos && !o.pos.everywhere ? `<a class="btn primary locate" href="#/sky/${o.id}">◎ Find it in the sky${o.pointLabel ? ` (${o.pointLabel})` : ''}</a>` : `<a class="btn primary locate" href="#/sky/${o.id}">◎ Where is it? Try the Sky Finder</a>`}
 
+      ${o.pos?.iss ? '<div class="passes glass"></div>' : ''}
       ${tm ? `<div class="timemachine glass"><span class="hud-label">⧗ TIME MACHINE</span><p>${tm}</p></div>` : ''}
 
       <section class="block"><h3><span class="hud-label">01</span> In a nutshell</h3><p>${o.nutshell}</p></section>
@@ -261,6 +278,26 @@ function objectView(id) {
         ${next ? `<a class="btn ghost next" href="#/object/${next.id}">${OBJECTS[next.id].name} →</a>` : ''}
       </nav>
     </article>`;
+
+  if (o.pos?.iss) {
+    const panel = view.querySelector('.data-panel');
+    const renderLive = () => {
+      panel.innerHTML = o.facts.map(([k, v]) => `<div><span class="hud-label">${k}</span><b>${v}</b></div>`).join('')
+        + liveData(o).map(([k, v]) => `<div class="live"><span class="hud-label">${k}</span><b>${v}</b></div>`).join('');
+    };
+    const renderPasses = () => {
+      const list = predictPasses(observer(), new Date(), 72).filter((p) => p.visible).slice(0, 5);
+      const age = tleAgeDays();
+      view.querySelector('.passes').innerHTML = `<span class="hud-label">◷ WHEN CAN I SEE IT?</span>
+        ${list.length ? `<ol class="pass-list">${list.map((p) => `<li><b>${fmtDay(p.start)} · ${fmtTime(p.start)}</b><span>up to ${Math.round(p.maxAlt)}° high · appears in the ${compassName(p.startAz)}, leaves to the ${compassName(p.endAz)} · ${Math.max(1, Math.round((p.end - p.start) / 60000))} min</span></li>`).join('')}</ol>`
+          : '<p>No easy-to-see passes in the next 3 days from your location. Check again soon – it changes every day!</p>'}
+        <p class="fine">${observer().approx ? 'Using an approximate location – open the Sky Finder once to use your exact position. ' : ''}${age > 7 ? `Orbit data is ${Math.round(age)} days old – connect to the internet to update it.` : 'Times are for your location and time zone.'}</p>`;
+    };
+    renderLive();
+    renderPasses();
+    liveTimer = setInterval(renderLive, 2000);
+    refreshTLE().then((fresh) => { if (fresh && view.contains(panel)) renderPasses(); });
+  }
 
   view.querySelector('.reveal').addEventListener('click', (e) => { e.currentTarget.hidden = true; view.querySelector('.wonder .a').hidden = false; });
 
@@ -369,7 +406,7 @@ function quizView(id) {
 }
 
 function libraryView(params) {
-  const cats = ['All', 'Planets', 'Moons', 'Dwarf planets', 'Stars', 'Constellations', 'Star clusters', 'Nebulae', 'Pulsars', 'Black holes', 'Galaxies', 'Cosmology'];
+  const cats = ['All', 'Planets', 'Moons', 'Dwarf planets', 'Comets', 'Spacecraft', 'Stars', 'Exoplanets', 'Constellations', 'Star clusters', 'Nebulae', 'Pulsars', 'Black holes', 'Galaxies', 'Cosmology'];
   let cat = params.get('c') || 'All';
   let q = '';
   view.innerHTML = `
@@ -446,6 +483,7 @@ function notFound() {
 
 // ───────────────────────── router ─────────────────────────
 function route() {
+  clearInterval(liveTimer);
   sky?.destroy();
   sky = null;
   const [path, query] = (location.hash.slice(1) || '/').split('?');
