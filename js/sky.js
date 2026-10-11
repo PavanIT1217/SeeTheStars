@@ -1,7 +1,7 @@
 // Sky Finder: point your phone and see where things are – even through the Earth.
 import { OBJECTS, SECTORS, FIGURES, GUIDE_STARS } from './data/catalog.js';
 import { toHorizontal, julianDate, compassName, nextHorizonCrossing, angularDistance, norm360 } from './astro.js';
-import { getSettings, setSettings, markSpotted, isSpotted } from './store.js';
+import { getSettings, setSettings, markSpotted, isSpotted, isScientist } from './store.js';
 import { locate as whereIs } from './where.js';
 import { predictPasses, refreshTLE } from './iss.js';
 
@@ -81,10 +81,11 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       </div>
       <div class="sky-alert" hidden></div>
       <div class="sky-hud glass">
-        <div class="hud-row"><span class="hud-label">TARGET</span><span class="sky-spotted" hidden>✦ SPOTTED</span></div>
+        <div class="hud-row"><span class="hud-label sci-only">TARGET</span><span class="sky-spotted" hidden>✦ SPOTTED</span></div>
         <div class="sky-name"></div>
         <div class="sky-guide"></div>
-        <div class="hud-grid">
+        <div class="closeness" hidden><span class="closeness-bar"><i></i></span><small class="closeness-text"></small></div>
+        <div class="hud-grid sci-only">
           <div><span class="hud-label">ALT</span><b class="sky-alt">—</b></div>
           <div><span class="hud-label">AZ</span><b class="sky-az">—</b></div>
           <div><span class="hud-label">YOU</span><b class="sky-you">—</b></div>
@@ -106,6 +107,10 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
         </div>
       </div>
       <div class="sky-settings glass" hidden>
+        <div class="segmented sky-mode">
+          <button data-mode="explorer"><span>🧑‍🚀</span><b>Explorer</b><small>Simple</small></button>
+          <button data-mode="scientist"><span>🔬</span><b>Scientist</b><small>All the data</small></button>
+        </div>
         <div class="hud-label">CALIBRATION</div>
         <label>Field of view <input type="range" min="35" max="100" class="set-fov"><span class="set-fov-v"></span></label>
         <label>Compass nudge <input type="range" min="-60" max="60" class="set-head"><span class="set-head-v"></span></label>
@@ -156,7 +161,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       if (o.id === 'crabpulsar' || o.id === 'milkyway') continue; // same spot as another object
       const h = whereIs(o.pos, observer, now);
       if (!h) continue;
-      positions.push({ fast: !!o.pos.iss, o, alt: h.alt, az: h.az, v: vec(h.alt, h.az), color: TYPE_COLORS[o.art?.type] || '#fff' });
+      positions.push({ fast: !!o.pos.iss, kid: !!o.pos.iss || ['home', 'rocky', 'giants'].includes(o.sector), o, alt: h.alt, az: h.az, v: vec(h.alt, h.az), color: TYPE_COLORS[o.art?.type] || '#fff' });
     }
     for (const [name, ra, dec] of GUIDE_STARS) {
       const h = toHorizontal(ra, dec, observer.lat, observer.lon, jd);
@@ -245,10 +250,13 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       ctx.fillRect(0, y, W, H - y);
     }
 
+    // Explorer view keeps the sky simple: big compass letters, bright planets, constellation shapes and the target.
+    const sci = isScientist();
+
     // Altitude rings and compass ticks.
-    ctx.font = '600 12px "JetBrains Mono", ui-monospace, monospace';
+    ctx.font = sci ? '600 12px "JetBrains Mono", ui-monospace, monospace' : '700 16px "Space Grotesk", system-ui, sans-serif';
     ctx.textAlign = 'center';
-    for (let az = 0; az < 360; az += 15) {
+    for (let az = 0; az < 360; az += sci ? 15 : 90) {
       const p = project(vec(0, az), W, H, f);
       if (!p) continue;
       const major = az % 45 === 0;
@@ -262,7 +270,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
         ctx.fillText(['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][az / 45], p[0], p[1] - 16);
       }
     }
-    for (const alt of [30, 60]) {
+    for (const alt of sci ? [30, 60] : []) {
       ctx.beginPath();
       let s = false;
       for (let az = 0; az <= 360; az += 5) {
@@ -277,12 +285,13 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       ctx.setLineDash([]);
     }
     const zen = project([0, 0, 1], W, H, f);
-    if (zen) { ctx.fillStyle = 'rgba(159,232,255,0.6)'; ctx.fillText('ZENITH', zen[0], zen[1]); }
+    if (zen && sci) { ctx.fillStyle = 'rgba(159,232,255,0.6)'; ctx.fillText('ZENITH', zen[0], zen[1]); }
 
     // Constellation figures.
     for (const fig of figures) {
       const pts = fig.stars.map((s) => project(s.v, W, H, f));
       const below = fig.stars.every((s) => s.alt < 0);
+      if (below && !sci && fig.id !== target?.id) continue;
       ctx.globalAlpha = below ? 0.35 : 0.9;
       ctx.strokeStyle = 'rgba(127,220,255,0.55)';
       ctx.lineWidth = 1.2;
@@ -314,14 +323,17 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       const s = project(p.v, W, H, f);
       if (!s) continue;
       const below = p.alt < 0;
+      const isTarget = target && p.o?.id === target.id;
+      if (!sci && !isTarget && (below || (!p.guide && !p.kid))) continue;
       ctx.globalAlpha = below ? 0.4 : 1;
       if (p.guide) {
         ctx.fillStyle = '#fff';
         ctx.beginPath(); ctx.arc(s[0], s[1], 1.8, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = 'rgba(255,255,255,0.55)';
-        ctx.fillText(p.guide, s[0], s[1] + 14);
+        if (sci) {
+          ctx.fillStyle = 'rgba(255,255,255,0.55)';
+          ctx.fillText(p.guide, s[0], s[1] + 14);
+        }
       } else {
-        const isTarget = target && p.o.id === target.id;
         ctx.fillStyle = p.color;
         ctx.shadowColor = p.color;
         ctx.shadowBlur = 10;
@@ -350,6 +362,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     alert.hidden = !(mode === 'manual' && now < hintUntil);
     $('.sky-calibrate').hidden = !(target && mode === 'sensor' && targetHz && targetHz.alt > 0);
 
+    if (!target || target.pos?.everywhere) $('.closeness').hidden = true;
     if (!target) {
       guide.innerHTML = `Facing <b>${compassName(cameraAz())}</b> · ${Math.round(cameraAlt())}° ${cameraAlt() >= 0 ? 'up' : 'down'}`;
       $('.sky-alt').textContent = `${cameraAlt().toFixed(0)}°`;
@@ -410,7 +423,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       ctx.restore();
       ctx.fillStyle = '#ffd36b';
       ctx.font = '600 13px "JetBrains Mono", ui-monospace, monospace';
-      ctx.fillText(`${Math.round(angularDistance(targetHz.alt, targetHz.az, cameraAlt(), cameraAz()))}°`, cx + Math.cos(ang) * (R + 44), cy + Math.sin(ang) * (R + 44) + 4);
+      if (isScientist()) ctx.fillText(`${Math.round(angularDistance(targetHz.alt, targetHz.az, cameraAlt(), cameraAz()))}°`, cx + Math.cos(ang) * (R + 44), cy + Math.sin(ang) * (R + 44) + 4);
     }
 
     // Centre crosshair.
@@ -426,7 +439,14 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     const sep = angularDistance(targetHz.alt, targetHz.az, cameraAlt(), cameraAz());
     let text;
     if (sep < LOCK_DEG) text = '<b class="locked">◎ LOCKED ON</b>';
-    else {
+    else if (!isScientist()) {
+      // Explorer: big arrows and plain words instead of degrees.
+      const amount = (d) => (Math.abs(d) < 15 ? ' a little' : Math.abs(d) > 90 ? ' a lot' : '');
+      const parts = [];
+      if (Math.abs(dAz) > 3 && Math.abs(targetHz.alt) < 85) parts.push(`<span class="dir">${dAz > 0 ? 'Turn right' : 'Turn left'}${amount(dAz)} <b>${dAz > 0 ? '➜' : '⬅'}</b></span>`);
+      if (Math.abs(dAlt) > 3) parts.push(`<span class="dir">${dAlt > 0 ? 'Look up' : 'Look down'}${amount(dAlt)} <b>${dAlt > 0 ? '⬆' : '⬇'}</b></span>`);
+      text = parts.join('') || '<span class="dir">Almost there…</span>';
+    } else {
       const parts = [];
       if (Math.abs(dAz) > 3 && Math.abs(targetHz.alt) < 85) parts.push(`turn <b>${dAz > 0 ? 'right' : 'left'} ${Math.abs(Math.round(dAz))}°</b>`);
       if (Math.abs(dAlt) > 3) parts.push(`tilt <b>${dAlt > 0 ? 'up' : 'down'} ${Math.abs(Math.round(dAlt))}°</b>`);
@@ -434,6 +454,11 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       text = text[0].toUpperCase() + text.slice(1);
     }
     guide.innerHTML = text;
+    // Hot-and-cold meter: fills up as the phone gets closer to the target.
+    const meter = $('.closeness');
+    meter.hidden = mode === 'idle';
+    meter.querySelector('i').style.width = `${Math.round(100 - (sep / 180) * 100)}%`;
+    meter.querySelector('.closeness-text').textContent = sep < LOCK_DEG ? 'Found it!' : sep < 15 ? 'Almost there!' : sep < 45 ? 'Getting warmer…' : sep < 100 ? 'Keep turning…' : 'Cold – try the other way!';
     $('.sky-alt').textContent = `${targetHz.alt.toFixed(1)}°`;
     $('.sky-az').textContent = `${targetHz.az.toFixed(1)}° ${compassName(targetHz.az).replace(/orth|outh|ast|est/g, '').replace(/-/g, '')}`;
 
@@ -616,6 +641,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   const panel = $('.sky-settings');
   function syncSettingsPanel() {
     const s = getSettings();
+    root.querySelectorAll('.sky-mode [data-mode]').forEach((b) => b.classList.toggle('on', b.dataset.mode === (s.mode || 'explorer')));
     $('.set-fov').value = s.fov; $('.set-fov-v').textContent = `${s.fov}°`;
     $('.set-head').value = s.headingOffset; $('.set-head-v').textContent = `${s.headingOffset > 0 ? '+' : ''}${s.headingOffset}°`;
     $('.set-lat').value = observer.lat; $('.set-lon').value = observer.lon;
@@ -624,6 +650,11 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   $('.set-fov').addEventListener('input', (e) => { setSettings({ fov: +e.target.value }); syncSettingsPanel(); });
   $('.set-head').addEventListener('input', (e) => { setSettings({ headingOffset: +e.target.value }); syncSettingsPanel(); });
   $('.set-gps').addEventListener('click', locate);
+  root.querySelectorAll('.sky-mode [data-mode]').forEach((b) => b.addEventListener('click', () => {
+    setSettings({ mode: b.dataset.mode });
+    document.body.classList.toggle('scientist', isScientist());
+    syncSettingsPanel();
+  }));
   $('.set-save').addEventListener('click', () => {
     const lat = parseFloat($('.set-lat').value), lon = parseFloat($('.set-lon').value);
     if (Math.abs(lat) <= 90 && Math.abs(lon) <= 180) {

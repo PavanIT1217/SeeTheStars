@@ -18,7 +18,8 @@ function save(key, value) {
 }
 
 let state = load(KEY, { learned: {}, spotted: {}, quiz: {}, name: '' });
-let settings = load(SETTINGS_KEY, { fov: 62, headingOffset: 0, location: null, camera: true });
+let settings = load(SETTINGS_KEY, { fov: 62, headingOffset: 0, location: null, camera: true, mode: 'explorer' });
+export const isScientist = () => settings.mode === 'scientist';
 const listeners = new Set();
 
 export const RANKS = [

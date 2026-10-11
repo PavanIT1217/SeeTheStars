@@ -6,6 +6,7 @@ import { mountSky } from './sky.js';
 import { startStarfield } from './starfield.js';
 import { horizontalFor, formatRA, formatDec, lightTime, compassName, julianDate, skyPosition, KM_PER_AU } from './astro.js';
 import { timeMachine, formatYears } from './timemachine.js';
+import { kidFacts } from './kidfacts.js';
 import { issState, predictPasses, refreshTLE, tleAgeDays } from './iss.js';
 
 let liveTimer = 0;
@@ -51,6 +52,11 @@ function rewardToast(points, label) {
   }
 }
 
+const CATEGORY_ICONS = {
+  Planets: '🪐', Moons: '🌙', 'Dwarf planets': '🪨', Comets: '☄️', Spacecraft: '🛰️', Stars: '⭐', Exoplanets: '🌍',
+  Constellations: '✨', 'Star clusters': '✨', Nebulae: '🌫️', Pulsars: '💫', 'Black holes': '🕳️', Galaxies: '🌌', Cosmology: '💥',
+};
+
 function category(o) {
   const t = o.art?.type;
   if (o.id === 'moon') return 'Moons';
@@ -80,6 +86,31 @@ function progressBar(frac) {
   return `<div class="bar"><span style="width:${Math.round(frac * 100)}%"></span></div>`;
 }
 
+// Explorer (default) keeps screens simple; Scientist shows all the data.
+function applyMode() {
+  document.body.classList.toggle('scientist', store.isScientist());
+}
+
+function modeSwitch() {
+  const sci = store.isScientist();
+  return `<div class="segmented" role="radiogroup" aria-label="Detail level">
+    <button role="radio" aria-checked="${!sci}" data-mode="explorer" class="${sci ? '' : 'on'}"><span>🧑‍🚀</span><b>Explorer</b><small>Simple and fun</small></button>
+    <button role="radio" aria-checked="${sci}" data-mode="scientist" class="${sci ? 'on' : ''}"><span>🔬</span><b>Scientist</b><small>All the data</small></button>
+  </div>`;
+}
+
+function bindModeSwitch(root) {
+  root.querySelectorAll('.segmented [data-mode]').forEach((b) => b.addEventListener('click', () => {
+    store.setSettings({ mode: b.dataset.mode });
+    applyMode();
+    root.querySelectorAll('.segmented [data-mode]').forEach((x) => {
+      x.classList.toggle('on', x === b);
+      x.setAttribute('aria-checked', String(x === b));
+    });
+    toast(b.dataset.mode === 'scientist' ? '🔬 Scientist view: all the data is shown' : '🧑‍🚀 Explorer view: nice and simple');
+  }));
+}
+
 function updateTopbar() {
   const xp = store.xp();
   const r = store.rank(xp);
@@ -100,28 +131,28 @@ function homeView() {
 
   view.innerHTML = `
     <section class="hero">
-      <div class="hud-label">MISSION CONTROL · ${new Date().toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+      <div class="hud-label sci-only">MISSION CONTROL · ${new Date().toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })}</div>
       <h1 class="title">See the <span>Universe</span></h1>
-      <p class="lead">${SECTORS.length} sectors. ${JOURNEY.length} wonders. From the ground under your feet to the edge of the observable universe – explore them in order, and point your phone to find each one in the real sky.</p>
+      <p class="lead">Explore ${JOURNEY.length} wonders of space, one step at a time – then point your phone to find them in the real sky.</p>
       <div class="rank-card glass">
         <div class="rank-ring" style="--p:${r.next ? (xp - r.floor) / (r.next.at - r.floor) : 1}"><span>${xp}</span><small>XP</small></div>
         <div class="rank-info">
-          <span class="hud-label">CURRENT RANK</span>
+          <small class="kicker">Your rank</small>
           <b>${r.title}</b>
           <small>${r.next ? `${r.next.at - xp} XP to <i>${r.next.title}</i>` : 'Highest rank reached!'}</small>
-          <div class="stats"><span><b>${learned}</b>/${JOURNEY.length} learned</span><span><b>${spotted}</b> spotted</span><span><b>${store.badges().length}</b>/${SECTORS.length} badges</span></div>
+          <div class="stats sci-only"><span><b>${learned}</b>/${JOURNEY.length} learned</span><span><b>${spotted}</b> spotted</span><span><b>${store.badges().length}</b>/${SECTORS.length} badges</span></div>
         </div>
       </div>
       ${nextObj ? `
       <a class="continue glass" href="#/object/${nextObj.id}">
         <div class="obj-art big">${artSVG(nextObj)}</div>
-        <div><span class="hud-label">${learned ? 'CONTINUE YOUR JOURNEY' : 'BEGIN YOUR JOURNEY'} · SECTOR ${nextSector.code}</span><b>${nextObj.name}</b><small>${nextObj.kind}</small></div>
+        <div><small class="kicker">${learned ? 'Up next' : 'Start here'}</small><b>${nextObj.name}</b><small>${nextSector.title}</small></div>
         <span class="go">→</span>
       </a>` : `<div class="continue glass"><div><span class="hud-label">JOURNEY COMPLETE</span><b>You have explored every wonder!</b><small>Now try to spot them all in the real sky.</small></div></div>`}
     </section>
 
     <section>
-      <div class="section-head"><span class="hud-label">THE JOURNEY</span><h2>Star map</h2></div>
+      <div class="section-head"><h2>Your star map</h2></div>
       <ol class="journey">
         ${SECTORS.map((s) => {
           const p = store.sectorProgress(s);
@@ -151,10 +182,10 @@ function sectorView(id) {
   view.innerHTML = `
     <a class="back" href="#/">← Star map</a>
     <section class="sector-hero" style="--hue:${s.hue}">
-      <div class="hud-label">SECTOR ${s.code} OF ${SECTORS.length}</div>
+      <span class="chip">Sector ${+s.code} of ${SECTORS.length}</span>
       <h1 class="title">${s.title}</h1>
       <p class="sub">${s.subtitle}</p>
-      <div class="briefing glass"><span class="hud-label">MISSION BRIEFING</span><p>${s.briefing}</p></div>
+      <div class="briefing glass"><span class="hud-label sci-only">MISSION BRIEFING</span><p>${s.briefing}</p></div>
       <div class="row">
         ${progressBar(p.done / p.total)}<span class="mono">${p.done}/${p.total}</span>
       </div>
@@ -227,47 +258,45 @@ function objectView(id) {
   const tm = timeMachine(o.ly);
   const live = liveData(o);
 
+  const sci = store.isScientist();
+  const bodyKm = o.pos?.body ? skyPosition(o.pos, julianDate(new Date())).km : null;
+  const fold = (cls, icon, title, body, open = false) =>
+    `<details class="fold ${cls}"${open ? ' open' : ''}><summary><span class="fold-icon">${icon}</span>${title}</summary><div class="fold-body">${body}</div></details>`;
+  const dataPanel = `<div class="data-panel">${o.facts.map(([k, v]) => `<div><span class="hud-label">${k}</span><b>${v}</b></div>`).join('')}
+        ${live.map(([k, v]) => `<div class="live"><span class="hud-label">${k}</span><b>${v}</b></div>`).join('')}</div>
+        ${observer().approx && live.some(([k]) => k.endsWith('*')) ? '<p class="fine">* Using an approximate location – open the Sky Finder to use your exact position.</p>' : ''}`;
+
   view.innerHTML = `
-    <a class="back" href="#/sector/${s.id}">← Sector ${s.code} · ${s.title}</a>
+    <a class="back" href="#/sector/${s.id}">← ${s.title}</a>
     <article class="object" style="--hue:${s.hue}">
       <div class="obj-hero">
         <div class="obj-hero-art">${artSVG(o, 'hero-art')}</div>
         <img class="obj-photo" alt="" hidden>
-        <div class="scanline"></div>
         <span class="photo-credit" hidden>Photo via Wikipedia</span>
       </div>
       <header class="obj-head">
-        <div class="hud-label">${esc(category(o).toUpperCase())} · ${String(j + 1).padStart(2, '0')}/${JOURNEY.length}</div>
+        <span class="chip">${CATEGORY_ICONS[category(o)] || '⭐'} ${category(o)} · ${j + 1} of ${JOURNEY.length}</span>
         <h1 class="title">${o.name}</h1>
         <p class="sub">${o.kind}</p>
       </header>
 
-      <div class="data-panel glass">
-        ${o.facts.map(([k, v]) => `<div><span class="hud-label">${k}</span><b>${v}</b></div>`).join('')}
-        ${live.map(([k, v]) => `<div class="live"><span class="hud-label">${k}</span><b>${v}</b></div>`).join('')}
-      </div>
-      ${observer().approx && live.some(([k]) => k.endsWith('*')) ? '<p class="fine">* Using an approximate location – open the Sky Finder to use your exact position.</p>' : ''}
+      <p class="nutshell">${o.nutshell}</p>
 
-      ${o.pos && !o.pos.everywhere ? `<a class="btn primary locate" href="#/sky/${o.id}">◎ Find it in the sky${o.pointLabel ? ` (${o.pointLabel})` : ''}</a>` : `<a class="btn primary locate" href="#/sky/${o.id}">◎ Where is it? Try the Sky Finder</a>`}
+      <ul class="bubbles">${kidFacts(o, bodyKm).map((b) => `<li class="bubble"><span class="bubble-icon">${b.icon}</span><div><b>${b.big}</b><small>${b.small}</small></div></li>`).join('')}</ul>
+
+      <a class="btn primary locate" href="#/sky/${o.id}">🔭 ${o.pos && !o.pos.everywhere ? `Find it in the sky${o.pointLabel ? ` (${o.pointLabel})` : ''}` : 'Where is it? Try the Sky Finder'}</a>
 
       ${o.pos?.iss ? '<div class="passes glass"></div>' : ''}
-      ${tm ? `<div class="timemachine glass"><span class="hud-label">⧗ TIME MACHINE</span><p>${tm}</p></div>` : ''}
 
-      <section class="block"><h3><span class="hud-label">01</span> In a nutshell</h3><p>${o.nutshell}</p></section>
-
-      <section class="block"><h3><span class="hud-label">02</span> How we found out</h3>
-        <ol class="timeline">${o.story.map(([y, t]) => `<li><span class="year">${y}</span><p>${t}</p></li>`).join('')}</ol>
-      </section>
-
-      <section class="block wow glass"><span class="hud-label">✦ MIND-BLOWING FACT</span><p>${o.wow}</p></section>
-
-      <section class="block wonder glass"><span class="hud-label">? WONDER</span><p class="q">${o.wonder[0]}</p>
-        <button class="btn ghost reveal">Think about it… then tap to reveal</button><p class="a" hidden>${o.wonder[1]}</p>
-      </section>
-
-      <section class="block"><h3><span class="hud-label">03</span> See it yourself</h3><p>${o.see}</p></section>
-
-      <section class="block encyclopedia" hidden><h3><span class="hud-label">04</span> From the encyclopedia</h3><p class="extract"></p><a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a></section>
+      <div class="folds">
+        ${fold('story', '📜', 'How we found out', `<div class="story-cards">${o.story.map(([y, t], i) => `<div class="story-card"><span class="year">${y}</span><p>${t}</p><span class="story-n">${i + 1} / ${o.story.length}${i < o.story.length - 1 ? ' · swipe →' : ''}</span></div>`).join('')}</div>`, sci)}
+        ${fold('wow', '✨', 'Mind-blowing fact', `<p>${o.wow}</p>`)}
+        ${fold('wonder', '🤔', 'Something to wonder about', `<p class="q">${o.wonder[0]}</p><button class="btn ghost reveal">Think about it… then tap to reveal</button><p class="a" hidden>${o.wonder[1]}</p>`)}
+        ${tm ? fold('timemachine', '⏳', 'Time machine', `<p>${tm}</p>`) : ''}
+        ${fold('see', '👀', 'See it yourself', `<p>${o.see}</p>`)}
+        ${fold('data', '📡', 'Live mission data', dataPanel, sci)}
+        <div class="encyclopedia" hidden>${fold('', '📖', 'From the encyclopedia', '<p class="extract"></p><a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>')}</div>
+      </div>
 
       <div class="actions">
         <button class="btn ${learned ? 'done' : 'primary'} learn">${learned ? '✓ Learned' : `I learned this! +${store.XP.learn} XP`}</button>
@@ -288,7 +317,7 @@ function objectView(id) {
     const renderPasses = () => {
       const list = predictPasses(observer(), new Date(), 72).filter((p) => p.visible).slice(0, 5);
       const age = tleAgeDays();
-      view.querySelector('.passes').innerHTML = `<span class="hud-label">◷ WHEN CAN I SEE IT?</span>
+      view.querySelector('.passes').innerHTML = `<h3>🛰️ When can I see it?</h3>
         ${list.length ? `<ol class="pass-list">${list.map((p) => `<li><b>${fmtDay(p.start)} · ${fmtTime(p.start)}</b><span>up to ${Math.round(p.maxAlt)}° high · appears in the ${compassName(p.startAz)}, leaves to the ${compassName(p.endAz)} · ${Math.max(1, Math.round((p.end - p.start) / 60000))} min</span></li>`).join('')}</ol>`
           : '<p>No easy-to-see passes in the next 3 days from your location. Check again soon – it changes every day!</p>'}
         <p class="fine">${observer().approx ? 'Using an approximate location – open the Sky Finder once to use your exact position. ' : ''}${age > 7 ? `Orbit data is ${Math.round(age)} days old – connect to the internet to update it.` : 'Times are for your location and time zone.'}</p>`;
@@ -439,8 +468,12 @@ async function savedView() {
   try { est = await navigator.storage?.estimate?.(); } catch { /* ignore */ }
   view.innerHTML = `
     <section class="lib-head">
-      <div class="hud-label">OFFLINE STORAGE</div>
-      <h1 class="title">Saved</h1>
+      <div class="hud-label sci-only">OFFLINE STORAGE</div>
+      <h1 class="title">Saved & settings</h1>
+      <div class="settings-card glass" id="settings">
+        <h3>How much detail do you want?</h3>
+        ${modeSwitch()}
+      </div>
       <div class="glass info">
         <p><b>Always available offline:</b> every lesson, timeline, quiz, illustration and the Sky Finder – they’re built into the app.</p>
         <p><b>Your choice:</b> photos and encyclopedia extracts are downloaded only for the objects or sectors you save.</p>
@@ -450,11 +483,12 @@ async function savedView() {
     </section>
     <section class="obj-list">${ids.length ? ids.filter((id) => OBJECTS[id]).map((id) => `<div class="saved-row">${objCard(OBJECTS[id])}<button class="icon-btn rm" data-id="${id}" aria-label="Remove ${esc(OBJECTS[id].name)}">✕</button></div>`).join('') : '<p class="empty">Nothing saved yet. Open any object or sector and tap “Save for offline”.</p>'}</section>
     <section class="danger glass">
-      <span class="hud-label">EXPLORER LOG</span>
+      <h3>Your progress</h3>
       <p>Your progress is stored on this device only.</p>
       <button class="btn ghost reset">Reset my progress</button>
       <p class="fine"><a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy policy</a> · No accounts, no ads, no tracking.</p>
     </section>`;
+  bindModeSwitch(view);
   view.querySelectorAll('.rm').forEach((b) => b.addEventListener('click', async () => { await media.removeOffline(b.dataset.id); savedView(); }));
   view.querySelector('.clear-all')?.addEventListener('click', async () => { for (const id of ids) await media.removeOffline(id); savedView(); });
   view.querySelector('.dl-all').addEventListener('click', async (e) => {
@@ -508,6 +542,7 @@ function route() {
 }
 
 window.addEventListener('hashchange', route);
+applyMode();
 updateTopbar();
 route();
 
