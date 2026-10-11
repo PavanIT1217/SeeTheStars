@@ -1,14 +1,17 @@
 // Photos and encyclopedia extracts come from Wikipedia on demand. Explorers choose what to keep offline:
-// saved items live in the Cache API ("stg-saved"), which the service worker serves first when offline.
+// saved items (summary + photo) are stored in IndexedDB, which works in browsers and inside the iOS/Android apps.
 import { OBJECTS } from './data/catalog.js';
 
-export const SAVED_CACHE = 'stg-saved-v1';
+const DB_NAME = 'stg-media';
+const STORE = 'saved';
 const INDEX_KEY = 'stg.saved.v1';
 const IMG_WIDTH = 960;
 const memory = new Map();
+const objectUrls = new Map();
 
 const summaryUrl = (obj) => `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(obj.wiki.replace(/ /g, '_'))}`;
 
+// A small synchronous index (id -> size) so lists can show saved state instantly.
 function readIndex() {
   try { return JSON.parse(localStorage.getItem(INDEX_KEY) || '{}'); } catch { return {}; }
 }
@@ -19,6 +22,32 @@ function writeIndex(index) {
 export const savedIndex = readIndex;
 export const isSaved = (id) => !!readIndex()[id];
 
+// ---- IndexedDB helpers ----
+let dbPromise = null;
+function db() {
+  if (!dbPromise) {
+    dbPromise = new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = () => req.result.createObjectStore(STORE);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  return dbPromise;
+}
+async function tx(mode, fn) {
+  const d = await db();
+  return new Promise((resolve, reject) => {
+    const t = d.transaction(STORE, mode);
+    const req = fn(t.objectStore(STORE));
+    t.oncomplete = () => resolve(req?.result);
+    t.onerror = () => reject(t.error);
+  });
+}
+const dbGet = (id) => tx('readonly', (s) => s.get(id));
+const dbPut = (id, value) => tx('readwrite', (s) => s.put(value, id));
+const dbDelete = (id) => tx('readwrite', (s) => s.delete(id));
+
 // Wikipedia serves resized thumbnails by rewriting the "/NNNpx-" part of the URL.
 function sizedImage(summary) {
   const thumb = summary.thumbnail?.source;
@@ -28,21 +57,29 @@ function sizedImage(summary) {
   return thumb.replace(/\/\d+px-/, `/${IMG_WIDTH}px-`);
 }
 
-async function cachedFetch(url) {
-  if ('caches' in window) {
-    const hit = await (await caches.open(SAVED_CACHE)).match(url);
-    if (hit) return hit;
-  }
-  return fetch(url, { mode: 'cors' });
+async function fetchSummary(obj) {
+  const res = await fetch(summaryUrl(obj), { mode: 'cors' });
+  if (!res.ok) throw new Error(`summary ${res.status}`);
+  return res.json();
+}
+
+function fromSaved(id, rec) {
+  if (rec.image && !objectUrls.has(id)) objectUrls.set(id, URL.createObjectURL(rec.image));
+  return { image: objectUrls.get(id) || null, extract: rec.extract, url: rec.url };
 }
 
 // Returns { image, extract, url } or null when offline and not saved.
 export async function getMedia(obj) {
   if (memory.has(obj.id)) return memory.get(obj.id);
   try {
-    const res = await cachedFetch(summaryUrl(obj));
-    if (!res.ok) throw new Error(res.status);
-    const s = await res.json();
+    if (isSaved(obj.id)) {
+      const rec = await dbGet(obj.id);
+      if (rec) { const m = fromSaved(obj.id, rec); memory.set(obj.id, m); return m; }
+      await removeOffline(obj.id); // index entry without data (e.g. saved by an older version)
+    }
+  } catch { /* fall back to the network */ }
+  try {
+    const s = await fetchSummary(obj);
     const media = { image: sizedImage(s), extract: s.extract, url: s.content_urls?.mobile?.page || s.content_urls?.desktop?.page };
     memory.set(obj.id, media);
     return media;
@@ -51,36 +88,33 @@ export async function getMedia(obj) {
   }
 }
 
-async function putInCache(cache, url) {
-  const res = await fetch(url, { mode: 'cors' });
-  if (!res.ok) throw new Error(`${res.status} for ${url}`);
-  const blob = await res.clone().blob();
-  await cache.put(url, res);
-  return blob.size;
-}
-
 export async function saveForOffline(obj) {
-  const cache = await caches.open(SAVED_CACHE);
-  let bytes = await putInCache(cache, summaryUrl(obj));
-  memory.delete(obj.id);
-  const media = await getMedia(obj);
-  if (media?.image) bytes += await putInCache(cache, media.image);
+  const s = await fetchSummary(obj);
+  const imageUrl = sizedImage(s);
+  let image = null;
+  if (imageUrl) {
+    const res = await fetch(imageUrl, { mode: 'cors' });
+    if (!res.ok) throw new Error(`image ${res.status}`);
+    image = await res.blob();
+  }
+  const rec = { extract: s.extract, url: s.content_urls?.mobile?.page || s.content_urls?.desktop?.page, image, at: Date.now() };
+  await dbPut(obj.id, rec);
+  const bytes = (image?.size || 0) + (rec.extract?.length || 0);
   const index = readIndex();
-  index[obj.id] = { bytes, image: media?.image || null, at: Date.now() };
+  index[obj.id] = { bytes, at: rec.at };
   writeIndex(index);
+  memory.delete(obj.id);
   navigator.storage?.persist?.(); // ask the browser not to evict saved items
   return bytes;
 }
 
 export async function removeOffline(id) {
   const index = readIndex();
-  const entry = index[id];
-  if (!entry) return;
-  const cache = await caches.open(SAVED_CACHE);
-  await cache.delete(summaryUrl(OBJECTS[id]));
-  if (entry.image) await cache.delete(entry.image);
   delete index[id];
   writeIndex(index);
+  memory.delete(id);
+  if (objectUrls.has(id)) { URL.revokeObjectURL(objectUrls.get(id)); objectUrls.delete(id); }
+  try { await dbDelete(id); } catch { /* already gone */ }
 }
 
 export async function saveMany(ids, onProgress = () => {}) {

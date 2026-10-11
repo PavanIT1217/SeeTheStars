@@ -515,6 +515,7 @@ function netStatus() { document.body.classList.toggle('offline', !navigator.onLi
 window.addEventListener('online', netStatus);
 window.addEventListener('offline', netStatus);
 netStatus();
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+const isNativeApp = !!window.Capacitor?.isNativePlatform?.(); // the iOS/Android apps bundle every file already
+if ('serviceWorker' in navigator && location.protocol !== 'file:' && !isNativeApp) {
   navigator.serviceWorker.register('./sw.js').catch(() => {});
 }
