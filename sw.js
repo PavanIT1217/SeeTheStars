@@ -1,7 +1,7 @@
 // Service worker (web version only – the iOS/Android apps bundle these files directly).
 // Every app file is cached on install, so lessons, quizzes, artwork and the Sky Finder work offline.
 // Photos the explorer saves live in IndexedDB (see js/media.js); recently viewed ones are kept here briefly.
-const VERSION = 'v2';
+const VERSION = 'v3';
 const SHELL = `stg-shell-${VERSION}`;
 const RUNTIME = 'stg-runtime-v1';
 const RUNTIME_LIMIT = 40;
@@ -25,6 +25,7 @@ const APP_FILES = [
   'js/astro.js',
   'js/data/catalog.js',
   'js/iss.js',
+  'js/kidfacts.js',
   'js/media.js',
   'js/sky.js',
   'js/starfield.js',
