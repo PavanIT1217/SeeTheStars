@@ -1,0 +1,143 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Other Worlds: Planets around other stars | See the Stars</title>
+  <meta name="description" content="For thousands of years people wondered whether other stars have planets too. The first ones were found only about 30 years ago. Today more than 6,000 are…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/sector/exoplanets/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Other Worlds: Planets around other stars | See the Stars">
+  <meta property="og:description" content="For thousands of years people wondered whether other stars have planets too. The first ones were found only about 30 years ago. Today more than 6,000 are…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/sector/exoplanets/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Kepler186f-ArtistConcept-20140417.jpg/1280px-Kepler186f-ArtistConcept-20140417.jpg">
+  <meta property="og:image:alt" content="Other Worlds">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Other Worlds: Planets around other stars | See the Stars">
+  <meta name="twitter:description" content="For thousands of years people wondered whether other stars have planets too. The first ones were found only about 30 years ago. Today more than 6,000 are…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Kepler186f-ArtistConcept-20140417.jpg/1280px-Kepler186f-ArtistConcept-20140417.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"Other Worlds – Planets around other stars","description":"For thousands of years people wondered whether other stars have planets too. The first ones were found only about 30 years ago. Today more than 6,000 are confirmed: scorching giants, lava worlds and maybe ocean worlds. Somewhere among them there could be a planet like Earth.","url":"https://seethestars.webappslab.com/sector/exoplanets/","inLanguage":"en","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"PSR B1257+12 planets","url":"https://seethestars.webappslab.com/object/psr1257/"},{"@type":"ListItem","position":2,"name":"51 Pegasi b","url":"https://seethestars.webappslab.com/object/peg51b/"},{"@type":"ListItem","position":3,"name":"HD 209458 b (Osiris)","url":"https://seethestars.webappslab.com/object/hd209458b/"},{"@type":"ListItem","position":4,"name":"TRAPPIST-1","url":"https://seethestars.webappslab.com/object/trappist1/"},{"@type":"ListItem","position":5,"name":"Kepler-186f","url":"https://seethestars.webappslab.com/object/kepler186f/"},{"@type":"ListItem","position":6,"name":"K2-18 b","url":"https://seethestars.webappslab.com/object/k218b/"}]}},{"@type":"Quiz","name":"Other Worlds challenge","about":{"@type":"Thing","name":"Planets around other stars"},"educationalLevel":"Beginner","hasPart":[{"@type":"Question","eduQuestionType":"Multiple choice","text":"Roughly how many exoplanets have been confirmed?","acceptedAnswer":{"@type":"Answer","text":"More than 6,000","answerExplanation":{"@type":"Comment","text":"NASA’s count passed 6,000 confirmed exoplanets in 2025 – and thousands more candidates are waiting to be checked."}},"suggestedAnswer":[{"@type":"Answer","text":"About 60"},{"@type":"Answer","text":"About 600"},{"@type":"Answer","text":"Over a million"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"The “transit method” finds planets by…","acceptedAnswer":{"@type":"Answer","text":"Spotting tiny dips in a star’s light","answerExplanation":{"@type":"Comment","text":"When a planet passes in front of its star, the star dims very slightly. Kepler and TESS found thousands of planets this way."}},"suggestedAnswer":[{"@type":"Answer","text":"Photographing them directly"},{"@type":"Answer","text":"Listening for radio messages"},{"@type":"Answer","text":"Measuring the star’s temperature"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"What is a star’s “habitable zone”?","acceptedAnswer":{"@type":"Answer","text":"The distance where liquid water could exist on a planet","answerExplanation":{"@type":"Comment","text":"Not too hot, not too cold – the “Goldilocks zone” where a planet’s surface could hold liquid water."}},"suggestedAnswer":[{"@type":"Answer","text":"Where aliens live"},{"@type":"Answer","text":"The area around a black hole"},{"@type":"Answer","text":"The centre of a planet"}]}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Other Worlds","item":"https://seethestars.webappslab.com/sector/exoplanets/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="sector">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <section class="banner" style="--hue:140">
+      <div class="ph " style="--hue:140" data-id="kepler186f"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Kepler186f-ArtistConcept-20140417.jpg/1280px-Kepler186f-ArtistConcept-20140417.jpg" alt="Kepler-186f" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/#chapter-2">Chapter 2: The Stars</a></nav>
+      <div class="banner-copy">
+        <span class="eyebrow">Sector 7 of 12</span>
+        <h1>Other Worlds</h1>
+        <p>Planets around other stars</p>
+      </div>
+    </section>
+    <section class="sector-intro" style="--hue:140">
+      <p class="lead">For thousands of years people wondered whether other stars have planets too. The first ones were found only about 30 years ago. Today more than 6,000 are confirmed: scorching giants, lava worlds and maybe ocean worlds. Somewhere among them there could be a planet like Earth.</p>
+      <div class="side">
+        <div class="progress-line"><div class="bar"><span style="width:0%"></span></div><span>0 of 6 explored</span></div>
+        <a class="btn primary" href="/object/psr1257/">Start this sector →</a>
+        <button class="btn ghost dl-sector">⤓ Save this sector for offline</button>
+      </div>
+    </section>
+    <h2 class="visually-hidden">In this sector</h2>
+    <div class="grid objects"><a class="obj-card" href="/object/psr1257/">
+    <div class="ph " style="--hue:140" data-id="psr1257"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Artist%27s_concept_of_PSR_B1257%2B12_system.jpg/960px-Artist%27s_concept_of_PSR_B1257%2B12_system.jpg" alt="PSR B1257+12 planets" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">01</span><b>PSR B1257+12 planets</b><small>Pulsar planets · The very first exoplanets</small></div>
+  </a><a class="obj-card" href="/object/peg51b/">
+    <div class="ph " style="--hue:140" data-id="peg51b"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg/960px-Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg" alt="51 Pegasi b" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">02</span><b>51 Pegasi b</b><small>Hot Jupiter · First planet around a Sun-like star</small></div>
+  </a><a class="obj-card" href="/object/hd209458b/">
+    <div class="ph " style="--hue:140" data-id="hd209458b"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Artist_conception_of_HD_209458_b.jpg" alt="HD 209458 b (Osiris)" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">03</span><b>HD 209458 b (Osiris)</b><small>Hot Jupiter · First planet seen crossing its star</small></div>
+  </a><a class="obj-card" href="/object/trappist1/">
+    <div class="ph " style="--hue:140" data-id="trappist1"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Artist_impression_of_TRAPPIST-1_d.jpg/960px-Artist_impression_of_TRAPPIST-1_d.jpg" alt="TRAPPIST-1" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">04</span><b>TRAPPIST-1</b><small>Star system · Seven Earth-sized planets</small></div>
+  </a><a class="obj-card" href="/object/kepler186f/">
+    <div class="ph " style="--hue:140" data-id="kepler186f"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Kepler186f-ArtistConcept-20140417.jpg/960px-Kepler186f-ArtistConcept-20140417.jpg" alt="Kepler-186f" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">05</span><b>Kepler-186f</b><small>Rocky planet · First Earth-sized world in a habitable zone</small></div>
+  </a><a class="obj-card" href="/object/k218b/">
+    <div class="ph " style="--hue:140" data-id="k218b"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Exoplanet_K2-18_b_%28Illustration%29.jpg/960px-Exoplanet_K2-18_b_%28Illustration%29.jpg" alt="K2-18 b" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">06</span><b>K2-18 b</b><small>Sub-Neptune · An ocean world?</small></div>
+  </a></div>
+    <section class="challenge locked">
+      <div>
+        <span class="eyebrow">Sector challenge</span>
+        <h3>Explore all 6 to unlock the challenge</h3>
+        <p>3 questions · win 50 XP and a badge</p>
+      </div>
+      <span class="lock" aria-label="Locked">🔒</span>
+    </section>
+    <nav class="pager" aria-label="Sectors">
+      <a class="pager-card" href="/sector/stars/"><div class="ph " style="--hue:48" data-id="rigel"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Rigel_and_IC_2118_-_The_Witch_Head_Nebula_-_Flickr_-_gjdonatiello.jpg/960px-Rigel_and_IC_2118_-_The_Witch_Head_Nebula_-_Flickr_-_gjdonatiello.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous sector</small><b>The Stars</b></div></a>
+      <a class="pager-card next" href="/sector/constellations/"><div class="ph " style="--hue:190" data-id="orion"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Orion_Head_to_Toe.jpg/960px-Orion_Head_to_Toe.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next sector →</small><b>Constellations</b></div></a>
+    </nav></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

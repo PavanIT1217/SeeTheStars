@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>PSR B1257+12 planets: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="The first planets ever confirmed outside our Solar System were found in a very strange place: orbiting a pulsar, the spinning leftover core of an exploded…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/psr1257/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="PSR B1257+12 planets: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="The first planets ever confirmed outside our Solar System were found in a very strange place: orbiting a pulsar, the spinning leftover core of an exploded…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/psr1257/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Artist%27s_concept_of_PSR_B1257%2B12_system.jpg/1280px-Artist%27s_concept_of_PSR_B1257%2B12_system.jpg">
+  <meta property="og:image:alt" content="PSR B1257+12 planets">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PSR B1257+12 planets: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="The first planets ever confirmed outside our Solar System were found in a very strange place: orbiting a pulsar, the spinning leftover core of an exploded…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Artist%27s_concept_of_PSR_B1257%2B12_system.jpg/1280px-Artist%27s_concept_of_PSR_B1257%2B12_system.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"PSR B1257+12 planets","name":"PSR B1257+12 planets – Pulsar planets · The very first exoplanets","description":"The first planets ever confirmed outside our Solar System were found in a very strange place: orbiting a pulsar, the spinning leftover core of an exploded star. Nobody expected planets there!","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Artist%27s_concept_of_PSR_B1257%2B12_system.jpg/1280px-Artist%27s_concept_of_PSR_B1257%2B12_system.jpg","url":"https://seethestars.webappslab.com/object/psr1257/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"PSR B1257+12 planets","sameAs":"https://en.wikipedia.org/wiki/PSR_B1257%2B12"},"isPartOf":{"@type":"CollectionPage","name":"Other Worlds","url":"https://seethestars.webappslab.com/sector/exoplanets/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Other Worlds","item":"https://seethestars.webappslab.com/sector/exoplanets/"},{"@type":"ListItem","position":3,"name":"PSR B1257+12 planets","item":"https://seethestars.webappslab.com/object/psr1257/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/exoplanets/">Other Worlds</a><span aria-hidden="true">/</span><span aria-current="page">PSR B1257+12 planets</span></nav>
+    <article class="object" style="--hue:140">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:140" data-id="psr1257"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Artist%27s_concept_of_PSR_B1257%2B12_system.jpg/1280px-Artist%27s_concept_of_PSR_B1257%2B12_system.jpg" alt="PSR B1257+12 planets – Pulsar planets · The very first exoplanets" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Artist%27s_concept_of_PSR_B1257%2B12_system.jpg" target="_blank" rel="noopener">NASA/JPL-Caltech · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🌍 Exoplanets · Other Worlds</span>
+          <h1>PSR B1257+12 planets</h1>
+          <p class="kind">Pulsar planets · The very first exoplanets</p>
+          <p class="lead">The first planets ever confirmed outside our Solar System were found in a very strange place: orbiting a pulsar, the spinning leftover core of an exploded star. Nobody expected planets there!</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>2,300 light-years away</b><small>Even light – the fastest thing there is – needs 2,300 years to get here.</small></div></li><li><span class="ic" aria-hidden="true">🔎</span><div><b>1992</b><small>Discovered</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>A pulsar (dead star)</b><small>Star</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/psr1257/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🌀</span><h3>A spinning city-sized star</h3><p>The pulsar at the centre of this system is the crushed core of a giant star. It is only about the size of a city, yet it weighs more than our Sun. It spins around about 160 times every second, sweeping beams of radio waves across space like a lighthouse.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌑</span><h3>Dark, dangerous skies</h3><p>Standing on one of these planets would be nothing like Earth. There would be no warm sunshine, because the pulsar gives off very little visible light. Instead, the planets are blasted by powerful radiation and a fierce wind of tiny particles, making them very unlikely homes for life.</p></div><div class="hl"><span class="ic" aria-hidden="true">👻</span><h3>Spooky names</h3><p>In a public naming contest in 2015, this pulsar and its planets got suitably spooky names. The pulsar is Lich, an undead creature from fantasy stories, and its three planets are Draugr, Poltergeist and Phobetor – names from myths and ghost tales.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>One of the planets is only about twice the mass of our Moon – among the smallest planets known.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1990</span><p>Aleksander Wolszczan discovers the pulsar with the giant Arecibo radio telescope in Puerto Rico.</p></li><li><span class="year">1992</span><p>Wolszczan and Dale Frail notice its super-regular pulses arriving a little early, then a little late – the tug of two orbiting planets.</p></li><li><span class="year">1994</span><p>A third, smaller planet is confirmed.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">How could planets survive a star exploding?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Maybe they didn’t – they might have formed afterwards, from a disc of debris left around the pulsar.</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off about 2,300 years ago – around the time Eratosthenes measured the size of the Earth.</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Only with radio telescopes. But you can point to where it is!</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Discovered</dt><dd>1992</dd></div><div><dt>Star</dt><dd>A pulsar (dead star)</dd></div><div><dt>Planets</dt><dd>3</dd></div><div><dt>Constellation</dt><dd>Virgo</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark PSR B1257+12 planets as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/proxima/"><div class="ph " style="--hue:48" data-id="proxima"><img src="https://upload.wikimedia.org/wikipedia/commons/9/95/New_shot_of_Proxima_Centauri%2C_our_nearest_neighbour.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Proxima Centauri</b></div></a>
+        <a class="pager-card next" href="/object/peg51b/"><div class="ph " style="--hue:140" data-id="peg51b"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg/960px-Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>51 Pegasi b</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

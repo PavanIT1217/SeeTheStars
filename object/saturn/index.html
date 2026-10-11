@@ -1,0 +1,175 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Saturn: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Saturn is famous for its rings: billions of chunks of ice and rock, from dust grains to house-sized boulders. The rings are about 280,000 km wide but in most…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/saturn/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Saturn: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Saturn is famous for its rings: billions of chunks of ice and rock, from dust grains to house-sized boulders. The rings are about 280,000 km wide but in most…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/saturn/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png/1280px-Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png">
+  <meta property="og:image:alt" content="Saturn">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Saturn: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Saturn is famous for its rings: billions of chunks of ice and rock, from dust grains to house-sized boulders. The rings are about 280,000 km wide but in most…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png/1280px-Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Saturn","name":"Saturn – Planet · Gas giant","description":"Saturn is famous for its rings: billions of chunks of ice and rock, from dust grains to house-sized boulders. The rings are about 280,000 km wide but in most places only about 10 metres thick.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png/1280px-Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png","url":"https://seethestars.webappslab.com/object/saturn/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Saturn","sameAs":"https://en.wikipedia.org/wiki/Saturn"},"isPartOf":{"@type":"CollectionPage","name":"The Giants","url":"https://seethestars.webappslab.com/sector/giants/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Giants","item":"https://seethestars.webappslab.com/sector/giants/"},{"@type":"ListItem","position":3,"name":"Saturn","item":"https://seethestars.webappslab.com/object/saturn/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/giants/">The Giants</a><span aria-hidden="true">/</span><span aria-current="page">Saturn</span></nav>
+    <article class="object" style="--hue:35">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:35" data-id="saturn"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png/1280px-Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png" alt="Saturn – Planet · Gas giant" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Saturn_global_view_from_Cassini,_rings_open_Better_Colour.png" target="_blank" rel="noopener">NASA / JPL-Caltech / SSI / color composite by Gordan Ugarkovic · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🪐 Planets · The Giants</span>
+          <h1>Saturn</h1>
+          <p class="kind">Planet · Gas giant</p>
+          <p class="lead">Saturn is famous for its rings: billions of chunks of ice and rock, from dust grains to house-sized boulders. The rings are about 280,000 km wide but in most places only about 10 metres thick.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">📏</span><div><b>116,460 km</b><small>About 9.1 Earths would fit side by side across it.</small></div></li><li><span class="ic" aria-hidden="true">🗓️</span><div><b>29.4 years</b><small>Year</small></div></li><li><span class="ic" aria-hidden="true">💍</span><div><b>Mostly water ice</b><small>Rings</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/saturn/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">⬡</span><h3>A six-sided storm</h3><p>Around Saturn’s north pole, a jet stream of fast winds flows in an almost perfect hexagon. Each of its six sides is longer than Earth is wide. Nothing like it exists on any other planet we know, and scientists use computer models and lab experiments with spinning fluids to understand how it keeps its shape.</p></div><div class="hl"><span class="ic" aria-hidden="true">⛲</span><h3>A moon that sprays water</h3><p>The small icy moon Enceladus shoots tall jets of water vapour and ice from cracks near its south pole. The water comes from an ocean hidden under the ice. The Cassini spacecraft flew straight through the spray and found salt and carbon-based molecules, and some of the spray feeds one of Saturn’s rings.</p></div><div class="hl"><span class="ic" aria-hidden="true">🚁</span><h3>Flying on Titan</h3><p>Titan, Saturn’s biggest moon, has air thicker than Earth’s and gravity weaker than our Moon’s. A person there could strap on wings and fly by flapping their arms. NASA is preparing a drone-like lander called Dragonfly to hop between spots on Titan and study its chemistry in the 2030s.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>Saturn is less dense than water – if you had a bathtub big enough, it would float!</p></aside>
+
+          <div class="block">
+    <h2>Size it up</h2>
+    <div class="scale">
+      <svg viewBox="0 0 640 240" role="img" aria-label="Saturn and Earth drawn to scale">
+        <defs>
+          <radialGradient id="g-earth" cx="35%" cy="35%"><stop offset="0" stop-color="#8fd0ff"/><stop offset="0.6" stop-color="#2d6fcf"/><stop offset="1" stop-color="#123a73"/></radialGradient>
+          <radialGradient id="g-obj" cx="35%" cy="35%"><stop offset="0" stop-color="#e8cf98"/><stop offset="1" stop-color="#9a7b45"/></radialGradient>
+          <clipPath id="clip-scale"><rect width="640" height="240" rx="12"/></clipPath>
+        </defs>
+        <g clip-path="url(#clip-scale)" font-family="Space Grotesk, sans-serif" font-size="22" fill="#a7aec4"><circle cx="193" cy="120" r="10.065808002747726" fill="url(#g-earth)"/><text x="193" y="158.06580800274773" text-anchor="middle">Earth</text><circle cx="365.06580800274776" cy="120" r="92" fill="url(#g-obj)"/><text x="365.06580800274776" y="240" text-anchor="middle">Saturn</text></g>
+      </svg>
+      <p>About 9.1 Earths would fit side by side across it. Both are drawn to the same scale.</p>
+    </div>
+  </div>
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1610</span><p>Galileo sees strange “ears” on Saturn but can’t work out what they are.</p></li><li><span class="year">1655</span><p>Christiaan Huygens explains they are a ring and discovers the giant moon Titan.</p></li><li><span class="year">1675</span><p>Giovanni Cassini spots a gap in the rings – now called the Cassini Division.</p></li><li><span class="year">2004–2017</span><p>The Cassini spacecraft orbits Saturn for 13 years. Its Huygens probe lands on Titan in 2005.</p></li><li><span class="year">2025</span><p>Astronomers announce 128 newly found small moons, taking Saturn’s total to 274.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Is it raining anywhere on Saturn’s moons?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Yes – on Titan it rains liquid methane, which fills lakes and seas on its surface.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>A steady, golden “star”. Even a small telescope shows the rings – a view people never forget.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Diameter</dt><dd>116,460 km</dd></div><div><dt>Year</dt><dd>29.4 years</dd></div><div><dt>Rings</dt><dd>Mostly water ice</dd></div><div><dt>Moons</dt><dd>270+</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Saturn as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/jupiter/"><div class="ph " style="--hue:35" data-id="jupiter"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/960px-Jupiter_OPAL_2024.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Jupiter</b></div></a>
+        <a class="pager-card next" href="/object/uranus/"><div class="ph " style="--hue:35" data-id="uranus"><img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Uranus_Voyager2_color_calibrated.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Uranus</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Crab Pulsar: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="At the heart of the Crab Nebula is a neutron star only about 20 km across but heavier than the Sun. It spins about 30 times every second, blasting out beams…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/crabpulsar/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Crab Pulsar: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="At the heart of the Crab Nebula is a neutron star only about 20 km across but heavier than the Sun. It spins about 30 times every second, blasting out beams…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/crabpulsar/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Chandra-crab.jpg/1280px-Chandra-crab.jpg">
+  <meta property="og:image:alt" content="Crab Pulsar">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Crab Pulsar: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="At the heart of the Crab Nebula is a neutron star only about 20 km across but heavier than the Sun. It spins about 30 times every second, blasting out beams…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Chandra-crab.jpg/1280px-Chandra-crab.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Crab Pulsar","name":"Crab Pulsar – Pulsar · Neutron star","description":"At the heart of the Crab Nebula is a neutron star only about 20 km across but heavier than the Sun. It spins about 30 times every second, blasting out beams of radiation that light up the whole nebula.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Chandra-crab.jpg/1280px-Chandra-crab.jpg","url":"https://seethestars.webappslab.com/object/crabpulsar/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Crab Pulsar","sameAs":"https://en.wikipedia.org/wiki/Crab_Pulsar"},"isPartOf":{"@type":"CollectionPage","name":"Extreme Objects","url":"https://seethestars.webappslab.com/sector/extreme/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Extreme Objects","item":"https://seethestars.webappslab.com/sector/extreme/"},{"@type":"ListItem","position":3,"name":"Crab Pulsar","item":"https://seethestars.webappslab.com/object/crabpulsar/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/extreme/">Extreme Objects</a><span aria-hidden="true">/</span><span aria-current="page">Crab Pulsar</span></nav>
+    <article class="object" style="--hue:280">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:280" data-id="crabpulsar"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Chandra-crab.jpg/1280px-Chandra-crab.jpg" alt="Crab Pulsar – Pulsar · Neutron star" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Chandra-crab.jpg" target="_blank" rel="noopener">Optical: NASA/HST/ASU/J. Hester et al. X-Ray: NASA/CXC/ASU/J. Hester et al. · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">💫 Pulsars · Extreme Objects</span>
+          <h1>Crab Pulsar</h1>
+          <p class="kind">Pulsar · Neutron star</p>
+          <p class="lead">At the heart of the Crab Nebula is a neutron star only about 20 km across but heavier than the Sun. It spins about 30 times every second, blasting out beams of radiation that light up the whole nebula.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>6,500 light-years away</b><small>Even light – the fastest thing there is – needs 6,500 years to get here.</small></div></li><li><span class="ic" aria-hidden="true">📏</span><div><b>~20 km across</b><small>You could line up 637 of them across Earth.</small></div></li><li><span class="ic" aria-hidden="true">💨</span><div><b>~30 times per second</b><small>Spins</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/crabpulsar/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🌪️</span><h3>A whirling surface</h3><p>Spinning about 30 times a second, a ball about 20 km across moves astonishingly fast at its surface – roughly 2,000 km every second at its equator. Its gravity is so strong that any “mountains” on it are thought to be at most a few millimetres tall.</p></div><div class="hl"><span class="ic" aria-hidden="true">🐢</span><h3>Slowly winding down</h3><p>The Crab Pulsar is gradually slowing as it pours energy into the nebula around it. Each day its spin takes less than a ten-millionth of a second longer, but over thousands of years that adds up. Scientists can measure this tiny change because the pulses are so regular.</p></div><div class="hl"><span class="ic" aria-hidden="true">💫</span><h3>Wisps and jets</h3><p>Close-up images from Hubble and the Chandra X-ray telescope show glowing rings and wisps around the pulsar, plus jets shooting out from its poles. The wisps change shape over days and weeks. They show the pulsar’s wind blasting into the nebula at a large fraction of the speed of light.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>Neutron star material is so dense that a teaspoonful would weigh billions of tonnes.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1968</span><p>Radio astronomers discover the pulsar inside the Crab Nebula, linking pulsars to supernovae.</p></li><li><span class="year">1969</span><p>It becomes one of the first pulsars seen flashing in visible light.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">What is a neutron star made of?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Mostly neutrons squeezed so tightly together that they form a kind of giant atomic nucleus the size of a city.</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off about 6,500 years ago – a while before people first invented writing.</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Inside the Crab Nebula in Taurus – only big telescopes can see its flashes.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Spins</dt><dd>~30 times per second</dd></div><div><dt>Size</dt><dd>~20 km across</dd></div><div><dt>Born</dt><dd>Supernova seen in 1054</dd></div><div><dt>Home</dt><dd>Crab Nebula</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Crab Pulsar as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/psr1919/"><div class="ph " style="--hue:280" data-id="psr1919"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Pulsar_model.jpg/960px-Pulsar_model.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>PSR B1919+21 – the first pulsar</b></div></a>
+        <a class="pager-card next" href="/object/velapulsar/"><div class="ph " style="--hue:280" data-id="velapulsar"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Vela_Pulsar_jet.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Vela Pulsar</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

@@ -1,11 +1,12 @@
-// Photos and encyclopedia extracts come from Wikipedia on demand. Explorers choose what to keep offline:
-// saved items (summary + photo) are stored in IndexedDB, which works in browsers and inside the iOS/Android apps.
+// Photos come from Wikimedia Commons (see data/photos.js) and encyclopedia extracts from Wikipedia, on demand.
+// Explorers choose what to keep offline: saved items (extract + photo) are stored in IndexedDB,
+// which works in browsers and inside the iOS/Android apps.
 import { OBJECTS } from './data/catalog.js';
+import { PHOTOS } from './data/photos.js';
 
 const DB_NAME = 'stg-media';
 const STORE = 'saved';
 const INDEX_KEY = 'stg.saved.v1';
-const IMG_WIDTH = 960;
 const memory = new Map();
 const objectUrls = new Map();
 
@@ -48,14 +49,7 @@ const dbGet = (id) => tx('readonly', (s) => s.get(id));
 const dbPut = (id, value) => tx('readwrite', (s) => s.put(value, id));
 const dbDelete = (id) => tx('readwrite', (s) => s.delete(id));
 
-// Wikipedia serves resized thumbnails by rewriting the "/NNNpx-" part of the URL.
-function sizedImage(summary) {
-  const thumb = summary.thumbnail?.source;
-  const orig = summary.originalimage;
-  if (!thumb) return null;
-  if (orig && orig.width <= IMG_WIDTH) return orig.source;
-  return thumb.replace(/\/\d+px-/, `/${IMG_WIDTH}px-`);
-}
+const photoUrl = (obj) => PHOTOS[obj.id]?.lg || null;
 
 async function fetchSummary(obj) {
   const res = await fetch(summaryUrl(obj), { mode: 'cors' });
@@ -80,7 +74,7 @@ export async function getMedia(obj) {
   } catch { /* fall back to the network */ }
   try {
     const s = await fetchSummary(obj);
-    const media = { image: sizedImage(s), extract: s.extract, url: s.content_urls?.mobile?.page || s.content_urls?.desktop?.page };
+    const media = { image: photoUrl(obj), extract: s.extract, url: s.content_urls?.mobile?.page || s.content_urls?.desktop?.page };
     memory.set(obj.id, media);
     return media;
   } catch {
@@ -90,7 +84,7 @@ export async function getMedia(obj) {
 
 export async function saveForOffline(obj) {
   const s = await fetchSummary(obj);
-  const imageUrl = sizedImage(s);
+  const imageUrl = photoUrl(obj);
   let image = null;
   if (imageUrl) {
     const res = await fetch(imageUrl, { mode: 'cors' });

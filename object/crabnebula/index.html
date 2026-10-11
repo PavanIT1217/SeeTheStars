@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Crab Nebula (M1): facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="The Crab Nebula is the wreckage of a star that exploded as a supernova. The explosion was seen on Earth in 1054. At its centre spins a pulsar, the star’s…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/crabnebula/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Crab Nebula (M1): facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="The Crab Nebula is the wreckage of a star that exploded as a supernova. The explosion was seen on Earth in 1054. At its centre spins a pulsar, the star’s…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/crabnebula/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/1280px-Crab_Nebula.jpg">
+  <meta property="og:image:alt" content="Crab Nebula (M1)">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Crab Nebula (M1): facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="The Crab Nebula is the wreckage of a star that exploded as a supernova. The explosion was seen on Earth in 1054. At its centre spins a pulsar, the star’s…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/1280px-Crab_Nebula.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Crab Nebula (M1)","name":"Crab Nebula (M1) – Supernova remnant","description":"The Crab Nebula is the wreckage of a star that exploded as a supernova. The explosion was seen on Earth in 1054. At its centre spins a pulsar, the star’s collapsed core.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/1280px-Crab_Nebula.jpg","url":"https://seethestars.webappslab.com/object/crabnebula/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Crab Nebula (M1)","sameAs":"https://en.wikipedia.org/wiki/Crab_Nebula"},"isPartOf":{"@type":"CollectionPage","name":"Star Nurseries & Graveyards","url":"https://seethestars.webappslab.com/sector/lifecycle/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Star Nurseries & Graveyards","item":"https://seethestars.webappslab.com/sector/lifecycle/"},{"@type":"ListItem","position":3,"name":"Crab Nebula (M1)","item":"https://seethestars.webappslab.com/object/crabnebula/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/lifecycle/">Star Nurseries & Graveyards</a><span aria-hidden="true">/</span><span aria-current="page">Crab Nebula (M1)</span></nav>
+    <article class="object" style="--hue:320">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:320" data-id="crabnebula"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Crab_Nebula.jpg/1280px-Crab_Nebula.jpg" alt="Crab Nebula (M1) – Supernova remnant" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Crab_Nebula.jpg" target="_blank" rel="noopener">NASA, ESA, J. Hester and A. Loll (Arizona State University) · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🌫️ Nebulae · Star Nurseries & Graveyards</span>
+          <h1>Crab Nebula (M1)</h1>
+          <p class="kind">Supernova remnant</p>
+          <p class="lead">The Crab Nebula is the wreckage of a star that exploded as a supernova. The explosion was seen on Earth in 1054. At its centre spins a pulsar, the star’s collapsed core.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>6,500 light-years away</b><small>Even light – the fastest thing there is – needs 6,500 years to get here.</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>Seen in 1054</b><small>Exploded</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>A pulsar</b><small>Heart</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/crabnebula/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🧶</span><h3>Threads of star stuff</h3><p>The orange-red strands that criss-cross the Crab are the shredded outer layers of the star that blew up. They contain hydrogen, helium, oxygen and other elements made inside it. The whole cloud is now about 11 light-years across and still growing.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌀</span><h3>Powered by a spinning heart</h3><p>The ghostly blue glow filling the nebula comes from tiny particles racing through magnetic fields, flung out by the pulsar at the centre. As the pulsar slowly loses spin, it pumps that energy into the cloud. Without it, the Crab would have faded long ago.</p></div><div class="hl"><span class="ic" aria-hidden="true">📏</span><h3>A measuring stick for X-rays</h3><p>The Crab is one of the brightest and steadiest X-ray sources in the sky. Because of this, astronomers have often used it to calibrate their instruments. They even measure the brightness of other X-ray sources in “Crabs” and “milliCrabs”.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>The cloud is still expanding at about 1,500 km per second.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1054</span><p>Chinese astronomers record a “guest star” bright enough to see in daylight for 23 days.</p></li><li><span class="year">1758</span><p>Charles Messier mistakes it for a comet. To avoid more mix-ups he starts his famous catalogue – and it becomes M1.</p></li><li><span class="year">1840s</span><p>Lord Rosse draws it and names it the Crab.</p></li><li><span class="year">1968</span><p>Astronomers discover the pulsar at its centre.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Where do atoms like gold and iron come from?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Many heavy elements were made in exploding and colliding stars and spread through space. Some ended up in Earth – and in you!</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off about 6,500 years ago – a while before people first invented writing.</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>A faint smudge in a small telescope, near the tip of Taurus’ horn.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Distance</dt><dd>~6,500 light-years</dd></div><div><dt>Exploded</dt><dd>Seen in 1054</dd></div><div><dt>Heart</dt><dd>A pulsar</dd></div><div><dt>Constellation</dt><dd>Taurus</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Crab Nebula (M1) as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/ringnebula/"><div class="ph " style="--hue:320" data-id="ringnebula"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Webb_captures_detailed_beauty_of_Ring_Nebula_%28NIRCam_image%29_%28weic2320b%29.jpg/960px-Webb_captures_detailed_beauty_of_Ring_Nebula_%28NIRCam_image%29_%28weic2320b%29.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Ring Nebula (M57)</b></div></a>
+        <a class="pager-card next" href="/object/psr1919/"><div class="ph " style="--hue:280" data-id="psr1919"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Pulsar_model.jpg/960px-Pulsar_model.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>PSR B1919+21 – the first pulsar</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mercury: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Mercury is the smallest planet and the closest to the Sun. With almost no air to hold heat, its days are hot enough to melt lead and its nights are colder…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/mercury/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Mercury: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Mercury is the smallest planet and the closest to the Sun. With almost no air to hold heat, its days are hot enough to melt lead and its nights are colder…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/mercury/">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg">
+  <meta property="og:image:alt" content="Mercury">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mercury: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Mercury is the smallest planet and the closest to the Sun. With almost no air to hold heat, its days are hot enough to melt lead and its nights are colder…">
+  <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Mercury","name":"Mercury – Planet · Rocky","description":"Mercury is the smallest planet and the closest to the Sun. With almost no air to hold heat, its days are hot enough to melt lead and its nights are colder than Antarctica.","image":"https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg","url":"https://seethestars.webappslab.com/object/mercury/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Mercury","sameAs":"https://en.wikipedia.org/wiki/Mercury_(planet)"},"isPartOf":{"@type":"CollectionPage","name":"The Rocky Worlds","url":"https://seethestars.webappslab.com/sector/rocky/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Rocky Worlds","item":"https://seethestars.webappslab.com/sector/rocky/"},{"@type":"ListItem","position":3,"name":"Mercury","item":"https://seethestars.webappslab.com/object/mercury/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/rocky/">The Rocky Worlds</a><span aria-hidden="true">/</span><span aria-current="page">Mercury</span></nav>
+    <article class="object" style="--hue:18">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:18" data-id="mercury"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg" alt="Mercury – Planet · Rocky" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Mercury_in_true_color.jpg" target="_blank" rel="noopener">NASA/Johns Hopkins University Applied Physics Laboratory/Arizona State Universit · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🪐 Planets · The Rocky Worlds</span>
+          <h1>Mercury</h1>
+          <p class="kind">Planet · Rocky</p>
+          <p class="lead">Mercury is the smallest planet and the closest to the Sun. With almost no air to hold heat, its days are hot enough to melt lead and its nights are colder than Antarctica.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">📏</span><div><b>4,879 km</b><small>You could line up 3 of them across Earth.</small></div></li><li><span class="ic" aria-hidden="true">🗓️</span><div><b>88 days</b><small>Year</small></div></li><li><span class="ic" aria-hidden="true">🌡️</span><div><b>−180 °C to 430 °C</b><small>Temperature</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/mercury/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">⚙️</span><h3>A giant iron heart</h3><p>Mercury is mostly metal inside. Its iron core stretches across about 85% of the planet’s width, like a peach with a stone so big there is hardly any fruit left. That makes little Mercury the second-densest planet, after Earth.</p></div><div class="hl"><span class="ic" aria-hidden="true">🍎</span><h3>A shrinking planet</h3><p>As Mercury’s huge core slowly cooled over billions of years, the whole planet shrank. Its rocky skin wrinkled like the peel of a drying apple, creating long cliffs that run for hundreds of kilometres and rise more than a kilometre high. Scientists spotted these wrinkles in spacecraft photos.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌞</span><h3>A giant Sun overhead</h3><p>If you stood on Mercury, the Sun would look two to three times wider than it does from Earth, blazing in a pitch-black sky. Reaching Mercury is surprisingly hard: spacecraft speed up as they fall towards the Sun, so they need years of looping fly-bys to slow down enough to stay.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>One day on Mercury (sunrise to sunrise) lasts 176 Earth days – that is two whole Mercury years!</p></aside>
+
+          <div class="block">
+    <h2>Size it up</h2>
+    <div class="scale">
+      <svg viewBox="0 0 640 240" role="img" aria-label="Mercury and Earth drawn to scale">
+        <defs>
+          <radialGradient id="g-earth" cx="35%" cy="35%"><stop offset="0" stop-color="#8fd0ff"/><stop offset="0.6" stop-color="#2d6fcf"/><stop offset="1" stop-color="#123a73"/></radialGradient>
+          <radialGradient id="g-obj" cx="35%" cy="35%"><stop offset="0" stop-color="#b5a593"/><stop offset="1" stop-color="#5e554c"/></radialGradient>
+          <clipPath id="clip-scale"><rect width="640" height="240" rx="12"/></clipPath>
+        </defs>
+        <g clip-path="url(#clip-scale)" font-family="Space Grotesk, sans-serif" font-size="22" fill="#a7aec4"><circle cx="249.77256317689532" cy="120" r="92" fill="url(#g-earth)"/><text x="249.77256317689532" y="240" text-anchor="middle">Earth</text><circle cx="447.00000000000006" cy="120" r="35.22743682310469" fill="url(#g-obj)"/><text x="447.00000000000006" y="183.22743682310468" text-anchor="middle">Mercury</text></g>
+      </svg>
+      <p>You could line up 3 of them across Earth. Both are drawn to the same scale.</p>
+    </div>
+  </div>
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">Ancient times</span><p>Known to the Sumerians and Babylonians. The Romans named it after their fast messenger god, because it moves quickly across the sky.</p></li><li><span class="year">1631</span><p>Pierre Gassendi watches Mercury cross in front of the Sun, as Johannes Kepler predicted.</p></li><li><span class="year">1974</span><p>Mariner 10 becomes the first spacecraft to fly past Mercury.</p></li><li><span class="year">2011</span><p>MESSENGER goes into orbit and finds water ice hidden in craters at the poles that never see sunlight.</p></li><li><span class="year">2026</span><p>The European–Japanese mission BepiColombo is due to arrive in orbit around Mercury.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">How can there be ice on the planet closest to the Sun?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Some craters at Mercury’s poles are so deep that sunlight never reaches their floors. They stay colder than −170 °C forever.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Low in the sky just after sunset or just before sunrise, a few times a year. It never strays far from the Sun.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Diameter</dt><dd>4,879 km</dd></div><div><dt>Year</dt><dd>88 days</dd></div><div><dt>Temperature</dt><dd>−180 °C to 430 °C</dd></div><div><dt>Moons</dt><dd>0</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Mercury as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/sun/"><div class="ph " style="--hue:200" data-id="sun"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/The_Sun_in_white_light.jpg/960px-The_Sun_in_white_light.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>The Sun</b></div></a>
+        <a class="pager-card next" href="/object/venus/"><div class="ph " style="--hue:18" data-id="venus"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Venus_from_Mariner_10.jpg/960px-Venus_from_Mariner_10.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Venus</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

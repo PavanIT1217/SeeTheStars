@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HD 209458 b (Osiris): facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="HD 209458 b was the first exoplanet caught passing in front of its star, and the first whose atmosphere was detected. The star’s heat is so intense that the…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/hd209458b/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="HD 209458 b (Osiris): facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="HD 209458 b was the first exoplanet caught passing in front of its star, and the first whose atmosphere was detected. The star’s heat is so intense that the…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/hd209458b/">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/9/9b/Artist_conception_of_HD_209458_b.jpg">
+  <meta property="og:image:alt" content="HD 209458 b (Osiris)">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HD 209458 b (Osiris): facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="HD 209458 b was the first exoplanet caught passing in front of its star, and the first whose atmosphere was detected. The star’s heat is so intense that the…">
+  <meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/9/9b/Artist_conception_of_HD_209458_b.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"HD 209458 b (Osiris)","name":"HD 209458 b (Osiris) – Hot Jupiter · First planet seen crossing its star","description":"HD 209458 b was the first exoplanet caught passing in front of its star, and the first whose atmosphere was detected. The star’s heat is so intense that the planet’s gas is boiling away into space, forming a comet-like tail.","image":"https://upload.wikimedia.org/wikipedia/commons/9/9b/Artist_conception_of_HD_209458_b.jpg","url":"https://seethestars.webappslab.com/object/hd209458b/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"HD 209458 b (Osiris)","sameAs":"https://en.wikipedia.org/wiki/HD_209458_b"},"isPartOf":{"@type":"CollectionPage","name":"Other Worlds","url":"https://seethestars.webappslab.com/sector/exoplanets/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Other Worlds","item":"https://seethestars.webappslab.com/sector/exoplanets/"},{"@type":"ListItem","position":3,"name":"HD 209458 b (Osiris)","item":"https://seethestars.webappslab.com/object/hd209458b/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/exoplanets/">Other Worlds</a><span aria-hidden="true">/</span><span aria-current="page">HD 209458 b (Osiris)</span></nav>
+    <article class="object" style="--hue:140">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:140" data-id="hd209458b"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Artist_conception_of_HD_209458_b.jpg" alt="HD 209458 b (Osiris) – Hot Jupiter · First planet seen crossing its star" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Artist_conception_of_HD_209458_b.jpg" target="_blank" rel="noopener">NASA · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🌍 Exoplanets · Other Worlds</span>
+          <h1>HD 209458 b (Osiris)</h1>
+          <p class="kind">Hot Jupiter · First planet seen crossing its star</p>
+          <p class="lead">HD 209458 b was the first exoplanet caught passing in front of its star, and the first whose atmosphere was detected. The star’s heat is so intense that the planet’s gas is boiling away into space, forming a comet-like tail.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>159 light-years away</b><small>Even light – the fastest thing there is – needs 159 years to get here.</small></div></li><li><span class="ic" aria-hidden="true">🗓️</span><div><b>3.5 days</b><small>Year</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>Atmosphere escaping</b><small>Special</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/hd209458b/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🎈</span><h3>A puffed-up giant</h3><p>HD 209458 b is about 40% wider than Jupiter but weighs less. Fierce heat from its nearby star has puffed up its atmosphere like a soufflé in an oven. That makes it a very light, fluffy world for its size – less dense than any planet in our Solar System.</p></div><div class="hl"><span class="ic" aria-hidden="true">📉</span><h3>A tiny dip in light</h3><p>When the planet crosses its star, it blocks only about 1.5% of the starlight – like a moth flying in front of a distant streetlamp. Telescopes measure this tiny dip every three and a half days, which tells scientists how big the planet is and how it moves.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌗</span><h3>Forever day, forever night</h3><p>Because it orbits so close, scientists think the planet is “locked” with the same side always facing its star, just as the Moon always shows Earth the same face. One side would have endless scorching daytime, while the other would sit in never-ending night.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>This planet is losing thousands of tonnes of gas every second.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1999</span><p>Two teams watch the star dim slightly as the planet passes in front of it – the first transit ever seen.</p></li><li><span class="year">2001</span><p>The Hubble Space Telescope detects sodium in its atmosphere – the first look at the air of a planet around another star.</p></li><li><span class="year">2003</span><p>Astronomers discover a huge cloud of hydrogen streaming away from the planet.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">How can we tell what gases a far-away planet has?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>When the planet passes in front of its star, a little starlight shines through its atmosphere. Each gas absorbs its own special colours, leaving a fingerprint in the light.</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off about 159 years ago – a while before the Wright brothers made the first aeroplane flight.</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>The star needs binoculars or a small telescope, in Pegasus.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Year</dt><dd>3.5 days</dd></div><div><dt>Special</dt><dd>Atmosphere escaping</dd></div><div><dt>Constellation</dt><dd>Pegasus</dd></div><div><dt>Nickname</dt><dd>Osiris</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark HD 209458 b (Osiris) as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/peg51b/"><div class="ph " style="--hue:140" data-id="peg51b"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg/960px-Artist_impression_of_the_exoplanet_51_Pegasi_b.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>51 Pegasi b</b></div></a>
+        <a class="pager-card next" href="/object/trappist1/"><div class="ph " style="--hue:140" data-id="trappist1"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Artist_impression_of_TRAPPIST-1_d.jpg/960px-Artist_impression_of_TRAPPIST-1_d.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>TRAPPIST-1</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

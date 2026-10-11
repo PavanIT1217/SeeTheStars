@@ -1,0 +1,139 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Comets &amp; Space Visitors: Icy wanderers and interstellar travellers | See the Stars</title>
+  <meta name="description" content="Comets are “dirty snowballs” left over from the birth of the Solar System. When one swings close to the Sun, its ice turns to gas and it grows a glowing head…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/sector/comets/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Comets &amp; Space Visitors: Icy wanderers and interstellar travellers | See the Stars">
+  <meta property="og:description" content="Comets are “dirty snowballs” left over from the birth of the Solar System. When one swings close to the Sun, its ice turns to gas and it grows a glowing head…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/sector/comets/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Comet_Hale-Bopp_1995O1.jpg/1280px-Comet_Hale-Bopp_1995O1.jpg">
+  <meta property="og:image:alt" content="Comets &amp; Space Visitors">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Comets &amp; Space Visitors: Icy wanderers and interstellar travellers | See the Stars">
+  <meta name="twitter:description" content="Comets are “dirty snowballs” left over from the birth of the Solar System. When one swings close to the Sun, its ice turns to gas and it grows a glowing head…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Comet_Hale-Bopp_1995O1.jpg/1280px-Comet_Hale-Bopp_1995O1.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"Comets & Space Visitors – Icy wanderers and interstellar travellers","description":"Comets are “dirty snowballs” left over from the birth of the Solar System. When one swings close to the Sun, its ice turns to gas and it grows a glowing head and tails millions of kilometres long. And recently, astronomers have spotted visitors from other star systems racing through our…","url":"https://seethestars.webappslab.com/sector/comets/","inLanguage":"en","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Halley’s Comet","url":"https://seethestars.webappslab.com/object/halley/"},{"@type":"ListItem","position":2,"name":"Comet 67P/Churyumov–Gerasimenko","url":"https://seethestars.webappslab.com/object/c67p/"},{"@type":"ListItem","position":3,"name":"Comet Hale–Bopp","url":"https://seethestars.webappslab.com/object/halebopp/"},{"@type":"ListItem","position":4,"name":"ʻOumuamua","url":"https://seethestars.webappslab.com/object/oumuamua/"},{"@type":"ListItem","position":5,"name":"3I/ATLAS","url":"https://seethestars.webappslab.com/object/atlas3i/"}]}},{"@type":"Quiz","name":"Comets & Space Visitors challenge","about":{"@type":"Thing","name":"Icy wanderers and interstellar travellers"},"educationalLevel":"Beginner","hasPart":[{"@type":"Question","eduQuestionType":"Multiple choice","text":"What is a comet mostly made of?","acceptedAnswer":{"@type":"Answer","text":"Ice and dust","answerExplanation":{"@type":"Comment","text":"Comets are mostly ice mixed with dust and rock – “dirty snowballs”."}},"suggestedAnswer":[{"@type":"Answer","text":"Hot rock"},{"@type":"Answer","text":"Metal"},{"@type":"Answer","text":"Only gas"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"Which way does a comet’s tail point?","acceptedAnswer":{"@type":"Answer","text":"Always away from the Sun","answerExplanation":{"@type":"Comment","text":"Sunlight and the solar wind push the tail away from the Sun – so when a comet heads back out, its tail goes first!"}},"suggestedAnswer":[{"@type":"Answer","text":"Always behind the comet"},{"@type":"Answer","text":"Always towards Earth"},{"@type":"Answer","text":"Straight down"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"What made ʻOumuamua so special?","acceptedAnswer":{"@type":"Answer","text":"It was the first known visitor from another star system","answerExplanation":{"@type":"Comment","text":"In 2017 ʻOumuamua became the first object ever seen that came from outside our Solar System."}},"suggestedAnswer":[{"@type":"Answer","text":"It was the biggest comet ever"},{"@type":"Answer","text":"It crashed into Jupiter"},{"@type":"Answer","text":"It had three tails"}]}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Comets & Space Visitors","item":"https://seethestars.webappslab.com/sector/comets/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="sector">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <section class="banner" style="--hue:170">
+      <div class="ph " style="--hue:170" data-id="halebopp"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Comet_Hale-Bopp_1995O1.jpg/1280px-Comet_Hale-Bopp_1995O1.jpg" alt="Comet Hale–Bopp" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/#chapter-1">Chapter 1: Our Solar System</a></nav>
+      <div class="banner-copy">
+        <span class="eyebrow">Sector 5 of 12</span>
+        <h1>Comets & Space Visitors</h1>
+        <p>Icy wanderers and interstellar travellers</p>
+      </div>
+    </section>
+    <section class="sector-intro" style="--hue:170">
+      <p class="lead">Comets are “dirty snowballs” left over from the birth of the Solar System. When one swings close to the Sun, its ice turns to gas and it grows a glowing head and tails millions of kilometres long. And recently, astronomers have spotted visitors from other star systems racing through our neighbourhood!</p>
+      <div class="side">
+        <div class="progress-line"><div class="bar"><span style="width:0%"></span></div><span>0 of 5 explored</span></div>
+        <a class="btn primary" href="/object/halley/">Start this sector →</a>
+        <button class="btn ghost dl-sector">⤓ Save this sector for offline</button>
+      </div>
+    </section>
+    <h2 class="visually-hidden">In this sector</h2>
+    <div class="grid objects"><a class="obj-card" href="/object/halley/">
+    <div class="ph " style="--hue:170" data-id="halley"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Lspn_comet_halley.jpg/960px-Lspn_comet_halley.jpg" alt="Halley’s Comet" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">01</span><b>Halley’s Comet</b><small>Comet · Returns every ~76 years</small></div>
+  </a><a class="obj-card" href="/object/c67p/">
+    <div class="ph " style="--hue:170" data-id="c67p"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Comet_67P_True_color.jpg/960px-Comet_67P_True_color.jpg" alt="Comet 67P/Churyumov–Gerasimenko" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">02</span><b>Comet 67P/Churyumov–Gerasimenko</b><small>Comet · The rubber duck</small></div>
+  </a><a class="obj-card" href="/object/halebopp/">
+    <div class="ph " style="--hue:170" data-id="halebopp"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Comet_Hale-Bopp_1995O1.jpg/960px-Comet_Hale-Bopp_1995O1.jpg" alt="Comet Hale–Bopp" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">03</span><b>Comet Hale–Bopp</b><small>Comet · The Great Comet of 1997</small></div>
+  </a><a class="obj-card" href="/object/oumuamua/">
+    <div class="ph " style="--hue:170" data-id="oumuamua"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/A2017U1_5gsmoothWHT_enhanced.jpg/960px-A2017U1_5gsmoothWHT_enhanced.jpg" alt="ʻOumuamua" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">04</span><b>ʻOumuamua</b><small>Interstellar object · First visitor from another star</small></div>
+  </a><a class="obj-card" href="/object/atlas3i/">
+    <div class="ph " style="--hue:170" data-id="atlas3i"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/3I-ATLAS_noirlab2532b.jpg/960px-3I-ATLAS_noirlab2532b.jpg" alt="3I/ATLAS" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">05</span><b>3I/ATLAS</b><small>Interstellar comet · The third visitor</small></div>
+  </a></div>
+    <section class="challenge locked">
+      <div>
+        <span class="eyebrow">Sector challenge</span>
+        <h3>Explore all 5 to unlock the challenge</h3>
+        <p>3 questions · win 50 XP and a badge</p>
+      </div>
+      <span class="lock" aria-label="Locked">🔒</span>
+    </section>
+    <nav class="pager" aria-label="Sectors">
+      <a class="pager-card" href="/sector/dwarfs/"><div class="ph " style="--hue:270" data-id="pluto"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Pluto_in_True_Color_-_High-Res.png/960px-Pluto_in_True_Color_-_High-Res.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous sector</small><b>The Little Worlds</b></div></a>
+      <a class="pager-card next" href="/sector/stars/"><div class="ph " style="--hue:48" data-id="rigel"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Rigel_and_IC_2118_-_The_Witch_Head_Nebula_-_Flickr_-_gjdonatiello.jpg/960px-Rigel_and_IC_2118_-_The_Witch_Head_Nebula_-_Flickr_-_gjdonatiello.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next sector →</small><b>The Stars</b></div></a>
+    </nav></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

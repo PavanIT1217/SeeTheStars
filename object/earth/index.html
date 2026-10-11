@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Earth: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Earth is the third planet from the Sun and the only place in the universe where we know life exists. About 71% of its surface is covered by liquid water, and…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/earth/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Earth: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Earth is the third planet from the Sun and the only place in the universe where we know life exists. About 71% of its surface is covered by liquid water, and…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/earth/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Meteosat-12-fci-march-equinox-2025-noon.jpg/1280px-Meteosat-12-fci-march-equinox-2025-noon.jpg">
+  <meta property="og:image:alt" content="Earth">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Earth: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Earth is the third planet from the Sun and the only place in the universe where we know life exists. About 71% of its surface is covered by liquid water, and…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Meteosat-12-fci-march-equinox-2025-noon.jpg/1280px-Meteosat-12-fci-march-equinox-2025-noon.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Earth","name":"Earth – Planet · Our home","description":"Earth is the third planet from the Sun and the only place in the universe where we know life exists. About 71% of its surface is covered by liquid water, and a thin blanket of air protects us from the cold and radiation of space.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Meteosat-12-fci-march-equinox-2025-noon.jpg/1280px-Meteosat-12-fci-march-equinox-2025-noon.jpg","url":"https://seethestars.webappslab.com/object/earth/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Earth","sameAs":"https://en.wikipedia.org/wiki/Earth"},"isPartOf":{"@type":"CollectionPage","name":"Home Base","url":"https://seethestars.webappslab.com/sector/home/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Home Base","item":"https://seethestars.webappslab.com/sector/home/"},{"@type":"ListItem","position":3,"name":"Earth","item":"https://seethestars.webappslab.com/object/earth/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/home/">Home Base</a><span aria-hidden="true">/</span><span aria-current="page">Earth</span></nav>
+    <article class="object" style="--hue:200">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:200" data-id="earth"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Meteosat-12-fci-march-equinox-2025-noon.jpg/1280px-Meteosat-12-fci-march-equinox-2025-noon.jpg" alt="Earth – Planet · Our home" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Meteosat-12-fci-march-equinox-2025-noon.jpg" target="_blank" rel="noopener">EUMETSAT · Attribution</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🪐 Planets · Home Base</span>
+          <h1>Earth</h1>
+          <p class="kind">Planet · Our home</p>
+          <p class="lead">Earth is the third planet from the Sun and the only place in the universe where we know life exists. About 71% of its surface is covered by liquid water, and a thin blanket of air protects us from the cold and radiation of space.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">📍</span><div><b>0 km away</b><small>You are standing on it right now!</small></div></li><li><span class="ic" aria-hidden="true">📏</span><div><b>12,742 km</b><small>Diameter</small></div></li><li><span class="ic" aria-hidden="true">⏳</span><div><b>4.54 billion years</b><small>Age</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/earth/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🍑</span><h3>A planet in layers</h3><p>Earth is built in layers: a thin rocky crust, a thick hot mantle that flows very slowly, and a core of iron and nickel. Compared with the whole planet, the crust is thinner than the skin on an apple, and the solid inner core is about as hot as the surface of the Sun.</p></div><div class="hl"><span class="ic" aria-hidden="true">🧲</span><h3>An invisible shield</h3><p>Deep down, liquid iron swirls around Earth’s inner core and turns the planet into a giant magnet. This magnetic field makes your compass point north and pushes away most of the charged particles streaming from the Sun. The few that slip in near the poles make the sky glow as the northern and southern lights.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌱</span><h3>Air made by life</h3><p>The air you breathe is about 78% nitrogen and 21% oxygen, and most of that oxygen was made by living things. Tiny ocean microbes began filling the sky with it more than 2 billion years ago. Today, microscopic ocean plankton still make roughly half of the oxygen on Earth.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>Right now you are flying around the Sun at about 30 km every second – over 100,000 km per hour – and you can’t feel a thing.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">~240 BC</span><p>Eratosthenes measures the size of Earth by comparing shadows in Syene and Alexandria, Egypt.</p></li><li><span class="year">499 AD</span><p>The Indian astronomer Aryabhata writes that the stars only seem to move because Earth spins.</p></li><li><span class="year">1543</span><p>Nicolaus Copernicus publishes his idea that Earth goes around the Sun, not the other way around.</p></li><li><span class="year">1968</span><p>Apollo 8 astronauts photograph “Earthrise” – Earth rising over the Moon.</p></li><li><span class="year">1990</span><p>Voyager 1 looks back from about 6 billion km away and sees Earth as a “Pale Blue Dot”.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">If Earth is spinning so fast, why don’t we feel it?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Because everything – you, the air, the oceans – moves along with it smoothly. You only feel changes in speed, like when a car brakes, not steady motion.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Look down! You’re standing on it. In the Sky Finder, Earth is always “below your feet”.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Diameter</dt><dd>12,742 km</dd></div><div><dt>Age</dt><dd>4.54 billion years</dd></div><div><dt>Day</dt><dd>24 hours</dd></div><div><dt>Moons</dt><dd>1</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Earth as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <span></span>
+        <a class="pager-card next" href="/object/iss/"><div class="ph " style="--hue:200" data-id="iss"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg/960px-The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>International Space Station</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

@@ -144,7 +144,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
 
   function updateStatic() {
     $('.sky-name').innerHTML = target ? `${target.name}<small>${target.kind}</small>` : 'Free look<small>Tap anything on screen to target it</small>';
-    $('.sky-learn').href = target ? `#/object/${target.id}` : '#/';
+    $('.sky-learn').href = target ? `/object/${target.id}/` : '/';
     $('.sky-learn').hidden = !target;
     $('.sky-spotted').hidden = !(target && isSpotted(target.id));
     const lat = observer.lat, lon = observer.lon;

@@ -1,0 +1,139 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Little Worlds: Dwarf planets | See the Stars</title>
+  <meta name="description" content="In 2006 astronomers had a big argument: what exactly IS a planet? They decided on a new family – the dwarf planets. They are round like planets but share…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/sector/dwarfs/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Little Worlds: Dwarf planets | See the Stars">
+  <meta property="og:description" content="In 2006 astronomers had a big argument: what exactly IS a planet? They decided on a new family – the dwarf planets. They are round like planets but share…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/sector/dwarfs/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Pluto_in_True_Color_-_High-Res.png/1280px-Pluto_in_True_Color_-_High-Res.png">
+  <meta property="og:image:alt" content="The Little Worlds">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Little Worlds: Dwarf planets | See the Stars">
+  <meta name="twitter:description" content="In 2006 astronomers had a big argument: what exactly IS a planet? They decided on a new family – the dwarf planets. They are round like planets but share…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Pluto_in_True_Color_-_High-Res.png/1280px-Pluto_in_True_Color_-_High-Res.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"The Little Worlds – Dwarf planets","description":"In 2006 astronomers had a big argument: what exactly IS a planet? They decided on a new family – the dwarf planets. They are round like planets but share their orbits with lots of other objects. Meet the five official members, from the asteroid belt to the frozen edge of the Solar System.","url":"https://seethestars.webappslab.com/sector/dwarfs/","inLanguage":"en","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Ceres","url":"https://seethestars.webappslab.com/object/ceres/"},{"@type":"ListItem","position":2,"name":"Pluto","url":"https://seethestars.webappslab.com/object/pluto/"},{"@type":"ListItem","position":3,"name":"Haumea","url":"https://seethestars.webappslab.com/object/haumea/"},{"@type":"ListItem","position":4,"name":"Makemake","url":"https://seethestars.webappslab.com/object/makemake/"},{"@type":"ListItem","position":5,"name":"Eris","url":"https://seethestars.webappslab.com/object/eris/"}]}},{"@type":"Quiz","name":"The Little Worlds challenge","about":{"@type":"Thing","name":"Dwarf planets"},"educationalLevel":"Beginner","hasPart":[{"@type":"Question","eduQuestionType":"Multiple choice","text":"Who suggested the name “Pluto”?","acceptedAnswer":{"@type":"Answer","text":"An 11-year-old girl","answerExplanation":{"@type":"Comment","text":"Venetia Burney, an 11-year-old in Oxford, England, suggested it in 1930."}},"suggestedAnswer":[{"@type":"Answer","text":"Clyde Tombaugh"},{"@type":"Answer","text":"NASA"},{"@type":"Answer","text":"A newspaper"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"Which discovery led to Pluto being re-classified as a dwarf planet?","acceptedAnswer":{"@type":"Answer","text":"Eris","answerExplanation":{"@type":"Comment","text":"Eris is almost the same size as Pluto and more massive. Astronomers had to decide: call it a planet too, or define “planet” more carefully."}},"suggestedAnswer":[{"@type":"Answer","text":"Ceres"},{"@type":"Answer","text":"Haumea"},{"@type":"Answer","text":"Charon"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"Why is Haumea shaped like an egg?","acceptedAnswer":{"@type":"Answer","text":"It spins very fast","answerExplanation":{"@type":"Comment","text":"Haumea spins once every ~4 hours, which stretches it out."}},"suggestedAnswer":[{"@type":"Answer","text":"It was hit by a comet"},{"@type":"Answer","text":"It is made of jelly"},{"@type":"Answer","text":"It is two objects stuck together"}]}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Little Worlds","item":"https://seethestars.webappslab.com/sector/dwarfs/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="sector">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <section class="banner" style="--hue:270">
+      <div class="ph " style="--hue:270" data-id="pluto"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Pluto_in_True_Color_-_High-Res.png/1280px-Pluto_in_True_Color_-_High-Res.png" alt="Pluto" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/#chapter-1">Chapter 1: Our Solar System</a></nav>
+      <div class="banner-copy">
+        <span class="eyebrow">Sector 4 of 12</span>
+        <h1>The Little Worlds</h1>
+        <p>Dwarf planets</p>
+      </div>
+    </section>
+    <section class="sector-intro" style="--hue:270">
+      <p class="lead">In 2006 astronomers had a big argument: what exactly IS a planet? They decided on a new family – the dwarf planets. They are round like planets but share their orbits with lots of other objects. Meet the five official members, from the asteroid belt to the frozen edge of the Solar System.</p>
+      <div class="side">
+        <div class="progress-line"><div class="bar"><span style="width:0%"></span></div><span>0 of 5 explored</span></div>
+        <a class="btn primary" href="/object/ceres/">Start this sector →</a>
+        <button class="btn ghost dl-sector">⤓ Save this sector for offline</button>
+      </div>
+    </section>
+    <h2 class="visually-hidden">In this sector</h2>
+    <div class="grid objects"><a class="obj-card" href="/object/ceres/">
+    <div class="ph " style="--hue:270" data-id="ceres"><img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Ceres_-_RC3_-_Haulani_Crater_%2822381131691%29_%28cropped%29.jpg" alt="Ceres" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">01</span><b>Ceres</b><small>Dwarf planet · Asteroid belt</small></div>
+  </a><a class="obj-card" href="/object/pluto/">
+    <div class="ph " style="--hue:270" data-id="pluto"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Pluto_in_True_Color_-_High-Res.png/960px-Pluto_in_True_Color_-_High-Res.png" alt="Pluto" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">02</span><b>Pluto</b><small>Dwarf planet · Kuiper Belt</small></div>
+  </a><a class="obj-card" href="/object/haumea/">
+    <div class="ph " style="--hue:270" data-id="haumea"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Haumea_and_two_moons_art.png" alt="Haumea" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">03</span><b>Haumea</b><small>Dwarf planet · Kuiper Belt</small></div>
+  </a><a class="obj-card" href="/object/makemake/">
+    <div class="ph " style="--hue:270" data-id="makemake"><img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Makemake_and_its_moon.jpg" alt="Makemake" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">04</span><b>Makemake</b><small>Dwarf planet · Kuiper Belt</small></div>
+  </a><a class="obj-card" href="/object/eris/">
+    <div class="ph " style="--hue:270" data-id="eris"><img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Eris_and_moon_Dysnomia_JWST_NIRCam.jpg" alt="Eris" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">05</span><b>Eris</b><small>Dwarf planet · Scattered disc</small></div>
+  </a></div>
+    <section class="challenge locked">
+      <div>
+        <span class="eyebrow">Sector challenge</span>
+        <h3>Explore all 5 to unlock the challenge</h3>
+        <p>3 questions · win 50 XP and a badge</p>
+      </div>
+      <span class="lock" aria-label="Locked">🔒</span>
+    </section>
+    <nav class="pager" aria-label="Sectors">
+      <a class="pager-card" href="/sector/giants/"><div class="ph " style="--hue:35" data-id="jupiter"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/960px-Jupiter_OPAL_2024.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous sector</small><b>The Giants</b></div></a>
+      <a class="pager-card next" href="/sector/comets/"><div class="ph " style="--hue:170" data-id="halebopp"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Comet_Hale-Bopp_1995O1.jpg/960px-Comet_Hale-Bopp_1995O1.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next sector →</small><b>Comets & Space Visitors</b></div></a>
+    </nav></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

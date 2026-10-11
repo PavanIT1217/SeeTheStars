@@ -8,11 +8,12 @@ A journey through the universe for curious kids and students, with a **Sky Finde
 
 - **The Journey:** 12 sectors and 61 objects, explored in order so each step builds on the last:
   Home Base (incl. the ISS) → Rocky Worlds → Giants → Dwarf Planets → Comets & Space Visitors → Stars → Other Worlds (exoplanets) → Constellations → Star Nurseries & Graveyards → Pulsars & Black Holes → Galaxies → The Whole Universe.
-- **Every object page has:** live data (distance right now, light travel time, where it is in your sky), a *time machine* (what was happening on Earth when its light set off), a discovery timeline, a mind-blowing fact, a "wonder" question, and how to see it yourself. Real photos and encyclopedia extracts are loaded from Wikipedia.
+- **Every object page has:** a real photo (from Wikimedia Commons, credited), three "take a closer look" sections, an at-a-glance strip of kid-sized comparisons, Earth and the object drawn to scale, live data (distance right now, light travel time, where it is in your sky), a *time machine* (what was happening on Earth when its light set off), a discovery timeline, a mind-blowing fact, a "wonder" question, how to see it yourself, and the Wikipedia extract.
+- **Chapters:** the sectors are grouped into four chapters that zoom outward, from the Solar System to the stars, to how stars live and die, to galaxies and the whole universe. The home page also shows which planets are in your sky right now.
 - **ISS tracking:** live position from current orbit data, and predicted times when you can see it pass over with your own eyes.
 - **Sky Finder:** pick any target, hold up your phone, and follow the arrow until it says *LOCKED ON*. Draws constellation figures, bright stars, the horizon and compass points over the live camera view. Without motion sensors (e.g. on a laptop), drag the sky to explore.
 - **Motivation:** XP, ranks (Stargazer Cadet → Cosmic Explorer), sector challenges (quizzes) and badges, plus a reward for every object you physically point at.
-- **Offline:** it's an installable app (PWA). Lessons, quizzes, artwork and the Sky Finder always work offline. Photos and extracts are downloaded only for the objects or sectors you choose to save (Saved tab).
+- **Offline:** it's an installable app (PWA). Lessons, quizzes, artwork and the Sky Finder always work offline. Photos and extracts are downloaded only for the objects or sectors you choose to save (My journey).
 
 ## Mobile apps
 
@@ -20,13 +21,18 @@ The `android/` and `ios/` folders are native app projects (built with [Capacitor
 
 ## Run it
 
-No build step and no dependencies:
+No bundler and no runtime dependencies:
 
 ```bash
 npm start           # serves on http://localhost:8080
-npm test            # checks planets, comets and the ISS against NASA JPL Horizons
+npm test            # astronomy checks against NASA JPL Horizons, offline file list, up-to-date pages
+npm run pages       # re-generate the pre-rendered pages after changing content or template.html
 npm run sync        # copy the web app into the Android/iOS projects
 ```
+
+### Pages and SEO
+
+Every sector and object has its own address (for example `/object/saturn/`). `npm run pages` (`scripts/build-pages.mjs`) renders each one to a static HTML file using the same view code as the app (`js/views.js`), with its own title, description, canonical URL, social-share tags and schema.org structured data, plus `sitemap.xml` and `robots.txt`. GitHub Pages serves these files directly, so search engines see full content; in the browser the app takes over. **Edit `template.html`, not `index.html`**, and commit the regenerated files. The tests fail if they are out of date.
 
 The camera and motion sensors only work over **HTTPS** (or `localhost`). The live site, **https://seethestars.webappslab.com**, is deployed by GitHub Pages from `master`. Open it on a phone and use "Add to Home Screen" to install it.
 
@@ -38,9 +44,13 @@ The camera and motion sensors only work over **HTTPS** (or `localhost`). The liv
 | `js/astro.js` | Astronomy engine: planets, dwarf planets, comets (incl. interstellar), Moon, Sun; alt/az, rise/set |
 | `js/iss.js` | ISS tracking (SGP4 via bundled [satellite.js](https://github.com/shashwatak/satellite-js), MIT) and pass predictions |
 | `js/sky.js` | Sky Finder: sensors, camera, projection, guidance, lock-on |
-| `js/app.js` | Screens and navigation |
+| `js/views.js` | Page markup and page metadata (shared by the app and the page builder) |
+| `js/app.js` | Navigation and everything interactive |
+| `js/data/highlights.js` | Chapters and the "take a closer look" sections |
+| `js/data/photos.js` | Photo for every object, with credit and licence |
+| `template.html`, `scripts/build-pages.mjs` | Page template and the pre-renderer (writes `index.html`, `object/`, `sector/`, …) |
 | `js/art.js` | Procedural illustrations (so everything looks good offline) |
-| `js/media.js` | Wikipedia photos/extracts and "save for offline" |
+| `js/media.js` | Encyclopedia extracts and "save for offline" |
 | `js/store.js` | Progress, XP, ranks, settings (stored on the device) |
 | `sw.js` | Service worker for offline use (web version) |
 | `android/`, `ios/` | Native app projects; `capacitor.config.json` configures them |
@@ -53,5 +63,5 @@ Planet positions use JPL's approximate Keplerian elements; dwarf planets use osc
 
 ### Adding content
 
-Add an object to `OBJECTS` in `js/data/catalog.js` and list its id in a sector's `items`. Give it `pos: { ra, dec }` (J2000 degrees) or `pos: { body }` and it automatically appears in the Sky Finder, the Library and the journey.
+Add an object to `OBJECTS` in `js/data/catalog.js` and list its id in a sector's `items`. Give it `pos: { ra, dec }` (J2000 degrees) or `pos: { body }` and it automatically appears in the Sky Finder, the Library and the journey. Add its photo to `js/data/photos.js` and its highlights to `js/data/highlights.js`, then run `npm run pages`.
 

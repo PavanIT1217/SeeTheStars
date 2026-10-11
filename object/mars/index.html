@@ -1,0 +1,175 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mars: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Mars is a cold desert world, red because its dust is full of iron oxide (rust). It has the tallest volcano in the Solar System, ancient dry riverbeds, and…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/mars/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Mars: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Mars is a cold desert world, red because its dust is full of iron oxide (rust). It has the tallest volcano in the Solar System, ancient dry riverbeds, and…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/mars/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png/1280px-Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png">
+  <meta property="og:image:alt" content="Mars">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mars: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Mars is a cold desert world, red because its dust is full of iron oxide (rust). It has the tallest volcano in the Solar System, ancient dry riverbeds, and…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png/1280px-Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Mars","name":"Mars – Planet · Rocky","description":"Mars is a cold desert world, red because its dust is full of iron oxide (rust). It has the tallest volcano in the Solar System, ancient dry riverbeds, and ice at its poles. Billions of years ago it had lakes – maybe even life.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png/1280px-Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png","url":"https://seethestars.webappslab.com/object/mars/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Mars","sameAs":"https://en.wikipedia.org/wiki/Mars"},"isPartOf":{"@type":"CollectionPage","name":"The Rocky Worlds","url":"https://seethestars.webappslab.com/sector/rocky/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Rocky Worlds","item":"https://seethestars.webappslab.com/sector/rocky/"},{"@type":"ListItem","position":3,"name":"Mars","item":"https://seethestars.webappslab.com/object/mars/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/rocky/">The Rocky Worlds</a><span aria-hidden="true">/</span><span aria-current="page">Mars</span></nav>
+    <article class="object" style="--hue:18">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:18" data-id="mars"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png/1280px-Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png" alt="Mars – Planet · Rocky" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png" target="_blank" rel="noopener">Kevin Gill from Los Angeles, CA, United States · CC BY 2.0</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🪐 Planets · The Rocky Worlds</span>
+          <h1>Mars</h1>
+          <p class="kind">Planet · Rocky</p>
+          <p class="lead">Mars is a cold desert world, red because its dust is full of iron oxide (rust). It has the tallest volcano in the Solar System, ancient dry riverbeds, and ice at its poles. Billions of years ago it had lakes – maybe even life.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">📏</span><div><b>6,779 km</b><small>You could line up 2 of them across Earth.</small></div></li><li><span class="ic" aria-hidden="true">🌗</span><div><b>24 h 37 min</b><small>Day</small></div></li><li><span class="ic" aria-hidden="true">🗓️</span><div><b>687 days</b><small>Year</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/mars/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🏜️</span><h3>A canyon across a continent</h3><p>Mars has a giant canyon system called Valles Marineris, about 4,000 km long and up to 7 km deep. On Earth it would stretch right across the United States. Next to it, the Grand Canyon would look like a small scratch.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌪️</span><h3>Planet-wide dust storms</h3><p>Martian air is very thin – less than 1% as thick as Earth’s – and mostly carbon dioxide. Even so, dust storms sometimes grow until they wrap the entire planet for weeks. In 2018 one blocked the sunlight that powered the Opportunity rover, ending its mission after nearly 15 years.</p></div><div class="hl"><span class="ic" aria-hidden="true">☄️</span><h3>Pieces of Mars on Earth</h3><p>Some rocks found on Earth actually come from Mars. Long ago, big impacts blasted them off the Martian surface, and they drifted through space until they fell here as meteorites. Scientists know where they came from because tiny bubbles of gas trapped inside match the Martian air measured by spacecraft.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>Olympus Mons, a volcano on Mars, is about 22 km tall – roughly two and a half times the height of Mount Everest.</p></aside>
+
+          <div class="block">
+    <h2>Size it up</h2>
+    <div class="scale">
+      <svg viewBox="0 0 640 240" role="img" aria-label="Mars and Earth drawn to scale">
+        <defs>
+          <radialGradient id="g-earth" cx="35%" cy="35%"><stop offset="0" stop-color="#8fd0ff"/><stop offset="0.6" stop-color="#2d6fcf"/><stop offset="1" stop-color="#123a73"/></radialGradient>
+          <radialGradient id="g-obj" cx="35%" cy="35%"><stop offset="0" stop-color="#d9653b"/><stop offset="1" stop-color="#7a2a14"/></radialGradient>
+          <clipPath id="clip-scale"><rect width="640" height="240" rx="12"/></clipPath>
+        </defs>
+        <g clip-path="url(#clip-scale)" font-family="Space Grotesk, sans-serif" font-size="22" fill="#a7aec4"><circle cx="236.05415162454875" cy="120" r="92" fill="url(#g-earth)"/><text x="236.05415162454875" y="240" text-anchor="middle">Earth</text><circle cx="447" cy="120" r="48.94584837545126" fill="url(#g-obj)"/><text x="447" y="196.94584837545125" text-anchor="middle">Mars</text></g>
+      </svg>
+      <p>You could line up 2 of them across Earth. Both are drawn to the same scale.</p>
+    </div>
+  </div>
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1877</span><p>Asaph Hall discovers Mars’ two small moons, Phobos and Deimos.</p></li><li><span class="year">1965</span><p>Mariner 4 sends the first close-up pictures: a cratered, Moon-like world.</p></li><li><span class="year">1976</span><p>Viking 1 lands and photographs the surface.</p></li><li><span class="year">2014</span><p>India’s Mangalyaan reaches Mars orbit on its very first try.</p></li><li><span class="year">2021</span><p>Perseverance lands and the Ingenuity helicopter makes the first powered flight on another planet. China’s Zhurong rover lands too.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">On Mars, what colour is the sunset?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Blue! Fine Martian dust scatters blue light forward towards the setting Sun – the opposite of Earth.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>A reddish-orange “star” that shines with a steady light. It’s brightest around “opposition”, about every 26 months.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Diameter</dt><dd>6,779 km</dd></div><div><dt>Day</dt><dd>24 h 37 min</dd></div><div><dt>Year</dt><dd>687 days</dd></div><div><dt>Moons</dt><dd>2: Phobos and Deimos</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Mars as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/venus/"><div class="ph " style="--hue:18" data-id="venus"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Venus_from_Mariner_10.jpg/960px-Venus_from_Mariner_10.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Venus</b></div></a>
+        <a class="pager-card next" href="/object/jupiter/"><div class="ph " style="--hue:35" data-id="jupiter"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/960px-Jupiter_OPAL_2024.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Jupiter</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

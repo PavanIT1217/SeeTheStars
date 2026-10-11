@@ -1,0 +1,135 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Whole Universe: Cosmology: the biggest questions | See the Stars</title>
+  <meta name="description" content="You have travelled from your backyard to distant galaxies. Now for the biggest questions of all: How did the universe begin? How big is it? What is it made…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/sector/universe/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Whole Universe: Cosmology: the biggest questions | See the Stars">
+  <meta property="og:description" content="You have travelled from your backyard to distant galaxies. Now for the biggest questions of all: How did the universe begin? How big is it? What is it made…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/sector/universe/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Hubble_ultra_deep_field_high_rez_edit1.jpg/1280px-Hubble_ultra_deep_field_high_rez_edit1.jpg">
+  <meta property="og:image:alt" content="The Whole Universe">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Whole Universe: Cosmology: the biggest questions | See the Stars">
+  <meta name="twitter:description" content="You have travelled from your backyard to distant galaxies. Now for the biggest questions of all: How did the universe begin? How big is it? What is it made…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Hubble_ultra_deep_field_high_rez_edit1.jpg/1280px-Hubble_ultra_deep_field_high_rez_edit1.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"The Whole Universe – Cosmology: the biggest questions","description":"You have travelled from your backyard to distant galaxies. Now for the biggest questions of all: How did the universe begin? How big is it? What is it made of? Humans have found some astonishing answers – and some mysteries that may be solved by someone your age.","url":"https://seethestars.webappslab.com/sector/universe/","inLanguage":"en","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Hubble Ultra Deep Field","url":"https://seethestars.webappslab.com/object/hudf/"},{"@type":"ListItem","position":2,"name":"The Big Bang & expanding universe","url":"https://seethestars.webappslab.com/object/expansion/"},{"@type":"ListItem","position":3,"name":"Cosmic Microwave Background","url":"https://seethestars.webappslab.com/object/cmb/"},{"@type":"ListItem","position":4,"name":"Dark Matter & Dark Energy","url":"https://seethestars.webappslab.com/object/darkmatter/"}]}},{"@type":"Quiz","name":"The Whole Universe challenge","about":{"@type":"Thing","name":"Cosmology: the biggest questions"},"educationalLevel":"Beginner","hasPart":[{"@type":"Question","eduQuestionType":"Multiple choice","text":"How old is the universe?","acceptedAnswer":{"@type":"Answer","text":"13.8 billion years","answerExplanation":{"@type":"Comment","text":"Measurements of the cosmic microwave background and the expansion of space give about 13.8 billion years."}},"suggestedAnswer":[{"@type":"Answer","text":"6,000 years"},{"@type":"Answer","text":"4.5 billion years"},{"@type":"Answer","text":"It has always existed"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"Where did the Big Bang happen?","acceptedAnswer":{"@type":"Answer","text":"Everywhere at once","answerExplanation":{"@type":"Comment","text":"The Big Bang was not an explosion at one spot – space itself was expanding everywhere."}},"suggestedAnswer":[{"@type":"Answer","text":"Near the Milky Way"},{"@type":"Answer","text":"At the centre of the universe"},{"@type":"Answer","text":"Inside a black hole"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"About how much of the universe is ordinary matter (atoms)?","acceptedAnswer":{"@type":"Answer","text":"About 5%","answerExplanation":{"@type":"Comment","text":"Only about 5%. The rest is dark matter (~27%) and dark energy (~68%)."}},"suggestedAnswer":[{"@type":"Answer","text":"About 50%"},{"@type":"Answer","text":"About 95%"},{"@type":"Answer","text":"100%"}]}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Whole Universe","item":"https://seethestars.webappslab.com/sector/universe/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="sector">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <section class="banner" style="--hue:260">
+      <div class="ph " style="--hue:260" data-id="hudf"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Hubble_ultra_deep_field_high_rez_edit1.jpg/1280px-Hubble_ultra_deep_field_high_rez_edit1.jpg" alt="Hubble Ultra Deep Field" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/#chapter-4">Chapter 4: Galaxies and Beyond</a></nav>
+      <div class="banner-copy">
+        <span class="eyebrow">Sector 12 of 12</span>
+        <h1>The Whole Universe</h1>
+        <p>Cosmology: the biggest questions</p>
+      </div>
+    </section>
+    <section class="sector-intro" style="--hue:260">
+      <p class="lead">You have travelled from your backyard to distant galaxies. Now for the biggest questions of all: How did the universe begin? How big is it? What is it made of? Humans have found some astonishing answers – and some mysteries that may be solved by someone your age.</p>
+      <div class="side">
+        <div class="progress-line"><div class="bar"><span style="width:0%"></span></div><span>0 of 4 explored</span></div>
+        <a class="btn primary" href="/object/hudf/">Start this sector →</a>
+        <button class="btn ghost dl-sector">⤓ Save this sector for offline</button>
+      </div>
+    </section>
+    <h2 class="visually-hidden">In this sector</h2>
+    <div class="grid objects"><a class="obj-card" href="/object/hudf/">
+    <div class="ph " style="--hue:260" data-id="hudf"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Hubble_ultra_deep_field_high_rez_edit1.jpg/960px-Hubble_ultra_deep_field_high_rez_edit1.jpg" alt="Hubble Ultra Deep Field" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">01</span><b>Hubble Ultra Deep Field</b><small>Deep field · ~10,000 galaxies</small></div>
+  </a><a class="obj-card" href="/object/expansion/">
+    <div class="ph " style="--hue:260" data-id="expansion"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/CMB_Timeline300_no_WMAP.jpg/960px-CMB_Timeline300_no_WMAP.jpg" alt="The Big Bang &amp; expanding universe" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">02</span><b>The Big Bang & expanding universe</b><small>Cosmology</small></div>
+  </a><a class="obj-card" href="/object/cmb/">
+    <div class="ph " style="--hue:260" data-id="cmb"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Cosmic_Microwave_Background_%28CMB%29.jpeg/960px-Cosmic_Microwave_Background_%28CMB%29.jpeg" alt="Cosmic Microwave Background" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">03</span><b>Cosmic Microwave Background</b><small>Cosmology · The oldest light</small></div>
+  </a><a class="obj-card" href="/object/darkmatter/">
+    <div class="ph " style="--hue:260" data-id="darkmatter"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Hubble_helps_astronomers_map_dark_matter_in_Abell_1689_%28opo1037a%29.jpg/960px-Hubble_helps_astronomers_map_dark_matter_in_Abell_1689_%28opo1037a%29.jpg" alt="Dark Matter &amp; Dark Energy" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">04</span><b>Dark Matter & Dark Energy</b><small>Cosmology · The great mystery</small></div>
+  </a></div>
+    <section class="challenge locked">
+      <div>
+        <span class="eyebrow">Sector challenge</span>
+        <h3>Explore all 4 to unlock the challenge</h3>
+        <p>3 questions · win 50 XP and a badge</p>
+      </div>
+      <span class="lock" aria-label="Locked">🔒</span>
+    </section>
+    <nav class="pager" aria-label="Sectors">
+      <a class="pager-card" href="/sector/galaxies/"><div class="ph " style="--hue:230" data-id="andromeda"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Andromeda_Galaxy_2025.png/960px-Andromeda_Galaxy_2025.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous sector</small><b>Galaxies</b></div></a>
+      
+    </nav></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

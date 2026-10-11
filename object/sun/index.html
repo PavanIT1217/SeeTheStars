@@ -1,0 +1,175 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Sun: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="The Sun is a star – a giant ball of hot gas. In its core, hydrogen atoms smash together to make helium, releasing the energy that lights and warms our…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/sun/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Sun: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="The Sun is a star – a giant ball of hot gas. In its core, hydrogen atoms smash together to make helium, releasing the energy that lights and warms our…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/sun/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/The_Sun_in_white_light.jpg/1280px-The_Sun_in_white_light.jpg">
+  <meta property="og:image:alt" content="The Sun">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Sun: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="The Sun is a star – a giant ball of hot gas. In its core, hydrogen atoms smash together to make helium, releasing the energy that lights and warms our…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/The_Sun_in_white_light.jpg/1280px-The_Sun_in_white_light.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"The Sun","name":"The Sun – Star · Yellow dwarf","description":"The Sun is a star – a giant ball of hot gas. In its core, hydrogen atoms smash together to make helium, releasing the energy that lights and warms our planet. It holds about 99.8% of all the mass in the Solar System.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/The_Sun_in_white_light.jpg/1280px-The_Sun_in_white_light.jpg","url":"https://seethestars.webappslab.com/object/sun/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"The Sun","sameAs":"https://en.wikipedia.org/wiki/Sun"},"isPartOf":{"@type":"CollectionPage","name":"Home Base","url":"https://seethestars.webappslab.com/sector/home/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Home Base","item":"https://seethestars.webappslab.com/sector/home/"},{"@type":"ListItem","position":3,"name":"The Sun","item":"https://seethestars.webappslab.com/object/sun/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/home/">Home Base</a><span aria-hidden="true">/</span><span aria-current="page">The Sun</span></nav>
+    <article class="object" style="--hue:200">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:200" data-id="sun"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/The_Sun_in_white_light.jpg/1280px-The_Sun_in_white_light.jpg" alt="The Sun – Star · Yellow dwarf" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:The_Sun_in_white_light.jpg" target="_blank" rel="noopener">Matúš Motlo · CC BY-SA 4.0</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">⭐ Stars · Home Base</span>
+          <h1>The Sun</h1>
+          <p class="kind">Star · Yellow dwarf</p>
+          <p class="lead">The Sun is a star – a giant ball of hot gas. In its core, hydrogen atoms smash together to make helium, releasing the energy that lights and warms our planet. It holds about 99.8% of all the mass in the Solar System.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">📏</span><div><b>1.39 million km</b><small>About 109 Earths would fit side by side across it.</small></div></li><li><span class="ic" aria-hidden="true">🌡️</span><div><b>~5,500 °C</b><small>Surface</small></div></li><li><span class="ic" aria-hidden="true">🌡️</span><div><b>~15 million °C</b><small>Core</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/sun/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🔥</span><h3>Not a campfire</h3><p>The Sun isn’t burning like a fire – there is no oxygen to burn. It is made of about three-quarters hydrogen and one-quarter helium, so hot that the gas becomes glowing plasma. Every second, its core turns about 4 million tonnes of matter into pure energy, and it has enough fuel left for billions of years.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌀</span><h3>Spots and storms</h3><p>Sunspots are darker patches where tangled magnetic fields hold back the heat, and many are bigger than Earth. Their numbers rise and fall in a cycle of about 11 years. Near the busy peak, the Sun hurls out flares and giant clouds of gas that can light up auroras on Earth.</p></div><div class="hl"><span class="ic" aria-hidden="true">💨</span><h3>A wind from the Sun</h3><p>The Sun constantly blows a stream of charged particles into space called the solar wind, racing outward at over a million kilometres per hour. It inflates an enormous bubble around all the planets, called the heliosphere. Voyager 1, launched in 1977, crossed its edge in 2012 and entered interstellar space.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>The energy that reaches you as sunlight today was made in the Sun’s core tens of thousands of years ago; it takes that long to bounce its way out to the surface.</p></aside>
+
+          <div class="block">
+    <h2>Size it up</h2>
+    <div class="scale">
+      <svg viewBox="0 0 640 240" role="img" aria-label="The Sun and Earth drawn to scale">
+        <defs>
+          <radialGradient id="g-earth" cx="35%" cy="35%"><stop offset="0" stop-color="#8fd0ff"/><stop offset="0.6" stop-color="#2d6fcf"/><stop offset="1" stop-color="#123a73"/></radialGradient>
+          <radialGradient id="g-obj" cx="35%" cy="35%"><stop offset="0" stop-color="#ffd36b"/><stop offset="1" stop-color="#ff8a1e"/></radialGradient>
+          <clipPath id="clip-scale"><rect width="640" height="240" rx="12"/></clipPath>
+        </defs>
+        <g clip-path="url(#clip-scale)" font-family="Space Grotesk, sans-serif" font-size="22" fill="#a7aec4"><circle cx="845.4402762517658" cy="120" r="545.4402762517658" fill="url(#g-obj)"/><circle cx="160" cy="120" r="5" fill="url(#g-earth)"/><text x="160" y="153" text-anchor="middle">Earth</text><text x="616" y="34" text-anchor="end">Sun (just the edge!)</text></g>
+      </svg>
+      <p>About 109 Earths would fit side by side across it. Both are drawn to the same scale.</p>
+    </div>
+  </div>
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1543</span><p>Copernicus puts the Sun at the centre of the Solar System.</p></li><li><span class="year">1610s</span><p>Galileo and others observe sunspots, showing the Sun changes and rotates.</p></li><li><span class="year">1868</span><p>Astronomers discover a new element in sunlight and name it helium, after Helios, the Greek Sun god. It is found on Earth only in 1895.</p></li><li><span class="year">1939</span><p>Hans Bethe explains how fusion powers the stars.</p></li><li><span class="year">2024</span><p>NASA’s Parker Solar Probe flies just 6.1 million km from the Sun’s surface – the closest any human-made object has ever been.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">What will happen when the Sun runs out of fuel?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>In about 5 billion years it will swell into a red giant, then puff off its outer layers and shrink into a white dwarf about the size of Earth.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>⚠️ NEVER look directly at the Sun, and never through binoculars or a telescope – it can blind you instantly. Use certified eclipse glasses or a pinhole projector.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Diameter</dt><dd>1.39 million km (109 Earths)</dd></div><div><dt>Surface</dt><dd>~5,500 °C</dd></div><div><dt>Core</dt><dd>~15 million °C</dd></div><div><dt>Age</dt><dd>4.6 billion years</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark The Sun as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/moon/"><div class="ph " style="--hue:200" data-id="moon"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/960px-FullMoon2010.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>The Moon</b></div></a>
+        <a class="pager-card next" href="/object/mercury/"><div class="ph " style="--hue:18" data-id="mercury"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Mercury_in_true_color.jpg/960px-Mercury_in_true_color.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Mercury</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Polaris: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Polaris is the North Star. It isn’t the brightest star, but it’s special: Earth’s axis points almost straight at it, so while all other stars circle through…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/polaris/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Polaris: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Polaris is the North Star. It isn’t the brightest star, but it’s special: Earth’s axis points almost straight at it, so while all other stars circle through…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/polaris/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Steve_Ryan_-_Stars_around_Polaris_-_Day_62_%28by-sa%29.jpg/1280px-Steve_Ryan_-_Stars_around_Polaris_-_Day_62_%28by-sa%29.jpg">
+  <meta property="og:image:alt" content="Polaris">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Polaris: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Polaris is the North Star. It isn’t the brightest star, but it’s special: Earth’s axis points almost straight at it, so while all other stars circle through…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Steve_Ryan_-_Stars_around_Polaris_-_Day_62_%28by-sa%29.jpg/1280px-Steve_Ryan_-_Stars_around_Polaris_-_Day_62_%28by-sa%29.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Polaris","name":"Polaris – Star · Yellow supergiant","description":"Polaris is the North Star. It isn’t the brightest star, but it’s special: Earth’s axis points almost straight at it, so while all other stars circle through the night, Polaris stays put. For centuries it guided sailors and travellers.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Steve_Ryan_-_Stars_around_Polaris_-_Day_62_%28by-sa%29.jpg/1280px-Steve_Ryan_-_Stars_around_Polaris_-_Day_62_%28by-sa%29.jpg","url":"https://seethestars.webappslab.com/object/polaris/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Polaris","sameAs":"https://en.wikipedia.org/wiki/Polaris"},"isPartOf":{"@type":"CollectionPage","name":"The Stars","url":"https://seethestars.webappslab.com/sector/stars/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Stars","item":"https://seethestars.webappslab.com/sector/stars/"},{"@type":"ListItem","position":3,"name":"Polaris","item":"https://seethestars.webappslab.com/object/polaris/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/stars/">The Stars</a><span aria-hidden="true">/</span><span aria-current="page">Polaris</span></nav>
+    <article class="object" style="--hue:48">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:48" data-id="polaris"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Steve_Ryan_-_Stars_around_Polaris_-_Day_62_%28by-sa%29.jpg/1280px-Steve_Ryan_-_Stars_around_Polaris_-_Day_62_%28by-sa%29.jpg" alt="Polaris – Star · Yellow supergiant" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Steve_Ryan_-_Stars_around_Polaris_-_Day_62_(by-sa).jpg" target="_blank" rel="noopener">Steve Ryan from Groveland, CA, USA · CC BY-SA 2.0</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">⭐ Stars · The Stars</span>
+          <h1>Polaris</h1>
+          <p class="kind">Star · Yellow supergiant</p>
+          <p class="lead">Polaris is the North Star. It isn’t the brightest star, but it’s special: Earth’s axis points almost straight at it, so while all other stars circle through the night, Polaris stays put. For centuries it guided sailors and travellers.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>430 light-years away</b><small>Even light – the fastest thing there is – needs 430 years to get here.</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>North Star</b><small>Also called</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>Cepheid variable</b><small>Type</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/polaris/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🟡</span><h3>A real giant</h3><p>Polaris looks fairly ordinary because it is so far away – about 430 light-years. Up close it is a yellow supergiant, dozens of times wider than our Sun and more than a thousand times brighter. In fact it is only around the 50th brightest star in the night sky.</p></div><div class="hl"><span class="ic" aria-hidden="true">🎯</span><h3>Not quite on target</h3><p>Polaris is not exactly above Earth’s North Pole. It is slightly off to one side – a little more than the width of the full Moon – so it actually draws a very tiny circle in the sky each night. It will be at its closest to the pole around the year 2100.</p></div><div class="hl"><span class="ic" aria-hidden="true">📐</span><h3>A cosmic measuring tape</h3><p>Polaris belongs to a family of pulsing stars called Cepheids. In 1912, Henrietta Leavitt discovered that the slower a Cepheid pulses, the brighter it truly is. That lets astronomers work out how far away Cepheids are – even in other galaxies – and Polaris is the closest Cepheid of all.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>The height of Polaris above your horizon (in degrees) equals your latitude. At the North Pole it’s straight overhead; at the equator it sits on the horizon.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">For centuries</span><p>Navigators use Polaris to find north and to estimate their latitude at sea.</p></li><li><span class="year">1780</span><p>William Herschel discovers that Polaris has a companion star. We now know it is a triple star system.</p></li><li><span class="year">1911</span><p>Astronomers discover that Polaris gently pulses in brightness – it is a Cepheid variable.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">Will Polaris always be the North Star?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>No! Earth’s axis slowly wobbles like a spinning top. In about 12,000 years, the bright star Vega will be close to the pole instead.</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off about 430 years ago – around the time Galileo first turned a telescope to the sky.</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Only from the Northern Hemisphere. Follow the two “pointer stars” at the end of the Big Dipper.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Distance</dt><dd>~430 light-years</dd></div><div><dt>Also called</dt><dd>North Star</dd></div><div><dt>Type</dt><dd>Cepheid variable</dd></div><div><dt>Constellation</dt><dd>Ursa Minor</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Polaris as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/sirius/"><div class="ph " style="--hue:48" data-id="sirius"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Sirius_A_and_B_Hubble_photo.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Sirius</b></div></a>
+        <a class="pager-card next" href="/object/betelgeuse/"><div class="ph " style="--hue:48" data-id="betelgeuse"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Betelgeuse_captured_by_ALMA.jpg/960px-Betelgeuse_captured_by_ALMA.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Betelgeuse</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

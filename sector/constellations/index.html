@@ -1,0 +1,143 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Constellations: Pictures in the sky | See the Stars</title>
+  <meta name="description" content="For thousands of years, people joined the stars into pictures and told stories about them. Today astronomers use 88 official constellations as a map of the…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/sector/constellations/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Constellations: Pictures in the sky | See the Stars">
+  <meta property="og:description" content="For thousands of years, people joined the stars into pictures and told stories about them. Today astronomers use 88 official constellations as a map of the…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/sector/constellations/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Orion_Head_to_Toe.jpg/1280px-Orion_Head_to_Toe.jpg">
+  <meta property="og:image:alt" content="Constellations">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Constellations: Pictures in the sky | See the Stars">
+  <meta name="twitter:description" content="For thousands of years, people joined the stars into pictures and told stories about them. Today astronomers use 88 official constellations as a map of the…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Orion_Head_to_Toe.jpg/1280px-Orion_Head_to_Toe.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"Constellations – Pictures in the sky","description":"For thousands of years, people joined the stars into pictures and told stories about them. Today astronomers use 88 official constellations as a map of the sky – like countries on a world map. Learn a few and you will never feel lost under the night sky again.","url":"https://seethestars.webappslab.com/sector/constellations/","inLanguage":"en","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Orion","url":"https://seethestars.webappslab.com/object/orion/"},{"@type":"ListItem","position":2,"name":"Ursa Major & the Big Dipper","url":"https://seethestars.webappslab.com/object/ursamajor/"},{"@type":"ListItem","position":3,"name":"Cassiopeia","url":"https://seethestars.webappslab.com/object/cassiopeia/"},{"@type":"ListItem","position":4,"name":"Scorpius","url":"https://seethestars.webappslab.com/object/scorpius/"},{"@type":"ListItem","position":5,"name":"Crux – the Southern Cross","url":"https://seethestars.webappslab.com/object/crux/"},{"@type":"ListItem","position":6,"name":"Cygnus","url":"https://seethestars.webappslab.com/object/cygnus/"}]}},{"@type":"Quiz","name":"Constellations challenge","about":{"@type":"Thing","name":"Pictures in the sky"},"educationalLevel":"Beginner","hasPart":[{"@type":"Question","eduQuestionType":"Multiple choice","text":"How many official constellations are there?","acceptedAnswer":{"@type":"Answer","text":"88","answerExplanation":{"@type":"Comment","text":"The International Astronomical Union recognises 88 constellations covering the whole sky."}},"suggestedAnswer":[{"@type":"Answer","text":"12"},{"@type":"Answer","text":"48"},{"@type":"Answer","text":"100"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"Which two stars of the Big Dipper point to the North Star?","acceptedAnswer":{"@type":"Answer","text":"Dubhe and Merak","answerExplanation":{"@type":"Comment","text":"Follow the line from Merak through Dubhe and you arrive at Polaris."}},"suggestedAnswer":[{"@type":"Answer","text":"Mizar and Alcor"},{"@type":"Answer","text":"Alioth and Alkaid"},{"@type":"Answer","text":"Rigel and Sirius"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"Are the stars in a constellation close to each other?","acceptedAnswer":{"@type":"Answer","text":"No – they just look close from Earth","answerExplanation":{"@type":"Comment","text":"Stars in a constellation can be at wildly different distances. They only line up from our point of view."}},"suggestedAnswer":[{"@type":"Answer","text":"Yes, always"},{"@type":"Answer","text":"Only in Orion"},{"@type":"Answer","text":"They are touching"}]}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Constellations","item":"https://seethestars.webappslab.com/sector/constellations/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="sector">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <section class="banner" style="--hue:190">
+      <div class="ph " style="--hue:190" data-id="orion"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Orion_Head_to_Toe.jpg/1280px-Orion_Head_to_Toe.jpg" alt="Orion" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/#chapter-2">Chapter 2: The Stars</a></nav>
+      <div class="banner-copy">
+        <span class="eyebrow">Sector 8 of 12</span>
+        <h1>Constellations</h1>
+        <p>Pictures in the sky</p>
+      </div>
+    </section>
+    <section class="sector-intro" style="--hue:190">
+      <p class="lead">For thousands of years, people joined the stars into pictures and told stories about them. Today astronomers use 88 official constellations as a map of the sky – like countries on a world map. Learn a few and you will never feel lost under the night sky again.</p>
+      <div class="side">
+        <div class="progress-line"><div class="bar"><span style="width:0%"></span></div><span>0 of 6 explored</span></div>
+        <a class="btn primary" href="/object/orion/">Start this sector →</a>
+        <button class="btn ghost dl-sector">⤓ Save this sector for offline</button>
+      </div>
+    </section>
+    <h2 class="visually-hidden">In this sector</h2>
+    <div class="grid objects"><a class="obj-card" href="/object/orion/">
+    <div class="ph " style="--hue:190" data-id="orion"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Orion_Head_to_Toe.jpg/960px-Orion_Head_to_Toe.jpg" alt="Orion" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">01</span><b>Orion</b><small>Constellation · The Hunter</small></div>
+  </a><a class="obj-card" href="/object/ursamajor/">
+    <div class="ph " style="--hue:190" data-id="ursamajor"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Big_Dipper_Constellation_Over_Dunes_%2838836718054%29.jpg/960px-Big_Dipper_Constellation_Over_Dunes_%2838836718054%29.jpg" alt="Ursa Major &amp; the Big Dipper" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">02</span><b>Ursa Major & the Big Dipper</b><small>Constellation · The Great Bear</small></div>
+  </a><a class="obj-card" href="/object/cassiopeia/">
+    <div class="ph " style="--hue:190" data-id="cassiopeia"><img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Cassiopeia_Constellation.jpg" alt="Cassiopeia" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">03</span><b>Cassiopeia</b><small>Constellation · The Queen</small></div>
+  </a><a class="obj-card" href="/object/scorpius/">
+    <div class="ph " style="--hue:190" data-id="scorpius"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Scorpius_-_Corbinian_Thomas.jpg/960px-Scorpius_-_Corbinian_Thomas.jpg" alt="Scorpius" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">04</span><b>Scorpius</b><small>Constellation · The Scorpion</small></div>
+  </a><a class="obj-card" href="/object/crux/">
+    <div class="ph " style="--hue:190" data-id="crux"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/ESO_-_Alpha_Centauri_and_the_Southern_Cross_%28by%29.jpg/960px-ESO_-_Alpha_Centauri_and_the_Southern_Cross_%28by%29.jpg" alt="Crux – the Southern Cross" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">05</span><b>Crux – the Southern Cross</b><small>Constellation</small></div>
+  </a><a class="obj-card" href="/object/cygnus/">
+    <div class="ph " style="--hue:190" data-id="cygnus"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Milky_Way_in_Cygnus_2025_-_54657597165.jpg/960px-Milky_Way_in_Cygnus_2025_-_54657597165.jpg" alt="Cygnus" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">06</span><b>Cygnus</b><small>Constellation · The Swan</small></div>
+  </a></div>
+    <section class="challenge locked">
+      <div>
+        <span class="eyebrow">Sector challenge</span>
+        <h3>Explore all 6 to unlock the challenge</h3>
+        <p>3 questions · win 50 XP and a badge</p>
+      </div>
+      <span class="lock" aria-label="Locked">🔒</span>
+    </section>
+    <nav class="pager" aria-label="Sectors">
+      <a class="pager-card" href="/sector/exoplanets/"><div class="ph " style="--hue:140" data-id="kepler186f"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Kepler186f-ArtistConcept-20140417.jpg/960px-Kepler186f-ArtistConcept-20140417.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous sector</small><b>Other Worlds</b></div></a>
+      <a class="pager-card next" href="/sector/lifecycle/"><div class="ph " style="--hue:320" data-id="pillars"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Eagle_nebula_pillars.jpg/960px-Eagle_nebula_pillars.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next sector →</small><b>Star Nurseries & Graveyards</b></div></a>
+    </nav></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

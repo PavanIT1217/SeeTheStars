@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Hubble Ultra Deep Field: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="Astronomers pointed Hubble at a tiny, seemingly empty patch of sky and collected light for days. The image revealed about 10,000 galaxies – some seen as they…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/hudf/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Hubble Ultra Deep Field: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="Astronomers pointed Hubble at a tiny, seemingly empty patch of sky and collected light for days. The image revealed about 10,000 galaxies – some seen as they…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/hudf/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Hubble_ultra_deep_field_high_rez_edit1.jpg/1280px-Hubble_ultra_deep_field_high_rez_edit1.jpg">
+  <meta property="og:image:alt" content="Hubble Ultra Deep Field">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hubble Ultra Deep Field: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="Astronomers pointed Hubble at a tiny, seemingly empty patch of sky and collected light for days. The image revealed about 10,000 galaxies – some seen as they…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Hubble_ultra_deep_field_high_rez_edit1.jpg/1280px-Hubble_ultra_deep_field_high_rez_edit1.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"Hubble Ultra Deep Field","name":"Hubble Ultra Deep Field – Deep field · ~10,000 galaxies","description":"Astronomers pointed Hubble at a tiny, seemingly empty patch of sky and collected light for days. The image revealed about 10,000 galaxies – some seen as they were less than a billion years after the Big Bang.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Hubble_ultra_deep_field_high_rez_edit1.jpg/1280px-Hubble_ultra_deep_field_high_rez_edit1.jpg","url":"https://seethestars.webappslab.com/object/hudf/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"Hubble Ultra Deep Field","sameAs":"https://en.wikipedia.org/wiki/Hubble_Ultra-Deep_Field"},"isPartOf":{"@type":"CollectionPage","name":"The Whole Universe","url":"https://seethestars.webappslab.com/sector/universe/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Whole Universe","item":"https://seethestars.webappslab.com/sector/universe/"},{"@type":"ListItem","position":3,"name":"Hubble Ultra Deep Field","item":"https://seethestars.webappslab.com/object/hudf/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/universe/">The Whole Universe</a><span aria-hidden="true">/</span><span aria-current="page">Hubble Ultra Deep Field</span></nav>
+    <article class="object" style="--hue:260">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:260" data-id="hudf"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Hubble_ultra_deep_field_high_rez_edit1.jpg/1280px-Hubble_ultra_deep_field_high_rez_edit1.jpg" alt="Hubble Ultra Deep Field – Deep field · ~10,000 galaxies" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Hubble_ultra_deep_field_high_rez_edit1.jpg" target="_blank" rel="noopener">NASA and the European Space Agency. Edited by Noodle snacks · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">💥 Cosmology · The Whole Universe</span>
+          <h1>Hubble Ultra Deep Field</h1>
+          <p class="kind">Deep field · ~10,000 galaxies</p>
+          <p class="lead">Astronomers pointed Hubble at a tiny, seemingly empty patch of sky and collected light for days. The image revealed about 10,000 galaxies – some seen as they were less than a billion years after the Big Bang.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>13 billion light-years away</b><small>Even light – the fastest thing there is – needs 13 billion years to get here.</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>~11 days in total</b><small>Exposure</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>~10,000</b><small>Galaxies</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/hudf/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🧩</span><h3>Galaxies of Every Shape</h3><p>Nearer galaxies in the image look like neat spirals and smooth ovals, while the most distant ones are small, messy red smudges – young galaxies still putting themselves together. Only a few of the dots are stars in our own galaxy; almost everything else is a whole galaxy.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌍</span><h3>Light Older Than Earth</h3><p>Much of the light in this picture set out on its journey before the Sun and Earth even existed, about 4.6 billion years ago. Some of those photons were already travelling for billions of years when our planet was still a ball of molten rock.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌈</span><h3>Colours Tell Distance</h3><p>Hubble photographed the patch through several colour filters, from ultraviolet to near-infrared. Because the expanding universe stretches light, the most distant galaxies look reddest – or vanish completely from the bluer filters – which lets astronomers estimate how far away each one is.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>If one tiny patch holds 10,000 galaxies, the whole sky holds hundreds of billions – maybe trillions – of galaxies.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1995</span><p>The first Hubble Deep Field shows that “empty” sky is full of galaxies.</p></li><li><span class="year">2004</span><p>The Hubble Ultra Deep Field is released, built from about 800 exposures.</p></li><li><span class="year">2022</span><p>The James Webb Space Telescope begins taking even deeper images.</p></li><li><span class="year">2024–25</span><p>Webb finds galaxies that existed less than 300 million years after the Big Bang.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">How can a telescope see back in time?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Light takes time to travel. The farther away something is, the older the light we see. Deep fields are baby pictures of the universe.</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off about 13 billion years ago – around the time the universe was very young.</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Point your phone where it is: you are pointing at 10,000 galaxies hidden in a tiny dark patch.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Exposure</dt><dd>~11 days in total</dd></div><div><dt>Galaxies</dt><dd>~10,000</dd></div><div><dt>Sky area</dt><dd>Like a grain of sand at arm’s length</dd></div><div><dt>Constellation</dt><dd>Fornax</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark Hubble Ultra Deep Field as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/sombrero/"><div class="ph " style="--hue:230" data-id="sombrero"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Sombrero_Galaxy_%28heic2506a%29.jpg/960px-Sombrero_Galaxy_%28heic2506a%29.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Sombrero Galaxy (M104)</b></div></a>
+        <a class="pager-card next" href="/object/expansion/"><div class="ph " style="--hue:260" data-id="expansion"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/CMB_Timeline300_no_WMAP.jpg/960px-CMB_Timeline300_no_WMAP.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>The Big Bang & expanding universe</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

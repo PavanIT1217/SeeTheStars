@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>3I/ATLAS: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="3I/ATLAS is the third known object from another star system, and the fastest. It is an active comet, growing a tail as it passed the Sun. Some astronomers…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/atlas3i/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="3I/ATLAS: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="3I/ATLAS is the third known object from another star system, and the fastest. It is an active comet, growing a tail as it passed the Sun. Some astronomers…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/atlas3i/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/3I-ATLAS_noirlab2532b.jpg/1280px-3I-ATLAS_noirlab2532b.jpg">
+  <meta property="og:image:alt" content="3I/ATLAS">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="3I/ATLAS: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="3I/ATLAS is the third known object from another star system, and the fastest. It is an active comet, growing a tail as it passed the Sun. Some astronomers…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/3I-ATLAS_noirlab2532b.jpg/1280px-3I-ATLAS_noirlab2532b.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"3I/ATLAS","name":"3I/ATLAS – Interstellar comet · The third visitor","description":"3I/ATLAS is the third known object from another star system, and the fastest. It is an active comet, growing a tail as it passed the Sun. Some astronomers think it could be billions of years older than our Solar System.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/3I-ATLAS_noirlab2532b.jpg/1280px-3I-ATLAS_noirlab2532b.jpg","url":"https://seethestars.webappslab.com/object/atlas3i/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"3I/ATLAS","sameAs":"https://en.wikipedia.org/wiki/3I%2FATLAS"},"isPartOf":{"@type":"CollectionPage","name":"Comets & Space Visitors","url":"https://seethestars.webappslab.com/sector/comets/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Comets & Space Visitors","item":"https://seethestars.webappslab.com/sector/comets/"},{"@type":"ListItem","position":3,"name":"3I/ATLAS","item":"https://seethestars.webappslab.com/object/atlas3i/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/comets/">Comets & Space Visitors</a><span aria-hidden="true">/</span><span aria-current="page">3I/ATLAS</span></nav>
+    <article class="object" style="--hue:170">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:170" data-id="atlas3i"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/3I-ATLAS_noirlab2532b.jpg/1280px-3I-ATLAS_noirlab2532b.jpg" alt="3I/ATLAS – Interstellar comet · The third visitor" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:3I-ATLAS_noirlab2532b.jpg" target="_blank" rel="noopener">International Gemini Observatory/NOIRLab/NSF/AURA/B. Bolin Image Processing: J.  · CC BY 4.0</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">☄️ Comets · Comets & Space Visitors</span>
+          <h1>3I/ATLAS</h1>
+          <p class="kind">Interstellar comet · The third visitor</p>
+          <p class="lead">3I/ATLAS is the third known object from another star system, and the fastest. It is an active comet, growing a tail as it passed the Sun. Some astronomers think it could be billions of years older than our Solar System.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">🔎</span><div><b>1 July 2025</b><small>Discovered</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>~58 km/s</b><small>Arrived at</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>Late October 2025</b><small>Closest to Sun</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/atlas3i/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🚀</span><h3>A cosmic speed record</h3><p>3I/ATLAS entered our Solar System at about 58 kilometres every second – fast enough to cross from London to New York in under two minutes. It came from the direction of Sagittarius, towards the crowded centre of our Milky Way galaxy.</p></div><div class="hl"><span class="ic" aria-hidden="true">🧊</span><h3>Alien ice</h3><p>The James Webb Space Telescope found that the gas streaming from 3I/ATLAS is full of carbon dioxide – much more, compared with water, than in most comets from our own Solar System. Clues like this tell scientists about the cold place where it formed, around a star we will never see.</p></div><div class="hl"><span class="ic" aria-hidden="true">🌞</span><h3>Hiding behind the Sun</h3><p>When 3I/ATLAS made its closest pass by the Sun, it was on the far side of the Sun from Earth, so telescopes here could not watch. It never came near us: it always stayed more than 250 million kilometres from Earth, much farther away than the Sun.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>It is moving so fast that the Sun’s gravity can’t hold on to it. After this visit, it will never come back.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">2019</span><p>Amateur astronomer Gennadiy Borisov discovers 2I/Borisov, the first interstellar comet with a clear tail.</p></li><li><span class="year">2025</span><p>On 1 July, the ATLAS survey telescope in Chile discovers a third interstellar visitor.</p></li><li><span class="year">2025</span><p>In October it passes Mars, and spacecraft orbiting Mars photograph it. Later that month it makes its closest approach to the Sun.</p></li><li><span class="year">2025–26</span><p>Telescopes around the world and in space study it as it heads back out into interstellar space.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">How many interstellar visitors are there?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>Probably lots – most are just too small and faint to spot. The new Vera C. Rubin Observatory is expected to find many more.</p>
+          </section>
+
+          
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>Large telescopes only, and it is fading as it leaves.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Discovered</dt><dd>1 July 2025</dd></div><div><dt>Arrived at</dt><dd>~58 km/s</dd></div><div><dt>Closest to Sun</dt><dd>Late October 2025</dd></div><div><dt>Age</dt><dd>Maybe older than the Sun</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark 3I/ATLAS as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/oumuamua/"><div class="ph " style="--hue:170" data-id="oumuamua"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/A2017U1_5gsmoothWHT_enhanced.jpg/960px-A2017U1_5gsmoothWHT_enhanced.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>ʻOumuamua</b></div></a>
+        <a class="pager-card next" href="/object/sirius/"><div class="ph " style="--hue:48" data-id="sirius"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Sirius_A_and_B_Hubble_photo.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>Sirius</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

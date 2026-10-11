@@ -1,0 +1,162 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>M87* – the first black hole photo: facts, history and where to see it | See the Stars</title>
+  <meta name="description" content="M87* is a gigantic black hole in the galaxy Messier 87. In 2019 it became the first black hole ever photographed: a dark shadow surrounded by a glowing ring…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/object/m87bh/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="M87* – the first black hole photo: facts, history and where to see it | See the Stars">
+  <meta property="og:description" content="M87* is a gigantic black hole in the galaxy Messier 87. In 2019 it became the first black hole ever photographed: a dark shadow surrounded by a glowing ring…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/object/m87bh/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/Messier_87_Hubble_WikiSky.jpg/1280px-Messier_87_Hubble_WikiSky.jpg">
+  <meta property="og:image:alt" content="M87* – the first black hole photo">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M87* – the first black hole photo: facts, history and where to see it | See the Stars">
+  <meta name="twitter:description" content="M87* is a gigantic black hole in the galaxy Messier 87. In 2019 it became the first black hole ever photographed: a dark shadow surrounded by a glowing ring…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/Messier_87_Hubble_WikiSky.jpg/1280px-Messier_87_Hubble_WikiSky.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"headline":"M87* – the first black hole photo","name":"M87* – the first black hole photo – Supermassive black hole","description":"M87* is a gigantic black hole in the galaxy Messier 87. In 2019 it became the first black hole ever photographed: a dark shadow surrounded by a glowing ring of hot gas.","image":"https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/Messier_87_Hubble_WikiSky.jpg/1280px-Messier_87_Hubble_WikiSky.jpg","url":"https://seethestars.webappslab.com/object/m87bh/","inLanguage":"en","learningResourceType":"Lesson","educationalLevel":"Beginner","audience":{"@type":"EducationalAudience","educationalRole":"student","audienceType":"Children and families"},"about":{"@type":"Thing","name":"M87* – the first black hole photo","sameAs":"https://en.wikipedia.org/wiki/Messier_87"},"isPartOf":{"@type":"CollectionPage","name":"Extreme Objects","url":"https://seethestars.webappslab.com/sector/extreme/"},"author":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"publisher":{"@type":"Organization","name":"See the Stars","url":"https://seethestars.webappslab.com/","logo":"https://seethestars.webappslab.com/icons/icon-512.png"},"isAccessibleForFree":true},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"Extreme Objects","item":"https://seethestars.webappslab.com/sector/extreme/"},{"@type":"ListItem","position":3,"name":"M87* – the first black hole photo","item":"https://seethestars.webappslab.com/object/m87bh/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="object">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/sector/extreme/">Extreme Objects</a><span aria-hidden="true">/</span><span aria-current="page">M87* – the first black hole photo</span></nav>
+    <article class="object" style="--hue:280">
+      <div class="obj-top">
+        <figure class="obj-media">
+          <div class="ph obj-photo" style="--hue:280" data-id="m87bh"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/Messier_87_Hubble_WikiSky.jpg/1280px-Messier_87_Hubble_WikiSky.jpg" alt="M87* – the first black hole photo – Supermassive black hole" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+          <figcaption class="credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Messier_87_Hubble_WikiSky.jpg" target="_blank" rel="noopener">en:NASA, en:STScI, en:WikiSky · Public domain</a></figcaption>
+        </figure>
+        <div class="obj-intro">
+          <span class="eyebrow">🕳️ Black holes · Extreme Objects</span>
+          <h1>M87* – the first black hole photo</h1>
+          <p class="kind">Supermassive black hole</p>
+          <p class="lead">M87* is a gigantic black hole in the galaxy Messier 87. In 2019 it became the first black hole ever photographed: a dark shadow surrounded by a glowing ring of hot gas.</p>
+          <ul class="glance"><li><span class="ic" aria-hidden="true">💡</span><div><b>55 million light-years away</b><small>Even light – the fastest thing there is – needs 55 million years to get here.</small></div></li><li><span class="ic" aria-hidden="true">⚖️</span><div><b>~6.5 billion × Sun</b><small>Mass</small></div></li><li><span class="ic" aria-hidden="true">⭐</span><div><b>Messier 87 (Virgo)</b><small>Galaxy</small></div></li></ul>
+          <div class="obj-cta">
+            <a class="btn primary" href="/sky/m87bh/">🔭 Find it in the sky</a>
+            <button class="btn save">⤓ Save offline</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="obj-body">
+        <div class="article">
+          <section class="block"><h2>Take a closer look</h2><div class="highlights"><div class="hl"><span class="ic" aria-hidden="true">🚀</span><h3>A jet across the galaxy</h3><p>The jet shooting out from near M87* stretches about 5,000 light-years – longer than the distance from Earth to the Orion Nebula and back. Particles in it travel at nearly the speed of light. Magnetic fields twisted by the spinning black hole help launch them.</p></div><div class="hl"><span class="ic" aria-hidden="true">💾</span><h3>Data by aeroplane</h3><p>The 2017 observations made about 5 petabytes of data – far too much to send over the internet. So the hard drives, weighing about half a tonne, were flown to supercomputer centres. There, computers combined the signals from all the dishes to build the picture.</p></div><div class="hl"><span class="ic" aria-hidden="true">🍩</span><h3>Why the ring is lopsided</h3><p>Light from hot gas bends around the black hole, making the ring around its dark shadow. The ring is brighter on one side because gas there is swirling towards us, which boosts its light. Even though M87* is about 1,500 times heavier than Sagittarius A*, both look about the same size from Earth.</p></div></div></section>
+
+          <aside class="wow"><span class="eyebrow">✨ Mind-blowing fact</span><p>This black hole’s event horizon is bigger than our whole Solar System out to Neptune.</p></aside>
+
+          
+
+          <section class="block">
+            <h2>How we found out</h2>
+            <ol class="timeline"><li><span class="year">1918</span><p>Heber Curtis notices a “curious straight ray” coming from M87 – a jet blasted out from near the black hole.</p></li><li><span class="year">2017</span><p>Eight radio observatories around the world observe together as the Event Horizon Telescope – effectively a telescope the size of Earth.</p></li><li><span class="year">2019</span><p>On 10 April, the first image of a black hole is revealed to the world.</p></li><li><span class="year">2021</span><p>A new image shows the swirling magnetic fields around it.</p></li></ol>
+          </section>
+
+          <section class="wonder">
+            <span class="eyebrow">🤔 Something to wonder about</span>
+            <h2 class="q">How can a telescope be the size of Earth?</h2>
+            <button class="btn reveal">Have a think… then tap to see the answer</button>
+            <p class="a" hidden>By linking radio dishes on different continents and combining their data with super-precise atomic clocks.</p>
+          </section>
+
+          <aside class="timemachine"><span class="eyebrow">⏳ Light is a time machine</span><p>The light reaching you now set off about 55 million years ago – a while after an asteroid wiped out the dinosaurs.</p></aside>
+
+          <section class="block see-it">
+            <h2>See it yourself</h2>
+            <p>The galaxy M87 is visible in a small telescope as a fuzzy ball in Virgo.</p>
+            
+          </section>
+
+          <section class="block encyclopedia" hidden>
+            <h2>From the encyclopedia</h2>
+            <p class="extract"></p>
+            <a class="more" target="_blank" rel="noopener">Read the full article on Wikipedia ↗</a>
+          </section>
+        </div>
+
+        <aside class="facts-aside">
+          <div class="facts"><h2 class="facts-title">Quick facts</h2><dl>
+    <div><dt>Distance</dt><dd>~55 million light-years</dd></div><div><dt>Mass</dt><dd>~6.5 billion × Sun</dd></div><div><dt>Galaxy</dt><dd>Messier 87 (Virgo)</dd></div><div><dt>Imaged</dt><dd>2019</dd></div>
+    
+  </dl></div>
+        </aside>
+      </div>
+
+      <section class="finish">
+        <h2>Got it?</h2>
+        <p>Mark M87* – the first black hole photo as explored to earn 10 XP.</p>
+        <button class="btn primary learn">I explored this! +10 XP</button>
+      </section>
+
+      <nav class="pager" aria-label="Wonders">
+        <a class="pager-card" href="/object/sgra/"><div class="ph " style="--hue:280" data-id="sgra"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/EHT_Saggitarius_A_black_hole.tif/lossy-page1-960px-EHT_Saggitarius_A_black_hole.tif.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous</small><b>Sagittarius A*</b></div></a>
+        <a class="pager-card next" href="/object/milkyway/"><div class="ph " style="--hue:230" data-id="milkyway"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/ESO-VLT-Laser-phot-33a-07.jpg/960px-ESO-VLT-Laser-phot-33a-07.jpg" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next →</small><b>The Milky Way</b></div></a>
+      </nav>
+    </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

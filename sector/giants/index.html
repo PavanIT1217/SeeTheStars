@@ -1,0 +1,135 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Giants: Jupiter, Saturn, Uranus and Neptune | See the Stars</title>
+  <meta name="description" content="Beyond the rocky worlds live the giants – enormous planets made mostly of gas and ice, with storms bigger than Earth, dozens of moons and spectacular rings.…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/sector/giants/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Giants: Jupiter, Saturn, Uranus and Neptune | See the Stars">
+  <meta property="og:description" content="Beyond the rocky worlds live the giants – enormous planets made mostly of gas and ice, with storms bigger than Earth, dozens of moons and spectacular rings.…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/sector/giants/">
+  <meta property="og:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/1280px-Jupiter_OPAL_2024.png">
+  <meta property="og:image:alt" content="The Giants">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Giants: Jupiter, Saturn, Uranus and Neptune | See the Stars">
+  <meta name="twitter:description" content="Beyond the rocky worlds live the giants – enormous planets made mostly of gas and ice, with storms bigger than Earth, dozens of moons and spectacular rings.…">
+  <meta name="twitter:image" content="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/1280px-Jupiter_OPAL_2024.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","name":"The Giants – Jupiter, Saturn, Uranus and Neptune","description":"Beyond the rocky worlds live the giants – enormous planets made mostly of gas and ice, with storms bigger than Earth, dozens of moons and spectacular rings. One of them was even discovered with mathematics before anyone saw it.","url":"https://seethestars.webappslab.com/sector/giants/","inLanguage":"en","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Jupiter","url":"https://seethestars.webappslab.com/object/jupiter/"},{"@type":"ListItem","position":2,"name":"Saturn","url":"https://seethestars.webappslab.com/object/saturn/"},{"@type":"ListItem","position":3,"name":"Uranus","url":"https://seethestars.webappslab.com/object/uranus/"},{"@type":"ListItem","position":4,"name":"Neptune","url":"https://seethestars.webappslab.com/object/neptune/"}]}},{"@type":"Quiz","name":"The Giants challenge","about":{"@type":"Thing","name":"Jupiter, Saturn, Uranus and Neptune"},"educationalLevel":"Beginner","hasPart":[{"@type":"Question","eduQuestionType":"Multiple choice","text":"Which planet would float in a (gigantic) bathtub?","acceptedAnswer":{"@type":"Answer","text":"Saturn","answerExplanation":{"@type":"Comment","text":"Saturn is less dense than water."}},"suggestedAnswer":[{"@type":"Answer","text":"Jupiter"},{"@type":"Answer","text":"Uranus"},{"@type":"Answer","text":"Neptune"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"How was Neptune first found?","acceptedAnswer":{"@type":"Answer","text":"By mathematics predicting where it should be","answerExplanation":{"@type":"Comment","text":"Urbain Le Verrier calculated its position from the way it tugged on Uranus. Johann Galle found it on the first night of searching in 1846."}},"suggestedAnswer":[{"@type":"Answer","text":"By accident"},{"@type":"Answer","text":"By a space probe"},{"@type":"Answer","text":"Ancient people always knew"}]},{"@type":"Question","eduQuestionType":"Multiple choice","text":"Which planet rolls around the Sun on its side?","acceptedAnswer":{"@type":"Answer","text":"Uranus","answerExplanation":{"@type":"Comment","text":"Uranus is tilted about 98°, probably knocked over by a giant collision long ago."}},"suggestedAnswer":[{"@type":"Answer","text":"Saturn"},{"@type":"Answer","text":"Neptune"},{"@type":"Answer","text":"Jupiter"}]}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Explore","item":"https://seethestars.webappslab.com/"},{"@type":"ListItem","position":2,"name":"The Giants","item":"https://seethestars.webappslab.com/sector/giants/"}]}]}</script>
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="sector">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1">
+    <section class="banner" style="--hue:35">
+      <div class="ph " style="--hue:35" data-id="jupiter"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/1280px-Jupiter_OPAL_2024.png" alt="Jupiter" fetchpriority="high" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Explore</a><span aria-hidden="true">/</span><a href="/#chapter-1">Chapter 1: Our Solar System</a></nav>
+      <div class="banner-copy">
+        <span class="eyebrow">Sector 3 of 12</span>
+        <h1>The Giants</h1>
+        <p>Jupiter, Saturn, Uranus and Neptune</p>
+      </div>
+    </section>
+    <section class="sector-intro" style="--hue:35">
+      <p class="lead">Beyond the rocky worlds live the giants – enormous planets made mostly of gas and ice, with storms bigger than Earth, dozens of moons and spectacular rings. One of them was even discovered with mathematics before anyone saw it.</p>
+      <div class="side">
+        <div class="progress-line"><div class="bar"><span style="width:0%"></span></div><span>0 of 4 explored</span></div>
+        <a class="btn primary" href="/object/jupiter/">Start this sector →</a>
+        <button class="btn ghost dl-sector">⤓ Save this sector for offline</button>
+      </div>
+    </section>
+    <h2 class="visually-hidden">In this sector</h2>
+    <div class="grid objects"><a class="obj-card" href="/object/jupiter/">
+    <div class="ph " style="--hue:35" data-id="jupiter"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Jupiter_OPAL_2024.png/960px-Jupiter_OPAL_2024.png" alt="Jupiter" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">01</span><b>Jupiter</b><small>Planet · Gas giant</small></div>
+  </a><a class="obj-card" href="/object/saturn/">
+    <div class="ph " style="--hue:35" data-id="saturn"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png/960px-Saturn_global_view_from_Cassini%2C_rings_open_Better_Colour.png" alt="Saturn" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">02</span><b>Saturn</b><small>Planet · Gas giant</small></div>
+  </a><a class="obj-card" href="/object/uranus/">
+    <div class="ph " style="--hue:35" data-id="uranus"><img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Uranus_Voyager2_color_calibrated.png" alt="Uranus" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">03</span><b>Uranus</b><small>Planet · Ice giant</small></div>
+  </a><a class="obj-card" href="/object/neptune/">
+    <div class="ph " style="--hue:35" data-id="neptune"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Neptune_Voyager2_color_calibrated.png/960px-Neptune_Voyager2_color_calibrated.png" alt="Neptune" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div>
+    <span class="badges"></span>
+    <div class="body"><span class="num">04</span><b>Neptune</b><small>Planet · Ice giant</small></div>
+  </a></div>
+    <section class="challenge locked">
+      <div>
+        <span class="eyebrow">Sector challenge</span>
+        <h3>Explore all 4 to unlock the challenge</h3>
+        <p>3 questions · win 50 XP and a badge</p>
+      </div>
+      <span class="lock" aria-label="Locked">🔒</span>
+    </section>
+    <nav class="pager" aria-label="Sectors">
+      <a class="pager-card" href="/sector/rocky/"><div class="ph " style="--hue:18" data-id="mars"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png/960px-Mars_-_August_30_2021_-_Flickr_-_Kevin_M._Gill.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>← Previous sector</small><b>The Rocky Worlds</b></div></a>
+      <a class="pager-card next" href="/sector/dwarfs/"><div class="ph " style="--hue:270" data-id="pluto"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Pluto_in_True_Color_-_High-Res.png/960px-Pluto_in_True_Color_-_High-Res.png" alt="" loading="lazy" decoding="async" onload="this.classList.add('in')" onerror="window.fillArt?.(this)"></div><div><small>Next sector →</small><b>The Little Worlds</b></div></a>
+    </nav></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no accounts, no tracking.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data.</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>
