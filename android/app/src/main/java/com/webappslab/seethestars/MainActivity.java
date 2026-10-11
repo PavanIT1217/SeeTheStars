@@ -1,4 +1,4 @@
-package io.github.pavanit1217.seethestars;
+package com.webappslab.seethestars;
 
 import com.getcapacitor.BridgeActivity;
 

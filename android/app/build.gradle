@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "io.github.pavanit1217.seethestars"
+    namespace = "com.webappslab.seethestars"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "io.github.pavanit1217.seethestars"
+        applicationId "com.webappslab.seethestars"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         // Every store upload needs a higher versionCode: CI passes the run number, local builds use 1.
