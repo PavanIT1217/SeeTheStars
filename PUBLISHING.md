@@ -13,7 +13,7 @@ The Android and iOS apps live in `android/` and `ios/`. They are the same web ap
 | Identity checks | ID verification, can take a few days | Can take a few days (organisations need a D-U-N-S number) |
 | First release | New *personal* accounts must run a **closed test with at least 12 testers for 14 days** before going public | Every version goes through **App Review** (usually 1–3 days) |
 
-**App ID.** The apps use `io.github.pavanit1217.seethestars`. Once you've uploaded to a store, this ID can never change. To use a different one (e.g. `com.yourname.seethestars`), change it **before your first upload** in `capacitor.config.json`, `android/app/build.gradle` (`namespace` and `applicationId`) and in Xcode (Signing & Capabilities → Bundle Identifier).
+**App ID.** The apps use `com.webappslab.seethestars`, based on your domain. Once you've uploaded to a store, this ID can never change: Google Play calls it the *package name*, Apple the *Bundle ID*. Use exactly this value when you create the app in Play Console and App Store Connect.
 
 **Website and privacy policy URL.** The web version is live at **https://seethestars.webappslab.com** (GitHub Pages from `master`, custom domain set in the `CNAME` file). Both stores need a privacy policy URL. Use:
 `https://seethestars.webappslab.com/privacy.html`
