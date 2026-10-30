@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "1099223678104-rruglb4lgkeh4hqemroqu15nn18dk60r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.webappslab.seethestars",
+            "certificate_hash": "4b5db2c23475f86a78d3a49c3b36ddf9b1a70e71"
+          }
+        },
+        {
           "client_id": "1099223678104-ljr0cga6l8nvfm2ur409ivsllovcuirn.apps.googleusercontent.com",
           "client_type": 3
         }
