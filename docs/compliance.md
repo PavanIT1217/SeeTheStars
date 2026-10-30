@@ -21,7 +21,7 @@ No ads, no analytics, no tracking, no data sold or shared for advertising.
 
 - **Does your app collect or share any of the required user data types?** Yes.
 - **Is all of the user data collected by your app encrypted in transit?** Yes.
-- **Do you provide a way for users to request that their data is deleted?** Yes (Delete account in the app, Leave class, or a request on GitHub).
+- **Do you provide a way for users to request that their data is deleted?** Yes (Delete account in the app, Leave class, or an email to pavan@webappslab.com).
 - Data types, all *collected*, *not shared*, *optional*:
   - **Personal info → Name, Email address**. Purpose: *Account management*. (Grown-up sign-in only.)
   - **Personal info → User IDs**. Purpose: *Account management, App functionality*.
@@ -47,10 +47,10 @@ No ads, no analytics, no tracking, no data sold or shared for advertising.
 
 - Children use the app without giving any personal data. Grown-ups choose to sign in.
 - Classroom mode relies on the school/teacher context. Teachers should have the school's permission to use it, and students are told to use a nickname, not their full name.
-- **Open item:** COPPA and DPDP expect a direct contact for privacy requests. The policy currently points to GitHub issues. **Add a contact email** to `privacy.html` before release.
+- Privacy requests (access or deletion, including for a child) go to **pavan@webappslab.com**, listed in `privacy.html`.
 
 ## Open setup items
 
 - [ ] Firebase → Authentication → Sign-in method → Apple → *OAuth code flow configuration*: Team ID `PDBY98SCNB`, Key ID `5VPWF4XSN7`, private key from `AuthKey_5VPWF4XSN7.p8` (in `~/seethestars-signing/`). Needed to revoke Apple tokens on Delete account.
 - [ ] After the first Play upload: add Play's app-signing SHA-1/SHA-256 to the Firebase Android app, re-download `google-services.json`, rebuild.
-- [ ] Add a privacy contact email to `privacy.html`.
+- [x] Privacy contact email in `privacy.html`: pavan@webappslab.com.
