@@ -33,8 +33,10 @@ android {
     buildTypes {
         release {
             if (System.getenv("ANDROID_KEYSTORE_PATH")) signingConfig signingConfigs.release
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // Shrink and obfuscate like PaperKid: smaller download, and Play flags unobfuscated apps.
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
