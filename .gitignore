@@ -1,3 +1,6 @@
 node_modules/
 .DS_Store
 www/
+
+# Firebase emulator logs
+*-debug.log

@@ -11,7 +11,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SECTORS, OBJECTS, JOURNEY } from '../js/data/catalog.js';
 import { PHOTOS } from '../js/data/photos.js';
-import { SITE, url, esc, pageMeta, headTags, homeHtml, sectorHtml, objectHtml, libraryHtml, skyLandingHtml } from '../js/views.js';
+import { SITE, url, esc, pageMeta, headTags, homeHtml, sectorHtml, objectHtml, libraryHtml, skyLandingHtml, tonightHtml } from '../js/views.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -31,6 +31,7 @@ export function buildPages() {
   out['index.html'] = page(template, 'home', null, homeHtml({ live: false }));
   out['library/index.html'] = page(template, 'library', null, libraryHtml());
   out['sky/index.html'] = page(template, 'sky', null, skyLandingHtml());
+  out['tonight/index.html'] = page(template, 'tonight', null, tonightHtml({ live: false }));
   out['me/index.html'] = page(template, 'me', null, noindexBody('My journey', 'Your progress, badges and settings.'));
   for (const s of SECTORS) {
     out[`sector/${s.id}/index.html`] = page(template, 'sector', s.id, sectorHtml(s));
@@ -50,7 +51,7 @@ export function buildPages() {
   out['sitemap.xml'] = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${[
-    entry('/'), entry(url.library), entry(url.sky()),
+    entry('/'), entry(url.tonight), entry(url.library), entry(url.sky()),
     ...SECTORS.map((s) => entry(url.sector(s.id), PHOTOS[s.cover]?.lg)),
     ...JOURNEY.map(({ id }) => entry(url.object(id), PHOTOS[id]?.lg)),
   ].join('\n')}
@@ -61,7 +62,7 @@ ${[
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  for (const dir of ['object', 'sector', 'quiz', 'library', 'sky', 'me']) {
+  for (const dir of ['object', 'sector', 'quiz', 'library', 'sky', 'me', 'tonight']) {
     if (existsSync(join(ROOT, dir))) rmSync(join(ROOT, dir), { recursive: true });
   }
   const files = buildPages();

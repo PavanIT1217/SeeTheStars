@@ -3,8 +3,8 @@ import { OBJECTS, SECTORS } from './data/catalog.js';
 import { STARS, STAR_NAMES, CONSTELLATIONS } from './data/sky.js';
 import { julianDate, compassName, nextHorizonCrossing, angularDistance, norm360, horizonMatrix, equatorialVector } from './astro.js';
 import { getSettings, setSettings, markSpotted, isSpotted, isScientist } from './store.js';
-import { locate as whereIs } from './where.js';
-import { predictPasses, refreshTLE } from './iss.js';
+import { locate as whereIs, satOf } from './where.js';
+import { predictPasses, refreshAllTLE, SATELLITES } from './iss.js';
 
 const fmtTime = (d) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 const fmtDay = (d) => (d.toDateString() === new Date().toDateString() ? 'today' : d.toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' }));
@@ -55,6 +55,9 @@ export function chartTarget(key) {
     if (CON_OBJECT[c.id]) return OBJECTS[CON_OBJECT[c.id]];
     return { id: key, chart: true, name: c.name, kind: `Constellation · ${c.gen}`, pos: { ra: c.label[0], dec: c.label[1] } };
   }
+  if (kind === 'sat' && SATELLITES[ref] && ref !== 'iss') {
+    return { id: key, chart: true, name: SATELLITES[ref].name, kind: 'Satellite · you can see it with your eyes', art: { type: 'iss' }, pos: { sat: ref } };
+  }
   if (kind === 'star') {
     const i = +ref, s = STAR_LABEL.get(i);
     if (!s) return null;
@@ -74,6 +77,11 @@ export function searchSky(q, limit = 12) {
     if (!o.pos) continue;
     const s = score(o.name);
     if (s) results.push({ key: o.id, name: o.name, kind: o.kind, s: s + 1 });
+  }
+  for (const [id, sat] of Object.entries(SATELLITES)) {
+    if (id === 'iss') continue;
+    const s = Math.max(score(sat.name), score(sat.short));
+    if (s) results.push({ key: `sat-${id}`, name: sat.name, kind: 'Satellite', s: s + 1 });
   }
   for (const c of CONSTELLATIONS) {
     if (CON_OBJECT[c.id] && results.some((r) => r.key === CON_OBJECT[c.id])) continue;
@@ -136,6 +144,10 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   let disposed = false;
   let hintUntil = 0;
   let aimPending = false; // point the drag view near the target once its position is known
+  // Time travel: the sky can be shown at any moment; playRate is sky-seconds per real second.
+  let timeOffset = 0, playRate = 0, lastFrameAt = 0, computedOffset = 0, crossingAt = 0;
+  const skyNow = () => new Date(Date.now() + timeOffset);
+  const live = () => Math.abs(timeOffset) < 60e3;
 
   root.innerHTML = `
     <div class="sky">
@@ -157,6 +169,15 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
         <button class="icon-btn sky-zoom-out" aria-label="Zoom out">−</button>
       </div>
       <div class="sky-alert" hidden></div>
+      <div class="sky-time glass" hidden>
+        <button class="sky-play" aria-label="Play time">▶</button>
+        <div class="sky-time-mid">
+          <div class="sky-time-label"></div>
+          <input type="range" class="sky-scrub" min="-1440" max="1440" step="10" value="0" aria-label="Move time back or forward">
+        </div>
+        <button class="sky-now-btn" hidden>Now</button>
+        <label class="sky-date-btn sci-only" title="Jump to a date">📅<input type="datetime-local" class="sky-date" aria-label="Jump to a date"></label>
+      </div>
       <div class="sky-hud glass">
         <div class="hud-row"><span class="hud-label sci-only">TARGET</span><span class="sky-spotted" hidden>✦ SPOTTED</span></div>
         <div class="sky-name"></div>
@@ -238,15 +259,21 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       if (o.id === 'crabpulsar' || o.id === 'milkyway') continue; // same spot as another object
       const h = whereIs(o.pos, observer, now);
       if (!h) continue;
-      positions.push({ fast: !!o.pos.iss, kid: !!o.pos.iss || ['home', 'rocky', 'giants'].includes(o.sector), o, alt: h.alt, az: h.az, v: vec(h.alt, h.az), color: TYPE_COLORS[o.art?.type] || '#fff' });
+      positions.push({ fast: !!satOf(o.pos), kid: !!satOf(o.pos) || ['home', 'rocky', 'giants'].includes(o.sector), o, alt: h.alt, az: h.az, v: vec(h.alt, h.az), color: TYPE_COLORS[o.art?.type] || '#fff' });
+    }
+    for (const id of Object.keys(SATELLITES)) {
+      if (id === 'iss') continue; // the ISS is a journey object
+      const o = chartTarget(`sat-${id}`);
+      const h = whereIs(o.pos, observer, now);
+      if (h) positions.push({ fast: true, kid: true, o, alt: h.alt, az: h.az, v: vec(h.alt, h.az), color: TYPE_COLORS.iss });
     }
     computeChart(jd);
     if (target) {
       if (target.pos?.down) targetHz = { alt: -90, az: 0 };
       else if (target.pos?.everywhere) targetHz = null;
       else targetHz = whereIs(target.pos, observer, now);
-      if (target.pos?.iss) { if (!passes) passes = predictPasses(observer, now, 72); }
-      else if (targetHz && !crossing) crossing = nextHorizonCrossing(target.pos, observer, now);
+      if (satOf(target.pos)) { if (!passes) { passes = predictPasses(observer, now, 72, 10, satOf(target.pos)); crossingAt = +now; } }
+      else if (targetHz && !crossing) { crossing = nextHorizonCrossing(target.pos, observer, now); crossingAt = +now; }
     } else targetHz = null;
   }
 
@@ -611,7 +638,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     $('.sky-az').textContent = `${targetHz.az.toFixed(1)}° ${compassName(targetHz.az).replace(/orth|outh|ast|est/g, '').replace(/-/g, '')}`;
 
     let extra = '';
-    if (target.pos?.iss) extra = issText();
+    if (satOf(target.pos)) extra = issText();
     else if (target.pos?.down) extra = 'Earth is right under your feet. Point straight down!';
     else if (targetHz.alt < 0) {
       extra = `🌏 Below your horizon right now – you’re pointing <i>through the Earth</i>.`;
@@ -630,12 +657,12 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   }
 
   function issText() {
-    const now = new Date();
+    const now = skyNow();
     const upcoming = (passes || []).filter((p) => p.end > now);
     const vis = upcoming.find((p) => p.visible);
     let t = targetHz.alt > 0
       ? `🛰 Above your horizon right now, ${Math.round(targetHz.km).toLocaleString('en-US')} km away and moving fast!`
-      : `🛰 Below your horizon – over ${targetHz.iss.lat.toFixed(0)}°, ${targetHz.iss.lon.toFixed(0)}° right now.`;
+      : `🛰 Below your horizon – flying over ${targetHz.iss.lat.toFixed(0)}°, ${targetHz.iss.lon.toFixed(0)}° right now.`;
     if (vis) t += ` Next time you can <b>see it with your eyes</b>: <b>${fmtDay(vis.start)} ${fmtTime(vis.start)}</b>, up to ${Math.round(vis.maxAlt)}° high, from the ${compassName(vis.startAz)}.`;
     else if (upcoming[0]) t += ` Next pass overhead: ${fmtDay(upcoming[0].start)} ${fmtTime(upcoming[0].start)} (in daylight – hard to see).`;
     return t;
@@ -644,7 +671,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   function tryLock(now, aligned) {
     if (!aligned) { lockStart = 0; return; }
     if (!lockStart) lockStart = now;
-    if (now - lockStart > LOCK_MS && target && !target.chart && markSpotted(target.id)) {
+    if (now - lockStart > LOCK_MS && target && !target.chart && live() && markSpotted(target.id)) {
       $('.sky-spotted').hidden = false;
       onSpotted?.(target);
     }
@@ -652,16 +679,21 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
 
   function frame(now) {
     if (disposed) return;
-    if (now - lastCompute > 5000 || !lastCompute) { computePositions(new Date()); lastCompute = now; }
-    else {
+    if (playRate && lastFrameAt) { timeOffset += playRate * (now - lastFrameAt); syncTime(); }
+    lastFrameAt = now;
+    const moved = Math.abs(timeOffset - computedOffset) > 20e3;
+    if (now - lastCompute > 5000 || !lastCompute || (moved && now - lastCompute > 40)) {
+      if (Math.abs(skyNow() - crossingAt) > 30 * 60e3) { crossing = null; passes = null; }
+      computePositions(skyNow()); lastCompute = now; computedOffset = timeOffset;
+    } else {
       // The ISS crosses the sky in minutes: keep it (and the target, if it is the ISS) up to date every frame.
-      const d = new Date();
+      const d = skyNow();
       for (const p of positions) {
         if (!p.fast) continue;
         const h = whereIs(p.o.pos, observer, d);
         if (h) Object.assign(p, { alt: h.alt, az: h.az, v: vec(h.alt, h.az) });
       }
-      if (target?.pos?.iss) targetHz = whereIs(target.pos, observer, d) || targetHz;
+      if (satOf(target?.pos)) targetHz = whereIs(target.pos, observer, d) || targetHz;
     }
     if (aimPending && mode === 'manual' && targetHz) {
       look = { az: norm360(targetHz.az + 35), alt: Math.max(-20, Math.min(70, targetHz.alt)) };
@@ -694,7 +726,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     }
     const angle = screen.orientation?.angle ?? window.orientation ?? 0;
     rawBasis = basisFromOrientation(alpha, e.beta, e.gamma, angle);
-    if (mode !== 'sensor') { mode = 'sensor'; basis = rawBasis; $('.sky-zoom').hidden = true; }
+    if (mode !== 'sensor') { mode = 'sensor'; basis = rawBasis; $('.sky-zoom').hidden = true; timeBar.hidden = false; }
   }
 
   async function startSensors() {
@@ -741,6 +773,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     if (mode === 'sensor') return;
     mode = 'manual';
     $('.sky-zoom').hidden = false;
+    timeBar.hidden = false;
     $('.sky-start').hidden = true;
     if (auto) hintUntil = performance.now() + 6000;
     aimPending = !auto;
@@ -818,6 +851,31 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     searchBox.hidden = true;
   });
 
+  // Time travel controls.
+  const timeBar = $('.sky-time'), scrub = $('.sky-scrub'), playBtn = $('.sky-play');
+  const RATES = [0, 600, 3600]; // stopped, 10 minutes a second, 1 hour a second
+  function syncTime() {
+    const t = skyNow();
+    const label = live() ? 'Now' : t.toLocaleString([], { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    const h = timeOffset / 3600e3;
+    const rel = live() ? '' : ` <small>${h > 0 ? '+' : '−'}${Math.abs(h) < 48 ? `${Math.abs(h).toFixed(1).replace(/\.0$/, '')} h` : `${Math.round(Math.abs(h) / 24)} days`}</small>`;
+    $('.sky-time-label').innerHTML = `${label}${rel}`;
+    scrub.value = Math.max(-1440, Math.min(1440, Math.round(timeOffset / 60e3)));
+    $('.sky-now-btn').hidden = live();
+    timeBar.classList.toggle('travelling', !live());
+    // ▶ start → ▶▶ faster → ■ stop
+    playBtn.textContent = { 0: '▶', 600: '▶▶', 3600: '■' }[playRate];
+    playBtn.setAttribute('aria-label', { 0: 'Play time forward', 600: 'Faster', 3600: 'Stop time' }[playRate]);
+    playBtn.classList.toggle('on', !!playRate);
+  }
+  const jump = (offsetMs) => { timeOffset = offsetMs; lockStart = 0; syncTime(); };
+  scrub.addEventListener('input', () => { playRate = 0; jump(+scrub.value * 60e3); });
+  $('.sky-now-btn').addEventListener('click', () => { playRate = 0; jump(0); });
+  playBtn.addEventListener('click', () => { playRate = RATES[(RATES.indexOf(playRate) + 1) % RATES.length]; syncTime(); });
+  $('.sky-date').addEventListener('click', (e) => { try { e.target.showPicker?.(); } catch { /* not supported – the field still works */ } });
+  $('.sky-date').addEventListener('change', (e) => { const t = new Date(e.target.value); if (!isNaN(t)) { playRate = 0; jump(t - Date.now()); } });
+  syncTime();
+
   // Red night mode keeps your eyes adjusted to the dark (applies to the whole app).
   $('.sky-night').addEventListener('click', () => {
     setSettings({ night: !getSettings().night });
@@ -875,7 +933,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   $('.sky-alert').textContent = 'No motion sensors detected – drag the sky to look around.';
   video.hidden = true;
 
-  refreshTLE().then((fresh) => { if (fresh) { passes = null; lastCompute = 0; } });
+  refreshAllTLE().then((fresh) => { if (fresh) { passes = null; lastCompute = 0; } });
   window.addEventListener('resize', resize);
   resize();
   updateStatic();

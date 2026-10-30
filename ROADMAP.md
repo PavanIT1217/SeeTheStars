@@ -31,12 +31,12 @@ Benchmarked against **Night Sky** (iCandi Apps) and **Sky Guide** (Fifth Star La
 4. Moon phase, illumination, rise/set on home and Moon pages.
 5. Drag view as a first-class sky chart: zoom, tap-to-identify, search.
 
-## Phase 2 – Retention
+## Phase 2 – Retention ✅ (done 2026-10-30)
 6. Time travel slider and play in the Sky Finder.
 7. Local notifications: ISS passes, meteor showers, Moon phases, conjunctions, tonight's challenge.
 8. "Tonight" page: the 3–5 best things to see now, linked to journey and Sky Finder.
-9. More satellites (Tiangong, Hubble, Starlink trains) via existing SGP4.
-10. Optional accounts and progress sync.
+9. More satellites: Tiangong and Hubble via the existing SGP4 code. *Starlink trains deferred: CelesTrak has no small feed of fresh launches, and the full Starlink list (~1.6 MB) is too heavy for a kids' app.*
+10. Optional grown-up accounts (Google; Apple on iPhone) behind a parental gate, syncing progress via Firebase (`seethestars-app`).
 
 ## Phase 3 – Learning moat
 11. Guided sky tours (narrated, object to object).

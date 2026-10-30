@@ -5,10 +5,12 @@ import * as media from './media.js';
 import { mountSky } from './sky.js';
 import { startStarfield } from './starfield.js';
 import { compassName } from './astro.js';
-import { predictPasses, refreshTLE, tleAgeDays } from './iss.js';
+import { predictPasses, refreshTLE, refreshAllTLE, tleAgeDays } from './iss.js';
+import { DEFAULT_PREFS, remindersAvailable, requestReminderPermission, scheduleReminders, onReminderTap } from './reminders.js';
+import * as account from './account.js';
 import {
   url, esc, fmtTime, observer, photo, crumbs, progressBar, rankRing, modeSwitch,
-  homeHtml, skyNowHtml, sectorHtml, objectHtml, factsHtml, libraryHtml, libraryItems, pageMeta, artFallback,
+  homeHtml, skyNowHtml, sectorHtml, objectHtml, factsHtml, libraryHtml, libraryItems, pageMeta, artFallback, tonightHtml, remindersHtml, accountHtml,
 } from './views.js';
 
 window.fillArt = artFallback; // called by photos that fail to load
@@ -258,7 +260,7 @@ async function meView() {
   let est = null;
   try { est = await navigator.storage?.estimate?.(); } catch { /* ignore */ }
   view.innerHTML = `
-    <section class="page-head"><h1>My journey</h1><p>Your progress, badges and settings. Everything is stored on this device only.</p></section>
+    <section class="page-head"><h1>My journey</h1><p>Your progress, badges and settings. Everything stays on this device unless a grown-up backs it up below.</p></section>
     <div class="me-grid">
       <section class="panel">
         <div class="rank-card">${rankRing(xp, r)}<div><small>Your rank</small><b>${r.title}</b><small>${r.next ? `${r.next.at - xp} XP to ${r.next.title}` : 'Highest rank reached!'}</small></div></div>
@@ -268,10 +270,12 @@ async function meView() {
           <div><b>${store.badges().length}</b><small>of ${SECTORS.length} badges</small></div>
         </div>
       </section>
+      <section class="panel acct" id="account">${accountHtml(me, { providers: account.PROVIDERS, status: syncStatus })}</section>
       <section class="panel" id="settings">
         <h2>How much detail?</h2>
         ${modeSwitch()}
         <p class="fine" style="margin-top:12px">Scientist view adds coordinates and extra data in the Sky Finder and on every object page.</p>
+        ${remindersHtml().replace('class="panel remind"', 'class="remind nested"')}
         <label class="switch-row"><span><b>Red night mode</b><small>Turns the screen red so your eyes stay used to the dark.</small></span><input type="checkbox" class="night-toggle" ${store.getSettings().night ? 'checked' : ''}></label>
       </section>
       <section class="panel wide">
@@ -302,6 +306,8 @@ async function meView() {
     await media.saveMany(JOURNEY.map((jj) => jj.id), (d, t) => { b.textContent = `Downloading ${d}/${t}…`; });
     meView();
   });
+  bindAccount(view.querySelector('.acct'));
+  bindReminders(view);
   view.querySelector('.night-toggle').addEventListener('change', (e) => { store.setSettings({ night: e.target.checked }); applyMode(); });
   view.querySelector('.reset').addEventListener('click', () => {
     if (confirm('Erase all XP, badges and explored items on this device?')) { store.resetProgress(); toast('Progress reset.'); meView(); }
@@ -315,6 +321,125 @@ function skyView(id) {
     onTarget: (tid) => history.replaceState(null, '', url.sky(tid)),
     onSpotted: (o) => { burst(); rewardToast(store.XP.spot, `Spotted ${o.name}!`); },
   });
+}
+
+// ───────────────────────── grown-up account & sync ─────────────────────────
+let me = null; // the signed-in account, if any
+let syncStatus = '';
+let pushTimer = 0, applyingRemote = false;
+
+async function syncNow() {
+  if (!me) return;
+  try {
+    const remote = await account.pullProgress(me.uid);
+    const merged = account.mergeProgress(store.progress(), remote || {});
+    applyingRemote = true;
+    store.replaceProgress(merged);
+    applyingRemote = false;
+    await account.pushProgress(me.uid, merged);
+    syncStatus = `Synced ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.`;
+  } catch {
+    applyingRemote = false;
+    syncStatus = 'Couldn’t sync right now – it will try again when you’re online.';
+  }
+  renderAccount();
+}
+
+// Push a few seconds after progress changes, so a burst of XP is one write.
+store.onChange(() => {
+  if (!me || applyingRemote) return;
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(syncNow, 4000);
+});
+window.addEventListener('online', () => syncNow());
+
+account.watchAccount((a) => {
+  const was = me?.uid;
+  me = a;
+  if (a && a.uid !== was) syncNow();
+  renderAccount();
+});
+
+function renderAccount() {
+  const box = document.querySelector('.acct');
+  if (!box) return;
+  box.innerHTML = accountHtml(me, { providers: account.PROVIDERS, status: syncStatus });
+  bindAccount(box);
+}
+
+function bindAccount(box) {
+  const status = (t) => { box.querySelector('.acct-status').textContent = t; };
+  box.querySelector('.acct-start')?.addEventListener('click', (e) => {
+    e.target.hidden = true;
+    box.querySelector('.acct-gate').hidden = false;
+    box.querySelector('.acct-gate-input').focus();
+  });
+  box.querySelector('.acct-gate-input')?.addEventListener('input', (e) => {
+    box.querySelector('.acct-providers').hidden = e.target.value.trim() !== box.querySelector('.acct-gate').dataset.answer;
+  });
+  box.querySelectorAll('[data-provider]').forEach((b) => b.addEventListener('click', async () => {
+    status('Opening sign-in…');
+    try {
+      me = await account.signIn(b.dataset.provider);
+      await syncNow();
+      toast('☁️ Progress backed up');
+    } catch (err) {
+      status(account.isCancelled(err) ? '' : 'Sign-in didn’t work. Check the internet connection and try again.');
+    }
+  }));
+  box.querySelector('.acct-signout')?.addEventListener('click', async () => {
+    await account.signOut();
+    me = null; syncStatus = '';
+    renderAccount();
+    toast('Signed out. Progress stays on this device.');
+  });
+  box.querySelector('.acct-delete')?.addEventListener('click', () => { box.querySelector('.acct-confirm').hidden = false; });
+  box.querySelector('.acct-delete-no')?.addEventListener('click', () => { box.querySelector('.acct-confirm').hidden = true; });
+  box.querySelector('.acct-delete-yes')?.addEventListener('click', async () => {
+    status('Confirm it’s you to delete the account…');
+    try {
+      await account.deleteAccount();
+      me = null; syncStatus = '';
+      renderAccount();
+      toast('Account deleted.');
+    } catch (err) {
+      status(account.isCancelled(err) ? '' : 'Couldn’t delete the account right now. Please try again.');
+    }
+  });
+}
+
+// ───────────────────────── reminders ─────────────────────────
+const reminderPrefs = () => ({ ...DEFAULT_PREFS, ...store.getSettings().reminders });
+let lastScheduled = 0;
+async function rescheduleReminders(force = false) {
+  if (!remindersAvailable() || (!force && Date.now() - lastScheduled < 6 * 3600e3)) return null;
+  lastScheduled = Date.now();
+  await refreshAllTLE();
+  try { return await scheduleReminders(observer(), reminderPrefs()); } catch { return null; }
+}
+
+function bindReminders(root) {
+  const box = root.querySelector('.remind');
+  if (!box) return;
+  box.querySelectorAll('[data-remind]').forEach((input) => input.addEventListener('change', async () => {
+    const key = input.dataset.remind;
+    if (key === 'on' && input.checked && !(await requestReminderPermission())) {
+      input.checked = false;
+      box.querySelector('.remind-status').textContent = 'Notifications are switched off for See the Stars – turn them on in your phone’s Settings first.';
+      return;
+    }
+    store.setSettings({ reminders: { ...reminderPrefs(), [key]: input.checked } });
+    box.querySelector('.remind-kinds').hidden = !reminderPrefs().on;
+    const n = await rescheduleReminders(true);
+    box.querySelector('.remind-status').textContent = reminderPrefs().on ? `${n || 0} reminder${n === 1 ? '' : 's'} set for the coming week.` : 'Reminders are off.';
+  }));
+}
+
+function tonightView() {
+  view.innerHTML = tonightHtml();
+  bindReminders(view);
+  // Satellite orbits change; refresh them and redraw if the plan used stale ones.
+  refreshAllTLE().then((fresh) => { if (fresh && document.body.dataset.view === 'tonight') view.innerHTML = tonightHtml(); });
 }
 
 function notFound() {
@@ -343,6 +468,7 @@ function route() {
     case 'object': objectView(parts[1]); break;
     case 'quiz': quizView(parts[1]); break;
     case 'sky': skyView(parts[1]); break;
+    case 'tonight': tonightView(); break;
     case 'library': libraryView(params); break;
     case 'me': meView(); break;
     default: notFound();
@@ -382,6 +508,11 @@ if (location.hash.startsWith('#/')) {
 applyMode();
 updateTopbar();
 route();
+
+// Keep the week of reminders topped up (passes shift as orbits change), and open the page a reminder points to.
+onReminderTap((href) => navigate(href));
+rescheduleReminders();
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') rescheduleReminders(); });
 
 // The home page's "in your sky right now" depends on the time, so refresh it every few minutes.
 setInterval(() => {
