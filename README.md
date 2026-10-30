@@ -19,6 +19,8 @@ A journey through the universe for curious kids and students, with a **Sky Finde
 - **Guided tours, quests and an observing log:** step-by-step sky tours (read aloud where supported), nine real-sky quests and a log of everything you've found.
 - **Classroom mode:** teachers create a class code and follow progress (nicknames and counts only); printable worksheets for every chapter at `/classroom/`.
 - **Languages:** English, Hindi and Spanish interface (lesson texts are English for now).
+- **Stargazing score:** how good tonight is for stargazing, from the cloud forecast and the Moon.
+- **Home-screen widgets** (iPhone and Android): tonight's Moon, best sight and next space-station pass.
 - **Tonight's Moon:** phase, how much is lit, moonrise and moonset, and the next full or new Moon.
 - **Red night mode:** turns the whole app red to keep your eyes adjusted to the dark.
 - **Motivation:** XP, ranks (Stargazer Cadet → Cosmic Explorer), sector challenges (quizzes) and badges, plus a reward for every object you physically point at.

@@ -6,6 +6,7 @@ import { getSettings, setSettings, markSpotted, isSpotted, isScientist, logObser
 import { locate as whereIs, satOf } from './where.js';
 import { TOURS } from './data/tours.js';
 import { t, language } from './i18n.js';
+import { unlocked } from './pro.js';
 import { tonightPlan } from './tonight.js';
 import { predictPasses, refreshAllTLE, SATELLITES } from './iss.js';
 
@@ -393,7 +394,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
     const zoomed = Math.log2(Math.max(1, 62 / fov));
     const onCamera = !!stream && mode === 'sensor';
     // Faint stars appear as you zoom in; over a bright camera picture only the brighter ones are useful.
-    const magLimit = Math.min(6, (onCamera ? 3.5 : sci ? 5 : 4.3) + zoomed * 1.2);
+    const magLimit = Math.min(unlocked('deepCatalog') ? 6 : 4.5, (onCamera ? 3.5 : sci ? 5 : 4.3) + zoomed * 1.2);
     const minDot = Math.cos(Math.min(170, fov * 1.2) * DEG);
     const up = (arr, k) => arr[k + 2] >= 0;
 
@@ -448,7 +449,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
     ctx.globalAlpha = 1;
 
     // Messier objects appear when zoomed in (or in Scientist view): a small ring, coloured by kind.
-    if (sci || fov < 40) {
+    if ((sci || fov < 40) && unlocked('deepCatalog')) {
       ctx.font = '500 11px "Space Grotesk", system-ui, sans-serif';
       MESSIER.forEach((m, k) => {
         const v = chart.messier[k];
@@ -904,7 +905,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
   // Search everything in the sky.
   const searchBox = $('.sky-search'), searchInput = $('.sky-search-input'), searchResults = $('.sky-search-results');
   function renderSearch() {
-    if (!searchInput.value.trim()) {
+    if (!searchInput.value.trim() && unlocked('tours')) {
       const now = skyNow();
       const up = (tr) => tr.stops.filter((st) => { const k = resolveKey(st.key); const o = k && (OBJECTS[k] || chartTarget(k)); const h = o?.pos && whereIs(o.pos, observer, now); return h && h.alt > 0; }).length;
       const tours = toursFor(observer, now).map((tr) => ({ t: tr, up: up(tr) })).sort((a, b) => (b.t.id === 'tonight') - (a.t.id === 'tonight') || b.up / b.t.stops.length - a.up / a.t.stops.length);

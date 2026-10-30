@@ -4,4 +4,5 @@
     <string name="title_activity_main">See the Stars</string>
     <string name="package_name">com.webappslab.seethestars</string>
     <string name="custom_url_scheme">com.webappslab.seethestars</string>
+    <string name="widget_description">Tonight’s Moon and the best thing to see</string>
 </resources>

@@ -67,9 +67,9 @@ The next GitHub run also produces **see-the-stars-play-store-bundle** (`app-rele
 3. **App content** section:
    - Privacy policy: the URL above
    - Ads: *No ads*
-   - Data safety: *No data collected or shared*. Location is processed on the device only and never leaves it.
+   - Data safety: see [docs/compliance.md](docs/compliance.md). Optional grown-up accounts, classroom nicknames and a rounded location for the weather forecast mean the answer is no longer *No data collected*.
    - Content rating questionnaire: Education/Reference, no violence etc. Expect *Everyone / 3+*
-   - **Target audience**: if you include ages under 13, Google's *Families* policies apply. The app already has no ads, no accounts and no data collection. Read the questions carefully.
+   - **Target audience**: if you include ages under 13, Google's *Families* policies apply. See [docs/compliance.md](docs/compliance.md) for how the app meets them.
 4. **Testing → Closed testing**: upload `app-release.aab`, add at least 12 testers (friends and family with Google accounts), and run the test for 14 days.
 5. Then **Production → Create release** → upload the latest `.aab` → submit for review.
 

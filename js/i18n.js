@@ -32,6 +32,7 @@ const HI = {
   'Find it': 'खोजें', 'Tonight’s challenge': 'आज रात की चुनौती', 'Find {name} in the real sky': 'असली आकाश में {name} खोजें',
   'Point your phone at it until it says LOCKED ON to earn +{xp} XP': 'फ़ोन से इशारा करें जब तक “मिल गया!” न दिखे, और +{xp} XP पाएँ',
   // Moon
+  'Stargazing tonight': 'आज रात तारे देखने का मौसम', 'Forecast: Open-Meteo': 'पूर्वानुमान: Open-Meteo',
   'Tonight’s Moon': 'आज रात का चाँद', lit: 'रोशन', rises: 'उगता है', sets: 'डूबता है',
   'New Moon': 'अमावस्या', 'Waxing crescent': 'बढ़ता हुआ हँसिया चाँद', 'First quarter': 'शुक्ल अष्टमी', 'Waxing gibbous': 'बढ़ता हुआ चाँद',
   'Full Moon': 'पूर्णिमा', 'Waning gibbous': 'घटता हुआ चाँद', 'Last quarter': 'कृष्ण अष्टमी', 'Waning crescent': 'घटता हुआ हँसिया चाँद',
@@ -74,6 +75,7 @@ const ES = {
   'Best things to see': 'Lo mejor para ver', 'Coming up': 'Próximamente', 'The next two weeks in the sky.': 'Las próximas dos semanas en el cielo.',
   'Find it': 'Encontrar', 'Tonight’s challenge': 'El reto de esta noche', 'Find {name} in the real sky': 'Encuentra {name} en el cielo real',
   'Point your phone at it until it says LOCKED ON to earn +{xp} XP': 'Apunta con el teléfono hasta que diga ENCONTRADO y gana +{xp} XP',
+  'Stargazing tonight': 'Observación esta noche', 'Forecast: Open-Meteo': 'Previsión: Open-Meteo',
   'Tonight’s Moon': 'La Luna de esta noche', lit: 'iluminada', rises: 'sale', sets: 'se pone',
   'New Moon': 'Luna nueva', 'Waxing crescent': 'Luna creciente', 'First quarter': 'Cuarto creciente', 'Waxing gibbous': 'Gibosa creciente',
   'Full Moon': 'Luna llena', 'Waning gibbous': 'Gibosa menguante', 'Last quarter': 'Cuarto menguante', 'Waning crescent': 'Luna menguante',

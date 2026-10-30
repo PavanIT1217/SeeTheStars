@@ -660,3 +660,14 @@ button.link { background: none; border: 0; color: var(--red); cursor: pointer; p
 
 /* Letter-spacing breaks Devanagari conjuncts apart */
 html[lang="hi"] .hud-label, html[lang="hi"] .eyebrow, html[lang="hi"] .tour-label { letter-spacing: 0; }
+
+/* Stargazing conditions */
+.tn-cond { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; padding: 14px 16px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); max-width: 560px; }
+.tn-cond b { display: block; }
+.tn-cond small { display: block; color: var(--dim); font-size: 13px; }
+.cond-score { flex: none; display: flex; align-items: baseline; justify-content: center; width: 64px; height: 64px; padding-top: 10px; border-radius: 50%; border: 3px solid var(--faint); }
+.cond-score b { font-size: 26px; display: inline; }
+.cond-score small { display: inline; }
+.cond-score.good { border-color: var(--green); }
+.cond-score.ok { border-color: var(--accent); }
+.cond-score.bad { border-color: var(--red); }

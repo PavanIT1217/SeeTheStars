@@ -480,6 +480,7 @@ export function tonightHtml({ live = true } = {}) {
     </article>`;
   return `${head}
     <p class="tn-dark">${darkLine}${obs.approx ? ' <small>Using an approximate location – open the Sky Finder once to use yours.</small>' : ''}</p>
+    <div class="tn-cond" hidden></div>
     ${moonHtml(now)}
     ${challenge ? `<a class="tn-challenge" href="${url.sky(challenge.key)}"><span class="hud-label">${t('Tonight’s challenge')}</span><b>${t('Find {name} in the real sky', { name: esc(t(OBJECTS[challenge.key].name)) })}</b><small>${t('Point your phone at it until it says LOCKED ON to earn +{xp} XP', { xp: store.XP.spot })}</small></a>` : ''}
     <section class="section"><div class="section-head"><div><h2>${t('Best things to see')}</h2></div></div>
@@ -562,6 +563,12 @@ export function classJoinHtml(cls, status = '') {
   return `<h2>${t('🏫 Join a class')}</h2><p>Got a code from your teacher? Join with a nickname – no email needed.</p>
     <form class="class-join"><input name="code" maxlength="7" placeholder="${t('Class code')}" autocapitalize="characters" autocomplete="off" aria-label="Class code" required><input name="nick" maxlength="20" placeholder="${t('Nickname')}" autocomplete="off" aria-label="Nickname" required><button class="btn primary">${t('Join')}</button></form>
     <p class="fine">Use a first name or a fun nickname – not your full name.</p><p class="fine class-join-status">${esc(status)}</p>`;
+}
+
+export function conditionsHtml(c) {
+  if (!c) return '';
+  const tone = c.score >= 7 ? 'good' : c.score >= 4 ? 'ok' : 'bad';
+  return `<div class="cond-score ${tone}"><b>${c.score}</b><small>/10</small></div><div><small>${t('Stargazing tonight')}</small><b>${esc(c.verdict)}</b><small class="fine">${t('Forecast: Open-Meteo')}</small></div>`;
 }
 
 // Language choice (My journey).

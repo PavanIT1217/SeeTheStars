@@ -29,6 +29,13 @@
             android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
         </provider>
+        <!-- Home-screen widget: tonight's Moon and the best thing to see -->
+        <receiver android:name=".SkyWidgetProvider" android:exported="false" android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/sky_widget_info" />
+        </receiver>
     </application>
 
     <!-- Permissions -->
