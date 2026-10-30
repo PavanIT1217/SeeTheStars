@@ -2,7 +2,7 @@
 // Every app file is cached on install, so lessons, quizzes, artwork and the Sky Finder work offline.
 // Photos the explorer saves live in IndexedDB (see js/media.js); recently viewed ones are kept here too.
 // Pages like /object/saturn/ fall back to the cached index.html offline – the app then renders the right page.
-const VERSION = 'v9';
+const VERSION = 'v12';
 const SHELL = `stg-shell-${VERSION}`;
 const RUNTIME = 'stg-runtime-v1';
 const RUNTIME_LIMIT = 150;
@@ -24,10 +24,14 @@ const APP_FILES = [
   'js/app.js',
   'js/art.js',
   'js/astro.js',
+  'js/classroom.js',
   'js/data/catalog.js',
   'js/data/highlights.js',
   'js/data/photos.js',
+  'js/data/quests.js',
   'js/data/sky.js',
+  'js/data/tours.js',
+  'js/i18n.js',
   'js/iss.js',
   'js/kidfacts.js',
   'js/media.js',

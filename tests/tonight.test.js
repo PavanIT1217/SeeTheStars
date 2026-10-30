@@ -64,3 +64,15 @@ test('merging progress from two devices never loses anything', async () => {
   assert.ok(m.quiz.rocky);
   assert.deepEqual(mergeProgress(laptop, phone), m);
 });
+
+test('quests count distinct real-sky finds', async () => {
+  const { questProgress } = await import('../js/data/quests.js');
+  const at = Date.UTC(2026, 9, 30, 15);
+  const log = [{ key: 'moon', at }, { key: 'mars', at }, { key: 'saturn', at }, { key: 'jupiter', at: at + 86400e3 }, { key: 'm-13', at }, { key: 'star-4', at }];
+  const q = Object.fromEntries(questProgress(log, { orion: 1 }).map((x) => [x.id, x]));
+  assert.ok(q['first-light'].done && q.moon.done && q.planets.done);
+  assert.equal(q.deep.have, 1);
+  assert.equal(q.nights.have, 2);
+  assert.equal(q.tours.have, 1);
+  assert.ok(!q.station.done);
+});

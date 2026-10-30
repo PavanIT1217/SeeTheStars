@@ -1,0 +1,98 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Other Worlds – free astronomy worksheet | See the Stars</title>
+  <meta name="description" content="Printable astronomy worksheet for kids: Other Worlds (Planets around other stars). Key facts, a 3-question quiz with answers, and a find-it-in-the-sky…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/classroom/worksheet/exoplanets/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Other Worlds – free astronomy worksheet | See the Stars">
+  <meta property="og:description" content="Printable astronomy worksheet for kids: Other Worlds (Planets around other stars). Key facts, a 3-question quiz with answers, and a find-it-in-the-sky…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/classroom/worksheet/exoplanets/">
+  <meta property="og:image" content="https://seethestars.webappslab.com/store/play-feature-graphic.png">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Other Worlds – free astronomy worksheet | See the Stars">
+  <meta name="twitter:description" content="Printable astronomy worksheet for kids: Other Worlds (Planets around other stars). Key facts, a 3-question quiz with answers, and a find-it-in-the-sky…">
+  <meta name="twitter:image" content="https://seethestars.webappslab.com/store/play-feature-graphic.png">
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="classroom">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/tonight/" data-tab="tonight">Tonight</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1"><article class="worksheet">
+    <div class="ws-tools no-print"><a href="/classroom/">← Classroom</a><button class="btn primary small" onclick="window.print()">Print</button></div>
+    <header><span class="eyebrow">See the Stars · 07</span><h1>Other Worlds</h1><p>Planets around other stars</p>
+      <div class="ws-lines"><span>Name: ______________________</span><span>Date: ____________</span></div></header>
+    <section><h2>Key facts</h2><dl><dt>PSR B1257+12 planets</dt><dd>The first planets ever confirmed outside our Solar System were found in a very strange place: orbiting a pulsar, the spinning leftover core of an exploded star. Nobody expected planets there!</dd><dt>51 Pegasi b</dt><dd>51 Pegasi b was the first planet found orbiting a star like our Sun. It shocked astronomers: a giant planet like Jupiter, but so close to its star that it races around it in just over four days.</dd><dt>HD 209458 b (Osiris)</dt><dd>HD 209458 b was the first exoplanet caught passing in front of its star, and the first whose atmosphere was detected. The star’s heat is so intense that the planet’s gas is boiling away into space, forming a comet-like tail.</dd><dt>TRAPPIST-1</dt><dd>TRAPPIST-1 is a small, cool star with seven rocky planets, all roughly the size of Earth, packed closer to their star than Mercury is to the Sun. Three of them are in the zone where liquid water might be possible.</dd><dt>Kepler-186f</dt><dd>Kepler-186f was the first Earth-sized planet discovered in the habitable zone of another star. It gets about a third of the energy Earth gets from the Sun, so if it has water, it may be cold – but not necessarily frozen.</dd><dt>K2-18 b</dt><dd>K2-18 b is a planet bigger than Earth but smaller than Neptune, in its star’s habitable zone. The James Webb Space Telescope found methane and carbon dioxide in its atmosphere, and some scientists think it could be covered by a deep ocean.</dd></dl></section>
+    <section><h2>Quiz</h2><ol class="ws-quiz"><li><p>Roughly how many exoplanets have been confirmed?</p><ul><li>☐ About 60</li><li>☐ About 600</li><li>☐ More than 6,000</li><li>☐ Over a million</li></ul></li><li><p>The “transit method” finds planets by…</p><ul><li>☐ Photographing them directly</li><li>☐ Spotting tiny dips in a star’s light</li><li>☐ Listening for radio messages</li><li>☐ Measuring the star’s temperature</li></ul></li><li><p>What is a star’s “habitable zone”?</p><ul><li>☐ Where aliens live</li><li>☐ The distance where liquid water could exist on a planet</li><li>☐ The area around a black hole</li><li>☐ The centre of a planet</li></ul></li></ol></section>
+    <section><h2>Find it in the sky</h2><p>Use the Sky Finder at seethestars.webappslab.com. Tick what you find and write when you saw it.</p>
+      <table class="ws-find"><thead><tr><th></th><th>Object</th><th>Date and time</th><th>Where in the sky?</th></tr></thead><tbody><tr><td>☐</td><td>PSR B1257+12 planets</td><td></td><td></td></tr><tr><td>☐</td><td>51 Pegasi b</td><td></td><td></td></tr><tr><td>☐</td><td>HD 209458 b (Osiris)</td><td></td><td></td></tr><tr><td>☐</td><td>TRAPPIST-1</td><td></td><td></td></tr><tr><td>☐</td><td>Kepler-186f</td><td></td><td></td></tr><tr><td>☐</td><td>K2-18 b</td><td></td><td></td></tr></tbody></table></section>
+    <section class="ws-answers"><h2>Answers (for the teacher)</h2><p>1. More than 6,000 · 2. Spotting tiny dips in a star’s light · 3. The distance where liquid water could exist on a planet</p></section>
+  </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no tracking, and accounts are optional (for grown-ups).</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/classroom/">For teachers</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data. Star and constellation data from <a href="https://github.com/ofrohn/d3-celestial" target="_blank" rel="noopener">d3-celestial</a> (BSD).</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/tonight/" data-tab="tonight"><svg viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16.5 3.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z" fill="currentColor"/></svg><span>Tonight</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

@@ -8,9 +8,12 @@ import { compassName } from './astro.js';
 import { predictPasses, refreshTLE, refreshAllTLE, tleAgeDays } from './iss.js';
 import { DEFAULT_PREFS, remindersAvailable, requestReminderPermission, scheduleReminders, onReminderTap } from './reminders.js';
 import * as account from './account.js';
+import * as classroom from './classroom.js';
+import { t, setLanguage, deviceLanguage } from './i18n.js';
 import {
   url, esc, fmtTime, observer, photo, crumbs, progressBar, rankRing, modeSwitch,
   homeHtml, skyNowHtml, sectorHtml, objectHtml, factsHtml, libraryHtml, libraryItems, pageMeta, artFallback, tonightHtml, remindersHtml, accountHtml,
+  classroomHtml, teacherHtml, worksheetHtml, classJoinHtml, languageHtml,
 } from './views.js';
 
 window.fillArt = artFallback; // called by photos that fail to load
@@ -56,6 +59,15 @@ function rewardToast(points, label) {
 }
 
 // Explorer (default) keeps screens simple; Scientist shows all the data.
+// Translate the page frame (navigation and footer) that lives in template.html.
+function applyLanguage() {
+  setLanguage(store.getSettings().lang || deviceLanguage());
+  document.querySelectorAll('.topnav a, .tabbar a span, .footer-links a').forEach((el) => {
+    el.dataset.en ??= el.textContent;
+    el.textContent = t(el.dataset.en);
+  });
+}
+
 function applyMode() {
   document.body.classList.toggle('scientist', store.isScientist());
   document.documentElement.classList.toggle('night', !!store.getSettings().night);
@@ -270,16 +282,26 @@ async function meView() {
           <div><b>${store.badges().length}</b><small>of ${SECTORS.length} badges</small></div>
         </div>
       </section>
+      <section class="panel class-join-box"></section>
       <section class="panel acct" id="account">${accountHtml(me, { providers: account.PROVIDERS, status: syncStatus })}</section>
       <section class="panel" id="settings">
-        <h2>How much detail?</h2>
+        <h2>${t('How much detail?')}</h2>
         ${modeSwitch()}
         <p class="fine" style="margin-top:12px">Scientist view adds coordinates and extra data in the Sky Finder and on every object page.</p>
         ${remindersHtml().replace('class="panel remind"', 'class="remind nested"')}
-        <label class="switch-row"><span><b>Red night mode</b><small>Turns the screen red so your eyes stay used to the dark.</small></span><input type="checkbox" class="night-toggle" ${store.getSettings().night ? 'checked' : ''}></label>
+        ${languageHtml()}
+        <label class="switch-row"><span><b>${t('Red night mode')}</b><small>${t('Turns the screen red so your eyes stay used to the dark.')}</small></span><input type="checkbox" class="night-toggle" ${store.getSettings().night ? 'checked' : ''}></label>
       </section>
       <section class="panel wide">
-        <h2>Badges</h2>
+        <h2>${t('Real-sky quests')}</h2>
+        <div class="quest-grid">${store.quests().map((q) => `<div class="quest ${q.done ? 'done' : ''}"><span class="quest-emoji">${q.emoji}</span><div><b>${q.title}</b><small>${q.desc}</small>${progressBar(q.have / q.need)}<small>${q.done ? `✓ Done · +${store.XP.quest} XP` : `${q.have} of ${q.need}`}</small></div></div>`).join('')}</div>
+      </section>
+      <section class="panel wide">
+        <h2>${t('Observing log')}</h2>
+        ${store.progress().log.length ? `<ol class="obs-log">${[...store.progress().log].reverse().slice(0, 30).map((e) => `<li><a href="${url.sky(e.key)}">${esc(e.name)}</a><time>${new Date(e.at).toLocaleString([], { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</time></li>`).join('')}</ol>` : `<p class="fine">Everything you find in the real sky with the Sky Finder is written here. <a href="${url.sky()}">Start with a guided tour →</a></p>`}
+      </section>
+      <section class="panel wide">
+        <h2>${t('Badges')}</h2>
         <div class="badge-grid">${SECTORS.map((s) => `<a class="badge-item ${store.sectorProgress(s).complete ? 'on' : 'off'}" href="${url.sector(s.id)}">${photo(OBJECTS[s.cover])}<span>${s.title}</span></a>`).join('')}</div>
       </section>
       <section class="panel">
@@ -306,22 +328,36 @@ async function meView() {
     await media.saveMany(JOURNEY.map((jj) => jj.id), (d, t) => { b.textContent = `Downloading ${d}/${t}…`; });
     meView();
   });
+  bindClassJoin(view.querySelector('.class-join-box'));
   bindAccount(view.querySelector('.acct'));
   bindReminders(view);
+  view.querySelector('.lang-select').addEventListener('change', (e) => { store.setSettings({ lang: e.target.value }); applyLanguage(); meView(); });
   view.querySelector('.night-toggle').addEventListener('change', (e) => { store.setSettings({ night: e.target.checked }); applyMode(); });
   view.querySelector('.reset').addEventListener('click', () => {
     if (confirm('Erase all XP, badges and explored items on this device?')) { store.resetProgress(); toast('Progress reset.'); meView(); }
   });
 }
 
-function skyView(id) {
+function skyView(id, params) {
   view.innerHTML = '<div class="sky-host"></div>';
   sky = mountSky(view.querySelector('.sky-host'), {
     targetId: id,
+    tourId: params.get('tour'),
     onTarget: (tid) => history.replaceState(null, '', url.sky(tid)),
     onSpotted: (o) => { burst(); rewardToast(store.XP.spot, `Spotted ${o.name}!`); },
+    onLogged: (o) => { if (!OBJECTS[o.id]) toast(`📓 Logged <b>${esc(o.name)}</b> in your observing log`); },
+    onTourDone: (t) => { if (store.finishTour(t.id)) { burst(); rewardToast(store.XP.tour, `Finished the ${t.title} tour!`); } else toast('Tour finished – great stargazing!'); },
   });
 }
+
+// Celebrate quests as they are completed, wherever that happens.
+let questsDone = new Set(store.quests().filter((q) => q.done).map((q) => q.id));
+store.onChange(() => {
+  for (const q of store.quests()) {
+    if (q.done && !questsDone.has(q.id)) setTimeout(() => { burst(); rewardToast(store.XP.quest, `Quest complete: ${q.emoji} ${q.title}`); }, 900);
+  }
+  questsDone = new Set(store.quests().filter((q) => q.done).map((q) => q.id));
+});
 
 // ───────────────────────── grown-up account & sync ─────────────────────────
 let me = null; // the signed-in account, if any
@@ -346,8 +382,11 @@ async function syncNow() {
 }
 
 // Push a few seconds after progress changes, so a burst of XP is one write.
+let classTimer = 0;
 store.onChange(() => {
-  if (!me || applyingRemote) return;
+  if (applyingRemote) return;
+  if (classroom.myClass()) { clearTimeout(classTimer); classTimer = setTimeout(() => classroom.pushClassProgress().catch(() => {}), 5000); }
+  if (!me) return;
   clearTimeout(pushTimer);
   pushTimer = setTimeout(syncNow, 4000);
 });
@@ -355,12 +394,13 @@ window.addEventListener('online', () => syncNow());
 
 account.watchAccount((a) => {
   const was = me?.uid;
-  me = a;
+  me = a && !a.anonymous ? a : null; // a student's anonymous class sign-in is not a grown-up account
   if (a && a.uid !== was) syncNow();
   renderAccount();
 });
 
 function renderAccount() {
+  if (document.body.dataset.view === 'classroom') renderTeacher();
   const box = document.querySelector('.acct');
   if (!box) return;
   box.innerHTML = accountHtml(me, { providers: account.PROVIDERS, status: syncStatus });
@@ -406,6 +446,70 @@ function bindAccount(box) {
       status(account.isCancelled(err) ? '' : 'Couldn’t delete the account right now. Please try again.');
     }
   });
+}
+
+// ───────────────────────── classroom ─────────────────────────
+let teacherState = { classes: [], rosters: {}, status: '' };
+async function loadTeacher() {
+  if (!me) return renderTeacher();
+  try {
+    teacherState.classes = await classroom.myClasses();
+    renderTeacher();
+    await Promise.all(teacherState.classes.map(async (c) => { teacherState.rosters[c.code] = await classroom.roster(c.code); }));
+  } catch { teacherState.status = 'Couldn’t load your classes – check the internet connection.'; }
+  renderTeacher();
+}
+function renderTeacher() {
+  const box = view.querySelector('.teacher');
+  if (!box) return;
+  box.innerHTML = teacherHtml({ account: me, ...teacherState });
+  box.querySelector('.class-new')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    teacherState.status = 'Creating…'; renderTeacher();
+    try {
+      const code = await classroom.createClass(new FormData(e.target).get('name'));
+      teacherState.status = `Class created. Share the code ${code} with your students.`;
+      await loadTeacher();
+    } catch { teacherState.status = 'Couldn’t create the class. Please try again.'; renderTeacher(); }
+  });
+  box.querySelectorAll('.class-card').forEach((card) => {
+    const code = card.dataset.code;
+    card.querySelector('.class-refresh').addEventListener('click', async () => { teacherState.rosters[code] = await classroom.roster(code); renderTeacher(); });
+    card.querySelector('.class-delete').addEventListener('click', async (e) => {
+      if (e.target.dataset.sure !== '1') { e.target.dataset.sure = '1'; e.target.textContent = 'Tap again to delete'; return; }
+      await classroom.deleteClass(code);
+      teacherState.status = `Class ${code} deleted.`;
+      await loadTeacher();
+    });
+    card.querySelectorAll('.class-remove').forEach((b) => b.addEventListener('click', async () => {
+      await classroom.removeMember(code, b.dataset.uid);
+      teacherState.rosters[code] = await classroom.roster(code); renderTeacher();
+    }));
+  });
+}
+function classroomView(sub, id) {
+  if (sub === 'worksheet' && sectorById(id)) { view.innerHTML = worksheetHtml(sectorById(id)); return; }
+  view.innerHTML = classroomHtml();
+  teacherState.status = '';
+  loadTeacher();
+}
+
+function bindClassJoin(box, status = '') {
+  if (!box) return;
+  box.innerHTML = classJoinHtml(classroom.myClass(), status);
+  box.querySelector('.class-join')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    box.querySelector('.class-join-status').textContent = 'Joining…';
+    try {
+      const c = await classroom.joinClass(f.get('code'), f.get('nick'));
+      toast(`🏫 You joined ${esc(c.name)}!`);
+      bindClassJoin(box);
+    } catch (err) {
+      bindClassJoin(box, err.code === 'no-class' || /code/.test(err.message) ? err.message : 'Couldn’t join right now – check the internet connection.');
+    }
+  });
+  box.querySelector('.class-leave')?.addEventListener('click', async () => { await classroom.leaveClass(); bindClassJoin(box, 'You left the class.'); });
 }
 
 // ───────────────────────── reminders ─────────────────────────
@@ -467,13 +571,14 @@ function route() {
     case 'sector': sectorView(parts[1]); break;
     case 'object': objectView(parts[1]); break;
     case 'quiz': quizView(parts[1]); break;
-    case 'sky': skyView(parts[1]); break;
+    case 'sky': skyView(parts[1], params); break;
     case 'tonight': tonightView(); break;
+    case 'classroom': classroomView(parts[1], parts[2]); break;
     case 'library': libraryView(params); break;
     case 'me': meView(); break;
     default: notFound();
   }
-  applyMeta(tab, parts[1]);
+  applyMeta(tab, tab === 'classroom' ? parts[2] : parts[1]);
   if (location.hash.length > 1) requestAnimationFrame(() => document.getElementById(location.hash.slice(1))?.scrollIntoView());
   else if (tab !== 'sky') window.scrollTo(0, 0);
 }
@@ -505,6 +610,7 @@ if (location.hash.startsWith('#/')) {
   history.replaceState(null, '', old === '/' ? '/' : `/${old}`);
 }
 
+applyLanguage();
 applyMode();
 updateTopbar();
 route();

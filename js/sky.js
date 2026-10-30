@@ -1,9 +1,12 @@
 // Sky Finder: point your phone and see where things are – even through the Earth.
 import { OBJECTS, SECTORS } from './data/catalog.js';
-import { STARS, STAR_NAMES, CONSTELLATIONS } from './data/sky.js';
+import { STARS, STAR_NAMES, CONSTELLATIONS, MESSIER } from './data/sky.js';
 import { julianDate, compassName, nextHorizonCrossing, angularDistance, norm360, horizonMatrix, equatorialVector } from './astro.js';
-import { getSettings, setSettings, markSpotted, isSpotted, isScientist } from './store.js';
+import { getSettings, setSettings, markSpotted, isSpotted, isScientist, logObservation } from './store.js';
 import { locate as whereIs, satOf } from './where.js';
+import { TOURS } from './data/tours.js';
+import { t, language } from './i18n.js';
+import { tonightPlan } from './tonight.js';
 import { predictPasses, refreshAllTLE, SATELLITES } from './iss.js';
 
 const fmtTime = (d) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -46,6 +49,21 @@ function starColor(bv) {
 }
 const STAR_COLORS = Array.from({ length: N_STARS }, (_, i) => starColor(STARS[i * 4 + 3]));
 
+// Messier objects in plain words, and their journey page when there is one (same spot in the sky).
+const MESSIER_KIND = {
+  gc: 'Globular cluster – a ball of very old stars', oc: 'Open cluster – young stars born together', sfr: 'Nebula – a star nursery',
+  rn: 'Nebula lit by nearby stars', pn: 'Planetary nebula – a dying star’s glowing shell', snr: 'Supernova remnant – what’s left of an exploded star',
+  s: 'Spiral galaxy', e: 'Elliptical galaxy', i: 'Irregular galaxy', pos: 'A group of stars',
+};
+const MESSIER_COLOR = { gc: '#ffd98a', oc: '#9cc4ff', sfr: '#ff7fc4', rn: '#8fb8ff', pn: '#7af4ff', snr: '#ff9a5a', s: '#b9a6ff', e: '#b9a6ff', i: '#b9a6ff', pos: '#cfd6ff' };
+const MESSIER_EQ = MESSIER.map((m) => equatorialVector(m[5], m[6]));
+const messierJourney = new Map();
+for (const m of MESSIER) {
+  const o = Object.values(OBJECTS).find((x) => x.pos?.ra !== undefined && ['cluster', 'nebula', 'galaxy', 'pulsar', 'ring'].includes(x.art?.type) && Math.abs(x.pos.ra - m[5]) < 0.6 && Math.abs(x.pos.dec - m[6]) < 0.6);
+  if (o && !messierJourney.has(m[0])) messierJourney.set(m[0], o.id);
+}
+const messierName = (m) => (m[2] ? `M${m[0]} · ${m[2]}` : `M${m[0]}`);
+
 // Things you can find that are not journey objects: any of the 88 constellations, any named star.
 export function chartTarget(key) {
   const [kind, ref] = String(key).split('-');
@@ -58,12 +76,33 @@ export function chartTarget(key) {
   if (kind === 'sat' && SATELLITES[ref] && ref !== 'iss') {
     return { id: key, chart: true, name: SATELLITES[ref].name, kind: 'Satellite · you can see it with your eyes', art: { type: 'iss' }, pos: { sat: ref } };
   }
+  if (kind === 'm') {
+    const m = MESSIER.find((x) => x[0] === +ref);
+    if (!m) return null;
+    if (messierJourney.has(m[0])) return OBJECTS[messierJourney.get(m[0])];
+    return { id: key, chart: true, name: messierName(m), kind: `${MESSIER_KIND[m[3]] || 'Deep-sky object'} · ${m[1]} · brightness ${m[4]}`, pos: { ra: m[5], dec: m[6] } };
+  }
   if (kind === 'star') {
     const i = +ref, s = STAR_LABEL.get(i);
     if (!s) return null;
     return { id: key, chart: true, name: s.name, kind: `Star in ${CON_NAME[s.con] || s.con} · brightness ${STARS[i * 4 + 2].toFixed(1)}`, pos: { ra: STARS[i * 4], dec: STARS[i * 4 + 1] } };
   }
   return null;
+}
+
+// Tour stops name stars as `star:<name>`; everything else is already a Sky Finder key.
+export function resolveKey(key) {
+  if (!key.startsWith('star:')) return key;
+  const hit = STAR_NAMES.find(([, name]) => name === key.slice(5));
+  return hit ? `star-${hit[0]}` : null;
+}
+
+// The tours, plus tonight's own tour built from the Tonight planner.
+export function toursFor(observer, date) {
+  const plan = tonightPlan(observer, date);
+  const tonight = plan.highlights.filter((h) => h.key && !h.key.startsWith('sat-') && h.key !== 'iss');
+  const list = tonight.length >= 2 ? [{ id: 'tonight', title: 'Tonight’s tour', emoji: '✨', best: 'Made for tonight, from where you are', intro: 'The best things in your sky tonight, one after another.', stops: tonight.map((h) => ({ key: h.key, say: `${h.title}. ${h.text}` })) }] : [];
+  return [...list, ...TOURS];
 }
 
 // Everything the search box can find.
@@ -87,6 +126,11 @@ export function searchSky(q, limit = 12) {
     if (CON_OBJECT[c.id] && results.some((r) => r.key === CON_OBJECT[c.id])) continue;
     const s = score(c.name) || Math.max(score(c.es || ''), score(c.hi || '')) * 0.8; // names in other languages rank a little lower
     if (s) results.push({ key: CON_OBJECT[c.id] || `con-${c.id}`, name: c.name, kind: 'Constellation', s });
+  }
+  for (const m of MESSIER) {
+    const key = messierJourney.get(m[0]) || `m-${m[0]}`;
+    const sc = Math.max(n === `m${m[0]}` ? 3 : 0, score(`M${m[0]}`) && n.length > 1 ? score(`M${m[0]}`) : 0, score(m[2]), n.startsWith('ngc') && fold(m[1]).replace(/\s/g, '').startsWith(n.replace(/\s/g, '')) ? 2 : 0);
+    if (sc && !results.some((r) => r.key === key)) results.push({ key, name: messierName(m), kind: MESSIER_KIND[m[3]] || 'Deep-sky object', s: sc });
   }
   for (const [i, name, con] of STAR_NAMES) {
     if (!STAR_LABEL.get(i).proper || results.some((r) => r.name === name)) continue; // Vega, Sirius… already have journey pages
@@ -121,7 +165,7 @@ function basisFromLook(az, alt) {
   return { forward, right, up: cross(right, forward) };
 }
 
-export function mountSky(root, { targetId, onTarget, onSpotted }) {
+export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTourDone, tourId }) {
   const settings = getSettings();
   let observer = settings.location || guessLocation();
   let target = OBJECTS[targetId] || chartTarget(targetId) || null;
@@ -161,7 +205,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
         <button class="icon-btn sky-gear" title="Settings" aria-label="Sky settings">⚙</button>
       </div>
       <div class="sky-search glass" hidden>
-        <input type="search" class="sky-search-input" placeholder="Search stars, planets, constellations…" aria-label="Search the sky" autocomplete="off" enterkeyhint="search">
+        <input type="search" class="sky-search-input" placeholder="${t('Search, or pick a guided tour…')}" aria-label="Search the sky" autocomplete="off" enterkeyhint="search">
         <div class="sky-search-results" role="listbox"></div>
       </div>
       <div class="sky-zoom" hidden>
@@ -175,10 +219,15 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
           <div class="sky-time-label"></div>
           <input type="range" class="sky-scrub" min="-1440" max="1440" step="10" value="0" aria-label="Move time back or forward">
         </div>
-        <button class="sky-now-btn" hidden>Now</button>
+        <button class="sky-now-btn" hidden>${t('Now')}</button>
         <label class="sky-date-btn sci-only" title="Jump to a date">📅<input type="datetime-local" class="sky-date" aria-label="Jump to a date"></label>
       </div>
       <div class="sky-hud glass">
+        <div class="sky-tour" hidden>
+          <div class="sky-tour-head"><span class="hud-label sky-tour-title"></span><button class="sky-tour-voice" aria-label="Read aloud on or off">🔊</button><button class="sky-tour-exit" aria-label="End tour">✕</button></div>
+          <p class="sky-tour-say"></p>
+          <div class="sky-tour-nav"><button class="btn ghost small sky-tour-prev">${t('← Back')}</button><span class="sky-tour-step"></span><button class="btn primary small sky-tour-next">${t('Next →')}</button></div>
+        </div>
         <div class="hud-row"><span class="hud-label sci-only">TARGET</span><span class="sky-spotted" hidden>✦ SPOTTED</span></div>
         <div class="sky-name"></div>
         <div class="sky-guide"></div>
@@ -190,18 +239,18 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
         </div>
         <div class="sky-extra"></div>
         <div class="sky-actions">
-          <a class="btn ghost sky-learn" href="#">Learn about it</a>
-          <button class="btn ghost sky-calibrate" hidden>It’s right here – calibrate</button>
+          <a class="btn ghost sky-learn" href="#">${t('Learn about it')}</a>
+          <button class="btn ghost sky-calibrate" hidden>${t('It’s right here – calibrate')}</button>
         </div>
       </div>
       <div class="sky-start">
         <div class="sky-start-card glass">
           <div class="hud-label">SKY SCANNER</div>
-          <h2>Find anything in the universe</h2>
-          <p>Hold your phone up like you’re taking a photo. Arrows will guide you to your target – even if it is on the other side of the Earth.</p>
-          <button class="btn primary sky-engage">Engage scanner</button>
-          <button class="btn ghost sky-manual">No sensors? Drag to explore</button>
-          <p class="fine">Uses your camera, motion sensors and location. Nothing leaves your device.</p>
+          <h2>${t('Find anything in the universe')}</h2>
+          <p>${t('Hold your phone up like you’re taking a photo. Arrows will guide you to your target – even if it is on the other side of the Earth.')}</p>
+          <button class="btn primary sky-engage">${t('Engage scanner')}</button>
+          <button class="btn ghost sky-manual">${t('No sensors? Drag to explore')}</button>
+          <p class="fine">${t('Uses your camera, motion sensors and location. Nothing leaves your device.')}</p>
         </div>
       </div>
       <div class="sky-settings glass" hidden>
@@ -241,7 +290,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   }
 
   function updateStatic() {
-    $('.sky-name').innerHTML = target ? `${target.name}<small>${target.kind}</small>` : 'Free look<small>Tap anything on screen to target it</small>';
+    $('.sky-name').innerHTML = target ? `${target.name}<small>${target.kind}</small>` : `${t('Free look')}<small>${t('Tap anything on screen to target it')}</small>`;
     $('.sky-learn').href = target && !target.chart ? `/object/${target.id}/` : '/';
     $('.sky-learn').hidden = !target || !!target.chart;
     $('.sky-spotted').hidden = !(target && isSpotted(target.id));
@@ -292,6 +341,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     chart = {
       stars: rot(STAR_EQ),
       cons: CONST_EQ.map((c, i) => ({ c: CONSTELLATIONS[i], lines: c.lines.map(rot), bounds: c.bounds.map(rot), label: Array.from(rot(c.label)) })),
+      messier: MESSIER_EQ.map((v) => Array.from(rot(v))),
     };
   }
 
@@ -397,6 +447,27 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     }
     ctx.globalAlpha = 1;
 
+    // Messier objects appear when zoomed in (or in Scientist view): a small ring, coloured by kind.
+    if (sci || fov < 40) {
+      ctx.font = '500 11px "Space Grotesk", system-ui, sans-serif';
+      MESSIER.forEach((m, k) => {
+        const v = chart.messier[k];
+        if (v[2] < 0 && !sci) return;
+        const p = projectAt(v, 0, f);
+        if (!p || p[0] < 0 || p[0] > W || p[1] < 0 || p[1] > H) return;
+        const id = messierJourney.get(m[0]) || `m-${m[0]}`;
+        if (OBJECTS[id] && positions.some((x) => x.o?.id === id && (sci || x.kid))) return; // already drawn as a journey object
+        ctx.globalAlpha = v[2] < 0 ? 0.35 : 0.85;
+        ctx.strokeStyle = MESSIER_COLOR[m[3]] || '#cfd6ff';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.arc(p[0], p[1], 4.5, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = 'rgba(255,255,255,0.7)';
+        ctx.fillText(`M${m[0]}`, p[0], p[1] - 8);
+        hits.push({ x: p[0], y: p[1], id });
+      });
+      ctx.globalAlpha = 1;
+    }
+
     // Constellation names: the famous ones at first, all of them when zoomed in or in Scientist view.
     ctx.font = '600 12px "Space Grotesk", system-ui, sans-serif';
     for (const c of chart.cons) {
@@ -409,7 +480,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       if (!show) continue;
       ctx.globalAlpha = below ? 0.35 : 0.85;
       ctx.fillStyle = target?.id === id ? '#ffd36b' : 'rgba(127,220,255,0.9)';
-      ctx.fillText(c.c.name.toUpperCase(), p[0], p[1]);
+      ctx.fillText((c.c[language()] || c.c.name).toUpperCase(), p[0], p[1]);
       hits.push({ x: p[0], y: p[1], id });
     }
     ctx.globalAlpha = 1;
@@ -515,7 +586,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
         ctx.beginPath(); ctx.arc(s[0], s[1], isTarget ? 5 : 3.5, 0, Math.PI * 2); ctx.fill();
         ctx.shadowBlur = 0;
         ctx.fillStyle = isTarget ? '#fff' : 'rgba(255,255,255,0.85)';
-        ctx.fillText(p.o.name.replace(/ \(.*\)| –.*/g, '') + (below ? ' ↓' : ''), s[0], s[1] - 10);
+        ctx.fillText(t(p.o.name.replace(/ \(.*\)| –.*/g, '')) + (below ? ' ↓' : ''), s[0], s[1] - 10);
         hits.push({ x: s[0], y: s[1], id: p.o.id });
       }
       ctx.globalAlpha = 1;
@@ -539,7 +610,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
 
     if (!target || target.pos?.everywhere) $('.closeness').hidden = true;
     if (!target) {
-      guide.innerHTML = `Facing <b>${compassName(cameraAz())}</b> · ${Math.round(cameraAlt())}° ${cameraAlt() >= 0 ? 'up' : 'down'}`;
+      guide.innerHTML = `${t('Facing')} <b>${compassName(cameraAz())}</b> · ${Math.round(cameraAlt())}° ${t(cameraAlt() >= 0 ? 'up' : 'down')}`;
       $('.sky-alt').textContent = `${cameraAlt().toFixed(0)}°`;
       $('.sky-az').textContent = `${cameraAz().toFixed(0)}°`;
       $('.sky-extra').textContent = '';
@@ -613,19 +684,19 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     const dAlt = targetHz.alt - cameraAlt();
     const sep = angularDistance(targetHz.alt, targetHz.az, cameraAlt(), cameraAz());
     let text;
-    if (sep < LOCK_DEG) text = '<b class="locked">◎ LOCKED ON</b>';
+    if (sep < LOCK_DEG) text = `<b class="locked">${t('◎ LOCKED ON')}</b>`;
     else if (!isScientist()) {
       // Explorer: big arrows and plain words instead of degrees.
-      const amount = (d) => (Math.abs(d) < 15 ? ' a little' : Math.abs(d) > 90 ? ' a lot' : '');
+      const amount = (d) => t(Math.abs(d) < 15 ? ' a little' : Math.abs(d) > 90 ? ' a lot' : '');
       const parts = [];
-      if (Math.abs(dAz) > 3 && Math.abs(targetHz.alt) < 85) parts.push(`<span class="dir">${dAz > 0 ? 'Turn right' : 'Turn left'}${amount(dAz)} <b>${dAz > 0 ? '➜' : '⬅'}</b></span>`);
-      if (Math.abs(dAlt) > 3) parts.push(`<span class="dir">${dAlt > 0 ? 'Look up' : 'Look down'}${amount(dAlt)} <b>${dAlt > 0 ? '⬆' : '⬇'}</b></span>`);
-      text = parts.join('') || '<span class="dir">Almost there…</span>';
+      if (Math.abs(dAz) > 3 && Math.abs(targetHz.alt) < 85) parts.push(`<span class="dir">${t(dAz > 0 ? 'Turn right' : 'Turn left')}${amount(dAz)} <b>${dAz > 0 ? '➜' : '⬅'}</b></span>`);
+      if (Math.abs(dAlt) > 3) parts.push(`<span class="dir">${t(dAlt > 0 ? 'Look up' : 'Look down')}${amount(dAlt)} <b>${dAlt > 0 ? '⬆' : '⬇'}</b></span>`);
+      text = parts.join('') || `<span class="dir">${t('Almost there…')}</span>`;
     } else {
       const parts = [];
-      if (Math.abs(dAz) > 3 && Math.abs(targetHz.alt) < 85) parts.push(`turn <b>${dAz > 0 ? 'right' : 'left'} ${Math.abs(Math.round(dAz))}°</b>`);
-      if (Math.abs(dAlt) > 3) parts.push(`tilt <b>${dAlt > 0 ? 'up' : 'down'} ${Math.abs(Math.round(dAlt))}°</b>`);
-      text = parts.join(' and ') || 'almost there…';
+      if (Math.abs(dAz) > 3 && Math.abs(targetHz.alt) < 85) parts.push(t('turn {dir}', { dir: `<b>${t(dAz > 0 ? 'right' : 'left')} ${Math.abs(Math.round(dAz))}°</b>` }));
+      if (Math.abs(dAlt) > 3) parts.push(t('tilt {dir}', { dir: `<b>${t(dAlt > 0 ? 'up' : 'down')} ${Math.abs(Math.round(dAlt))}°</b>` }));
+      text = parts.join(t(' and ')) || t('almost there…');
       text = text[0].toUpperCase() + text.slice(1);
     }
     guide.innerHTML = text;
@@ -633,7 +704,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     const meter = $('.closeness');
     meter.hidden = mode === 'idle';
     meter.querySelector('i').style.width = `${Math.round(100 - (sep / 180) * 100)}%`;
-    meter.querySelector('.closeness-text').textContent = sep < LOCK_DEG ? 'Found it!' : sep < 15 ? 'Almost there!' : sep < 45 ? 'Getting warmer…' : sep < 100 ? 'Keep turning…' : 'Cold – try the other way!';
+    meter.querySelector('.closeness-text').textContent = t(sep < LOCK_DEG ? 'Found it!' : sep < 15 ? 'Almost there!' : sep < 45 ? 'Getting warmer…' : sep < 100 ? 'Keep turning…' : 'Cold – try the other way!');
     $('.sky-alt').textContent = `${targetHz.alt.toFixed(1)}°`;
     $('.sky-az').textContent = `${targetHz.az.toFixed(1)}° ${compassName(targetHz.az).replace(/orth|outh|ast|est/g, '').replace(/-/g, '')}`;
 
@@ -641,17 +712,17 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     if (satOf(target.pos)) extra = issText();
     else if (target.pos?.down) extra = 'Earth is right under your feet. Point straight down!';
     else if (targetHz.alt < 0) {
-      extra = `🌏 Below your horizon right now – you’re pointing <i>through the Earth</i>.`;
-      if (crossing?.time) extra += ` It rises at <b>${crossing.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</b>.`;
+      extra = `🌏 ${t('Below your horizon right now – you’re pointing <i>through the Earth</i>.')}`;
+      if (crossing?.time) extra += ` ${t('It rises at')} <b>${crossing.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</b>.`;
       else if (crossing?.never) extra += ' It never rises from where you are – people in the other hemisphere can see it.';
     } else if (crossing?.time) {
-      extra = `Above your horizon now. It sets at <b>${crossing.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</b>.`;
-    } else if (crossing?.never) extra = 'It never sets from where you are.';
+      extra = `${t('Above your horizon now. It sets at')} <b>${crossing.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</b>.`;
+    } else if (crossing?.never) extra = t('It never sets from where you are.');
     $('.sky-extra').innerHTML = extra;
 
     if (target.safety && targetHz.alt > -2) {
       alert.hidden = false;
-      alert.textContent = '⚠ Never look at the Sun – point the phone, not your eyes!';
+      alert.textContent = t('⚠ Never look at the Sun – point the phone, not your eyes!');
     }
     if (mode !== 'idle') tryLock(now, sep < LOCK_DEG);
   }
@@ -671,6 +742,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   function tryLock(now, aligned) {
     if (!aligned) { lockStart = 0; return; }
     if (!lockStart) lockStart = now;
+    if (now - lockStart > LOCK_MS && target && live() && !target.pos?.everywhere && !target.pos?.down && logObservation(target.id, target.name)) onLogged?.(target);
     if (now - lockStart > LOCK_MS && target && !target.chart && live() && markSpotted(target.id)) {
       $('.sky-spotted').hidden = false;
       onSpotted?.(target);
@@ -832,9 +904,17 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   // Search everything in the sky.
   const searchBox = $('.sky-search'), searchInput = $('.sky-search-input'), searchResults = $('.sky-search-results');
   function renderSearch() {
+    if (!searchInput.value.trim()) {
+      const now = skyNow();
+      const up = (tr) => tr.stops.filter((st) => { const k = resolveKey(st.key); const o = k && (OBJECTS[k] || chartTarget(k)); const h = o?.pos && whereIs(o.pos, observer, now); return h && h.alt > 0; }).length;
+      const tours = toursFor(observer, now).map((tr) => ({ t: tr, up: up(tr) })).sort((a, b) => (b.t.id === 'tonight') - (a.t.id === 'tonight') || b.up / b.t.stops.length - a.up / a.t.stops.length);
+      tourList = tours.map((x) => x.t);
+      searchResults.innerHTML = `<div class="hud-label tour-label">${t('GUIDED TOURS')}</div>` + tours.map(({ t: tr, up: n }, i) => `<button role="option" data-tour="${i}"><b>${tr.emoji} ${tr.title}</b><small>${tr.best} · ${n} ${t('of')} ${tr.stops.length} ${t('stops up now')}</small></button>`).join('');
+      return;
+    }
     const res = searchSky(searchInput.value);
     searchResults.innerHTML = res.map((r) => `<button role="option" data-key="${r.key}"><b>${r.name}</b><small>${r.kind}</small></button>`).join('')
-      || (searchInput.value.trim() ? '<p class="fine">Nothing found – try a planet, a star like “Vega” or a constellation like “Leo”.</p>' : '');
+      || (searchInput.value.trim() ? `<p class="fine">${t('Nothing found – try a planet, a star like “Vega” or a constellation like “Leo”.')}</p>` : '');
   }
   $('.sky-search-btn').addEventListener('click', () => {
     searchBox.hidden = !searchBox.hidden;
@@ -844,6 +924,8 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   searchInput.addEventListener('input', renderSearch);
   searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') searchResults.querySelector('button')?.click(); if (e.key === 'Escape') searchBox.hidden = true; });
   searchResults.addEventListener('click', (e) => {
+    const tb = e.target.closest('[data-tour]');
+    if (tb) { startTour(tourList[+tb.dataset.tour]); searchBox.hidden = true; return; }
     const b = e.target.closest('[data-key]');
     if (!b) return;
     setTarget(b.dataset.key);
@@ -855,8 +937,8 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   const timeBar = $('.sky-time'), scrub = $('.sky-scrub'), playBtn = $('.sky-play');
   const RATES = [0, 600, 3600]; // stopped, 10 minutes a second, 1 hour a second
   function syncTime() {
-    const t = skyNow();
-    const label = live() ? 'Now' : t.toLocaleString([], { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    const when = skyNow();
+    const label = live() ? t('Now') : when.toLocaleString([], { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
     const h = timeOffset / 3600e3;
     const rel = live() ? '' : ` <small>${h > 0 ? '+' : '−'}${Math.abs(h) < 48 ? `${Math.abs(h).toFixed(1).replace(/\.0$/, '')} h` : `${Math.round(Math.abs(h) / 24)} days`}</small>`;
     $('.sky-time-label').innerHTML = `${label}${rel}`;
@@ -875,6 +957,54 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   $('.sky-date').addEventListener('click', (e) => { try { e.target.showPicker?.(); } catch { /* not supported – the field still works */ } });
   $('.sky-date').addEventListener('change', (e) => { const t = new Date(e.target.value); if (!isNaN(t)) { playRate = 0; jump(t - Date.now()); } });
   syncTime();
+
+  // Guided tours: step from stop to stop, with the story read aloud where the device can speak.
+  let tourList = [], tour = null, tourStep = 0;
+  const canSpeak = typeof speechSynthesis !== 'undefined';
+  const speak = (text) => {
+    if (!canSpeak || getSettings().voice === false) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 0.95;
+    u.lang = 'en'; // tour stories are English for now
+    speechSynthesis.speak(u);
+  };
+  function showStop() {
+    const st = tour.stops[tourStep];
+    const key = resolveKey(st.key);
+    setTarget(key);
+    if (mode === 'manual') aimPending = true;
+    $('.sky-tour-title').textContent = `${tour.emoji} ${tour.title}`;
+    $('.sky-tour-say').textContent = st.say;
+    $('.sky-tour-step').textContent = `${tourStep + 1} / ${tour.stops.length}`;
+    $('.sky-tour-prev').disabled = tourStep === 0;
+    $('.sky-tour-next').textContent = t(tourStep === tour.stops.length - 1 ? 'Finish ✓' : 'Next →');
+    $('.sky-tour-voice').hidden = !canSpeak;
+    $('.sky-tour-voice').textContent = getSettings().voice === false ? '🔇' : '🔊';
+    speak(st.say);
+  }
+  function startTour(t) {
+    tour = t; tourStep = 0;
+    $('.sky-tour').hidden = false;
+    if (mode === 'idle') startManual(false);
+    speak(t.intro);
+    showStop();
+  }
+  function endTour() {
+    tour = null;
+    $('.sky-tour').hidden = true;
+    if (canSpeak) speechSynthesis.cancel();
+  }
+  $('.sky-tour-next').addEventListener('click', () => {
+    if (tourStep < tour.stops.length - 1) { tourStep++; showStop(); } else { onTourDone?.(tour); endTour(); }
+  });
+  $('.sky-tour-prev').addEventListener('click', () => { if (tourStep > 0) { tourStep--; showStop(); } });
+  $('.sky-tour-exit').addEventListener('click', endTour);
+  $('.sky-tour-voice').addEventListener('click', () => {
+    setSettings({ voice: getSettings().voice === false });
+    $('.sky-tour-voice').textContent = getSettings().voice === false ? '🔇' : '🔊';
+    if (getSettings().voice === false && canSpeak) speechSynthesis.cancel();
+  });
 
   // Red night mode keeps your eyes adjusted to the dark (applies to the whole app).
   $('.sky-night').addEventListener('click', () => {
@@ -930,8 +1060,10 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   });
 
   // Manual-mode hint shown when sensors don't respond.
-  $('.sky-alert').textContent = 'No motion sensors detected – drag the sky to look around.';
+  $('.sky-alert').textContent = t('No motion sensors detected – drag the sky to look around.');
   video.hidden = true;
+
+  if (tourId) { const t = toursFor(observer, skyNow()).find((x) => x.id === tourId); if (t) startTour(t); }
 
   refreshAllTLE().then((fresh) => { if (fresh) { passes = null; lastCompute = 0; } });
   window.addEventListener('resize', resize);
@@ -946,6 +1078,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       cancelAnimationFrame(raf);
       stopCamera();
       window.removeEventListener('resize', resize);
+      if (canSpeak) speechSynthesis.cancel();
       window.removeEventListener('deviceorientation', onOrientation);
       window.removeEventListener('deviceorientationabsolute', onOrientation);
     },

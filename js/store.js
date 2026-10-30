@@ -1,5 +1,6 @@
 // Explorer progress, kept on the device. XP is derived from what the explorer has done, never stored directly.
 import { SECTORS, JOURNEY } from './data/catalog.js';
+import { questProgress } from './data/quests.js';
 
 const KEY = 'stg.progress.v1';
 const SETTINGS_KEY = 'stg.settings.v1';
@@ -17,7 +18,7 @@ function save(key, value) {
   } catch { /* storage unavailable – progress just won't persist */ }
 }
 
-let state = load(KEY, { learned: {}, spotted: {}, quiz: {}, name: '' });
+let state = load(KEY, { learned: {}, spotted: {}, quiz: {}, log: [], tours: {}, name: '' });
 let settings = load(SETTINGS_KEY, { fov: 62, headingOffset: 0, location: null, camera: true, mode: 'explorer', night: false });
 export const isScientist = () => settings.mode === 'scientist';
 const listeners = new Set();
@@ -32,7 +33,7 @@ export const RANKS = [
   [1400, 'Cosmic Explorer'],
 ];
 
-export const XP = { learn: 10, spot: 20, quizPass: 50, quizPerfect: 25 };
+export const XP = { learn: 10, spot: 20, quizPass: 50, quizPerfect: 25, quest: 40, tour: 30 };
 
 export function progress() {
   return state;
@@ -44,6 +45,7 @@ export function xp() {
     if (r.passed) total += XP.quizPass;
     if (r.best === r.total) total += XP.quizPerfect;
   }
+  total += Object.keys(state.tours).length * XP.tour + quests().filter((q) => q.done).length * XP.quest;
   return total;
 }
 
@@ -79,6 +81,25 @@ export function markSpotted(id) {
   return true;
 }
 
+// Observing log: every real-sky lock-on, newest last. The same thing within an hour counts once.
+const LOG_MAX = 300;
+export function logObservation(key, name) {
+  const now = Date.now();
+  if (state.log.some((e) => e.key === key && now - e.at < 3600e3)) return false;
+  state.log = [...state.log, { key, name: String(name).slice(0, 60), at: now }].slice(-LOG_MAX);
+  commit();
+  return true;
+}
+
+export function finishTour(id) {
+  if (state.tours[id]) return false;
+  state.tours[id] = Date.now();
+  commit();
+  return true;
+}
+
+export const quests = () => questProgress(state.log, state.tours);
+
 export function recordQuiz(sectorId, score, total) {
   const prev = state.quiz[sectorId] || { best: 0 };
   state.quiz[sectorId] = { best: Math.max(prev.best, score), total, passed: prev.passed || score >= Math.ceil(total * 0.66) };
@@ -110,11 +131,11 @@ export function setSettings(patch) {
 
 // Take in progress synced from another device (already merged with this one's).
 export function replaceProgress(p) {
-  state = { ...state, learned: { ...p.learned }, spotted: { ...p.spotted }, quiz: { ...p.quiz } };
+  state = { ...state, learned: { ...p.learned }, spotted: { ...p.spotted }, quiz: { ...p.quiz }, log: [...(p.log || [])], tours: { ...p.tours } };
   commit();
 }
 
 export function resetProgress() {
-  state = { learned: {}, spotted: {}, quiz: {}, name: state.name };
+  state = { learned: {}, spotted: {}, quiz: {}, log: [], tours: {}, name: state.name };
   commit();
 }

@@ -16,6 +16,9 @@ A journey through the universe for curious kids and students, with a **Sky Finde
 - **Time travel:** play the sky forward, scrub ±24 hours, or (Scientist view) jump to any date.
 - **Sky reminders** (iPhone and Android apps): space station passes, full and new Moons, meteor showers and planets meeting up, worked out on the phone.
 - **Optional grown-up account:** sign in with Google (or Apple on iPhone) behind a parental gate to back up progress and keep it the same on every device. Only progress is stored, in Firebase; rules in `firestore.rules`, attack tests in `npm run test:rules`.
+- **Guided tours, quests and an observing log:** step-by-step sky tours (read aloud where supported), nine real-sky quests and a log of everything you've found.
+- **Classroom mode:** teachers create a class code and follow progress (nicknames and counts only); printable worksheets for every chapter at `/classroom/`.
+- **Languages:** English, Hindi and Spanish interface (lesson texts are English for now).
 - **Tonight's Moon:** phase, how much is lit, moonrise and moonset, and the next full or new Moon.
 - **Red night mode:** turns the whole app red to keep your eyes adjusted to the dark.
 - **Motivation:** XP, ranks (Stargazer Cadet → Cosmic Explorer), sector challenges (quizzes) and badges, plus a reward for every object you physically point at.

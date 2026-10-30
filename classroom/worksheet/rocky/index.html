@@ -1,0 +1,98 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Rocky Worlds – free astronomy worksheet | See the Stars</title>
+  <meta name="description" content="Printable astronomy worksheet for kids: The Rocky Worlds (Mercury, Venus and Mars). Key facts, a 3-question quiz with answers, and a find-it-in-the-sky…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/classroom/worksheet/rocky/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Rocky Worlds – free astronomy worksheet | See the Stars">
+  <meta property="og:description" content="Printable astronomy worksheet for kids: The Rocky Worlds (Mercury, Venus and Mars). Key facts, a 3-question quiz with answers, and a find-it-in-the-sky…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/classroom/worksheet/rocky/">
+  <meta property="og:image" content="https://seethestars.webappslab.com/store/play-feature-graphic.png">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Rocky Worlds – free astronomy worksheet | See the Stars">
+  <meta name="twitter:description" content="Printable astronomy worksheet for kids: The Rocky Worlds (Mercury, Venus and Mars). Key facts, a 3-question quiz with answers, and a find-it-in-the-sky…">
+  <meta name="twitter:image" content="https://seethestars.webappslab.com/store/play-feature-graphic.png">
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="classroom">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/tonight/" data-tab="tonight">Tonight</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1"><article class="worksheet">
+    <div class="ws-tools no-print"><a href="/classroom/">← Classroom</a><button class="btn primary small" onclick="window.print()">Print</button></div>
+    <header><span class="eyebrow">See the Stars · 02</span><h1>The Rocky Worlds</h1><p>Mercury, Venus and Mars</p>
+      <div class="ws-lines"><span>Name: ______________________</span><span>Date: ____________</span></div></header>
+    <section><h2>Key facts</h2><dl><dt>Mercury</dt><dd>Mercury is the smallest planet and the closest to the Sun. With almost no air to hold heat, its days are hot enough to melt lead and its nights are colder than Antarctica.</dd><dt>Venus</dt><dd>Venus is almost Earth’s twin in size, but it is a nightmare world: its thick carbon-dioxide air traps heat so well that it is the hottest planet, and its clouds are made of sulfuric acid. It also spins backwards compared to most planets.</dd><dt>Mars</dt><dd>Mars is a cold desert world, red because its dust is full of iron oxide (rust). It has the tallest volcano in the Solar System, ancient dry riverbeds, and ice at its poles. Billions of years ago it had lakes – maybe even life.</dd></dl></section>
+    <section><h2>Quiz</h2><ol class="ws-quiz"><li><p>Which planet is the hottest?</p><ul><li>☐ Mercury</li><li>☐ Venus</li><li>☐ Mars</li><li>☐ Jupiter</li></ul></li><li><p>What makes Mars red?</p><ul><li>☐ Lava</li><li>☐ Rust (iron oxide)</li><li>☐ Red plants</li><li>☐ Reflected sunsets</li></ul></li><li><p>What did the Ingenuity helicopter do on Mars in 2021?</p><ul><li>☐ Found water</li><li>☐ First powered flight on another planet</li><li>☐ Brought rocks home</li><li>☐ Landed humans</li></ul></li></ol></section>
+    <section><h2>Find it in the sky</h2><p>Use the Sky Finder at seethestars.webappslab.com. Tick what you find and write when you saw it.</p>
+      <table class="ws-find"><thead><tr><th></th><th>Object</th><th>Date and time</th><th>Where in the sky?</th></tr></thead><tbody><tr><td>☐</td><td>Mercury</td><td></td><td></td></tr><tr><td>☐</td><td>Venus</td><td></td><td></td></tr><tr><td>☐</td><td>Mars</td><td></td><td></td></tr></tbody></table></section>
+    <section class="ws-answers"><h2>Answers (for the teacher)</h2><p>1. Venus · 2. Rust (iron oxide) · 3. First powered flight on another planet</p></section>
+  </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no tracking, and accounts are optional (for grown-ups).</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/classroom/">For teachers</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data. Star and constellation data from <a href="https://github.com/ofrohn/d3-celestial" target="_blank" rel="noopener">d3-celestial</a> (BSD).</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/tonight/" data-tab="tonight"><svg viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16.5 3.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z" fill="currentColor"/></svg><span>Tonight</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>
