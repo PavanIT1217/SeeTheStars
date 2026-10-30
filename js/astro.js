@@ -31,6 +31,16 @@ export function toHorizontal(ra, dec, lat, lon, jd) {
   return { alt: alt / DEG, az: norm360(az / DEG) };
 }
 
+// Rotation from equatorial unit vectors [cos δ cos α, cos δ sin α, sin δ] to East-North-Up.
+// Thousands of stars go through this every few seconds, so it skips the trig of toHorizontal.
+export function horizonMatrix(lat, lon, jd) {
+  const L = (gmst(jd) + lon) * DEG, phi = lat * DEG;
+  const [sL, cL, sp, cp] = [Math.sin(L), Math.cos(L), Math.sin(phi), Math.cos(phi)];
+  return [-sL, cL, 0, -sp * cL, -sp * sL, cp, cp * cL, cp * sL, sp];
+}
+
+export const equatorialVector = (ra, dec) => [cosd(dec) * cosd(ra), cosd(dec) * sind(ra), sind(dec)];
+
 // --- Planets: JPL "Keplerian Elements for Approximate Positions" (valid 1800–2050) ---
 // [a, e, I, L, longPeri, longNode] and their rates per Julian century.
 const PLANETS = {
@@ -193,6 +203,48 @@ export function nextHorizonCrossing(pos, observer, from = new Date(), hours = 26
     prev = cur;
   }
   return { never: true, up: prev.alt >= 0 };
+}
+
+// The next rise and set within `hours` (either can be missing: circumpolar, or never rises).
+export function riseSet(pos, observer, from = new Date(), hours = 26) {
+  const out = { rise: null, set: null };
+  let t = from;
+  for (let i = 0; i < 2; i++) {
+    const c = nextHorizonCrossing(pos, observer, t, hours - (t - from) / 3600e3);
+    if (!c?.time) break;
+    out[c.rising ? 'rise' : 'set'] ??= c.time;
+    t = new Date(c.time.getTime() + 60e3);
+  }
+  return out;
+}
+
+// --- Moon phase ---
+const SYNODIC_MONTH = 29.530588;
+const eclipticLon = ({ ra, dec }) => norm360(Math.atan2(sind(ra) * Math.cos(OBLIQUITY) + Math.tan(dec * DEG) * Math.sin(OBLIQUITY), cosd(ra)) / DEG);
+const PHASES = [['New Moon', '🌑'], ['Waxing crescent', '🌒'], ['First quarter', '🌓'], ['Waxing gibbous', '🌔'], ['Full Moon', '🌕'], ['Waning gibbous', '🌖'], ['Last quarter', '🌗'], ['Waning crescent', '🌘']];
+
+// How far the Moon is ahead of the Sun along the ecliptic: 0° new, 90° first quarter, 180° full.
+export function moonElongation(date = new Date()) {
+  const jd = julianDate(date);
+  return norm360(eclipticLon(moonPosition(jd)) - eclipticLon(bodyPosition('sun', jd)));
+}
+
+export function moonPhase(date = new Date()) {
+  const e = moonElongation(date);
+  const [name, emoji] = PHASES[Math.round(e / 45) % 8];
+  return { elongation: e, illumination: (1 - cosd(e)) / 2, age: (e / 360) * SYNODIC_MONTH, waxing: e < 180, name, emoji };
+}
+
+// Next time the elongation reaches `target` degrees (0 new, 90 first quarter, 180 full, 270 last quarter).
+export function nextMoonPhase(target, from = new Date()) {
+  const gap = (d) => norm360(target - moonElongation(d));
+  let t = from.getTime() + (gap(from) / 360) * SYNODIC_MONTH * 86400e3; // first guess at the Moon's mean speed
+  for (let i = 0; i < 6; i++) {
+    const g = ((gap(new Date(t)) + 180) % 360) - 180;
+    t += (g / 12.19) * 86400e3; // the Moon gains about 12.19° a day on the Sun
+    if (Math.abs(g) < 0.01) break;
+  }
+  return new Date(t);
 }
 
 export function angularDistance(alt1, az1, alt2, az2) {
