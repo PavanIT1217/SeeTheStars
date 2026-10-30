@@ -10,10 +10,13 @@ import { DEFAULT_PREFS, remindersAvailable, requestReminderPermission, scheduleR
 import * as account from './account.js';
 import * as classroom from './classroom.js';
 import { t, setLanguage, deviceLanguage } from './i18n.js';
+import { fetchForecast, stargazingScore } from './conditions.js';
+import { unlocked } from './pro.js';
+import { updateWidget } from './widget.js';
 import {
   url, esc, fmtTime, observer, photo, crumbs, progressBar, rankRing, modeSwitch,
   homeHtml, skyNowHtml, sectorHtml, objectHtml, factsHtml, libraryHtml, libraryItems, pageMeta, artFallback, tonightHtml, remindersHtml, accountHtml,
-  classroomHtml, teacherHtml, worksheetHtml, classJoinHtml, languageHtml,
+  classroomHtml, teacherHtml, worksheetHtml, classJoinHtml, languageHtml, conditionsHtml,
 } from './views.js';
 
 window.fillArt = artFallback; // called by photos that fail to load
@@ -488,6 +491,7 @@ function renderTeacher() {
   });
 }
 function classroomView(sub, id) {
+  if (!unlocked('classroom')) { notFound(); return; }
   if (sub === 'worksheet' && sectorById(id)) { view.innerHTML = worksheetHtml(sectorById(id)); return; }
   view.innerHTML = classroomHtml();
   teacherState.status = '';
@@ -539,11 +543,24 @@ function bindReminders(root) {
   }));
 }
 
+function showConditions() {
+  const box = view.querySelector('.tn-cond');
+  if (!box || !navigator.onLine) return;
+  const obs = observer();
+  fetchForecast(obs).then((hours) => {
+    const c = stargazingScore(hours, obs);
+    if (!c || document.body.dataset.view !== 'tonight') return;
+    box.innerHTML = conditionsHtml(c);
+    box.hidden = false;
+  }).catch(() => {}); // no forecast offline – the rest of the page still works
+}
+
 function tonightView() {
   view.innerHTML = tonightHtml();
+  showConditions();
   bindReminders(view);
   // Satellite orbits change; refresh them and redraw if the plan used stale ones.
-  refreshAllTLE().then((fresh) => { if (fresh && document.body.dataset.view === 'tonight') view.innerHTML = tonightHtml(); });
+  refreshAllTLE().then((fresh) => { if (fresh && document.body.dataset.view === 'tonight') { view.innerHTML = tonightHtml(); showConditions(); bindReminders(view); } });
 }
 
 function notFound() {
@@ -618,7 +635,8 @@ route();
 // Keep the week of reminders topped up (passes shift as orbits change), and open the page a reminder points to.
 onReminderTap((href) => navigate(href));
 rescheduleReminders();
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') rescheduleReminders(); });
+updateWidget(observer());
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { rescheduleReminders(); updateWidget(observer()); } });
 
 // The home page's "in your sky right now" depends on the time, so refresh it every few minutes.
 setInterval(() => {

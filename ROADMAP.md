@@ -45,11 +45,11 @@ Benchmarked against **Night Sky** (iCandi Apps) and **Sky Guide** (Fifth Star La
 14. Hindi and Spanish for the interface, planet names and all 88 constellations. *Still English: the 61 lesson texts, quizzes, tour stories and Tonight's generated sentences – needs a translator's review.*
 15. Content: all 110 Messier objects in the Sky Finder and search; meteor showers in Tonight and reminders (Phase 2). *Eclipses deferred: dates and visibility need a verified source before they go in a kids' app.*
 
-## Phase 4 – Platform and business
-16. Home-screen widgets and Watch app.
-17. Stargazing conditions score (cloud cover + Moon).
-18. Freemium: journey free; tours, classroom and deep catalogs paid.
-19. Child-privacy and store compliance (COPPA, GDPR-K, Designed for Families) before accounts/notifications.
+## Phase 4 – Platform and business ✅ (done 2026-10-30)
+16. Home-screen widgets on Android and iOS (WidgetKit): tonight's Moon, worked out on the widget itself, plus the best sight and the next bright pass from the app. *Watch app deferred: little value for a kids' audience compared with its cost.*
+17. Stargazing conditions score out of 10 on the Tonight page (Open-Meteo cloud cover and visibility, plus moonlight).
+18. Pro gate built (`js/pro.js`: tours, classroom, deep catalog) but **unlocked for everyone**; no in-app purchases yet.
+19. Child-privacy and store compliance: [docs/compliance.md](docs/compliance.md) with Data safety / App Privacy answers, category advice and open items; privacy policy updated.
 
 ## Success metrics
 Week-1 retention, lock-ons per week, sectors completed, organic search traffic to object pages.

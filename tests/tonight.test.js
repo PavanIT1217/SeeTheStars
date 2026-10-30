@@ -76,3 +76,13 @@ test('quests count distinct real-sky finds', async () => {
   assert.equal(q.tours.have, 1);
   assert.ok(!q.station.done);
 });
+
+test('stargazing score: clear nights score high, cloudy nights low', async () => {
+  const { stargazingScore } = await import('../js/conditions.js');
+  const now = new Date(Date.UTC(2026, 7, 12, 6)); // new Moon week, so moonlight doesn't matter
+  const hours = (cloud) => Array.from({ length: 48 }, (_, i) => ({ t: Date.UTC(2026, 7, 12) + i * 3600e3, cloud, vis: 24000 }));
+  const clear = stargazingScore(hours(0), delhi, now), cloudy = stargazingScore(hours(95), delhi, now);
+  assert.ok(clear.score >= 9, `clear ${clear.score}`);
+  assert.ok(cloudy.score <= 1, `cloudy ${cloudy.score}`);
+  assert.match(cloudy.verdict, /Cloudy/);
+});
