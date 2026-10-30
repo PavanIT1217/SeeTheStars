@@ -12,6 +12,8 @@ import { horizontalFor, formatRA, formatDec, lightTime, compassName, julianDate,
 import { timeMachine, formatYears } from './timemachine.js';
 import { kidFacts, diameterKm, sizeComparison } from './kidfacts.js';
 import { issState } from './iss.js';
+import { tonightPlan } from './tonight.js';
+import { REMINDER_KINDS, DEFAULT_PREFS } from './reminders.js';
 
 export const SITE = {
   name: 'See the Stars',
@@ -24,6 +26,7 @@ export const url = {
   sector: (id) => `/sector/${id}/`,
   object: (id) => `/object/${id}/`,
   sky: (id) => (id ? `/sky/${id}/` : '/sky/'),
+  tonight: '/tonight/',
   quiz: (id) => `/quiz/${id}/`,
   library: '/library/',
   me: '/me/',
@@ -448,6 +451,77 @@ export function libraryItems(cat, q) {
   return items.length ? items.map((o) => objCard(o)).join('') : '<p class="empty" style="grid-column:1/-1">Nothing found. Try another word!</p>';
 }
 
+// ───────────────────────── tonight ─────────────────────────
+const fmtDayTime = (d, now) => {
+  const days = Math.round((new Date(d).setHours(0, 0, 0, 0) - new Date(now).setHours(0, 0, 0, 0)) / 86400e3);
+  const day = days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : d.toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' });
+  return `${day}, ${fmtTime(d)}`;
+};
+
+export function tonightHtml({ live = true } = {}) {
+  const head = `<section class="page-head"><span class="eyebrow">Tonight</span><h1>What can I see tonight?</h1>
+    <p>The best things in your sky tonight – planets, the Moon, space stations flying over and stars to learn – worked out for exactly where you are.</p></section>`;
+  if (!live) return head;
+  const obs = observer();
+  const now = new Date();
+  const plan = tonightPlan(obs, now);
+  const n = plan.night;
+  const darkLine = !n ? 'It doesn’t get dark where you are tonight – the Sun stays too close to the horizon.'
+    : n.start <= now ? `It’s dark now, until about <b>${fmtTime(n.end)}</b>.`
+      : `It gets dark at about <b>${fmtTime(n.start)}</b> and stays dark until <b>${fmtTime(n.end)}</b>.`;
+  const challenge = plan.highlights.find((h) => h.key && OBJECTS[h.key] && !store.isSpotted(h.key));
+  const card = (h) => `<article class="tn-item">
+      <span class="tn-emoji" aria-hidden="true">${h.emoji}</span>
+      <div><h3>${esc(h.title)}</h3><p>${h.text}</p></div>
+      ${h.key ? `<a class="btn ghost small" href="${url.sky(h.key)}">Find it</a>` : ''}
+    </article>`;
+  return `${head}
+    <p class="tn-dark">${darkLine}${obs.approx ? ' <small>Using an approximate location – open the Sky Finder once to use yours.</small>' : ''}</p>
+    ${moonHtml(now)}
+    ${challenge ? `<a class="tn-challenge" href="${url.sky(challenge.key)}"><span class="hud-label">Tonight’s challenge</span><b>Find ${esc(OBJECTS[challenge.key].name)} in the real sky</b><small>Point your phone at it until it says LOCKED ON to earn +${store.XP.spot} XP</small></a>` : ''}
+    <section class="section"><div class="section-head"><div><h2>Best things to see</h2></div></div>
+      <div class="tn-list">${plan.highlights.map(card).join('') || '<p class="empty">Nothing bright is up tonight – check back tomorrow!</p>'}</div>
+    </section>
+    <section class="section"><div class="section-head"><div><h2>Coming up</h2><p>The next two weeks in the sky.</p></div></div>
+      <div class="tn-list">${plan.events.map((e) => card({ ...e, title: `${e.title} · ${fmtDayTime(e.time, now)}` })).join('') || '<p class="empty">A quiet two weeks – a great time to learn constellations.</p>'}</div>
+    </section>
+    <section class="section">${remindersHtml()}</section>`;
+}
+
+// Grown-up account panel on My journey. `account` is null when signed out.
+export function accountHtml(account, { providers = ['google'], status = '' } = {}) {
+  if (account) {
+    return `<h2>Progress is backed up</h2>
+      <p>Signed in as <b>${esc(account.name)}</b>. Explored items, spotted objects and quiz scores are saved to this account and kept the same on every device you sign in on.</p>
+      <p class="fine acct-status">${esc(status)}</p>
+      <div class="btn-row"><button class="btn ghost acct-signout">Sign out</button><button class="btn ghost danger acct-delete">Delete account</button></div>
+      <div class="acct-confirm" hidden><p><b>Delete the account and its backed-up progress?</b> Progress on this device stays. This can’t be undone.</p><div class="btn-row"><button class="btn danger acct-delete-yes">Yes, delete it</button><button class="btn ghost acct-delete-no">Keep it</button></div></div>`;
+  }
+  const a = 4 + Math.floor(Math.random() * 6), b = 6 + Math.floor(Math.random() * 4);
+  return `<h2>For grown-ups: back up progress</h2>
+    <p>Sign in to keep your explorer’s progress safe and the same on every phone, tablet and computer. We only save what they explored, spotted and their quiz scores – nothing else.</p>
+    <button class="btn acct-start">Grown-up sign-in</button>
+    <div class="acct-gate" hidden data-answer="${a * b}">
+      <label>To continue, a grown-up please answer: <b>${a} × ${b} = ?</b> <input class="acct-gate-input" inputmode="numeric" autocomplete="off" aria-label="Answer"></label>
+      <div class="btn-row acct-providers" hidden>${providers.map((p) => `<button class="btn ${p === 'apple' ? 'apple' : 'google'}" data-provider="${p}">${p === 'apple' ? ' Continue with Apple' : 'Continue with Google'}</button>`).join('')}</div>
+    </div>
+    <p class="fine acct-status">${esc(status)}</p>`;
+}
+
+// Reminder settings (Tonight page and My journey). Only the apps can schedule them.
+export function remindersHtml() {
+  const native = typeof window !== 'undefined' && !!window.Capacitor?.isNativePlatform?.();
+  if (!native) {
+    return `<div class="panel remind"><h2>🔔 Never miss a pass</h2><p>The See the Stars app for iPhone and Android can remind you when the space station flies over, on full Moon nights and when meteor showers peak. Reminders are worked out on your phone – nothing is sent anywhere.</p></div>`;
+  }
+  const prefs = { ...DEFAULT_PREFS, ...store.getSettings().reminders };
+  return `<div class="panel remind"><h2>🔔 Sky reminders</h2>
+    <label class="switch-row first"><span><b>Remind me</b><small>Worked out on your phone for where you are. Nothing is sent anywhere.</small></span><input type="checkbox" data-remind="on" ${prefs.on ? 'checked' : ''}></label>
+    <div class="remind-kinds" ${prefs.on ? '' : 'hidden'}>${Object.entries(REMINDER_KINDS).map(([k, [emoji, title, hint]]) => `<label class="switch-row"><span><b>${emoji} ${title}</b><small>${hint}</small></span><input type="checkbox" data-remind="${k}" ${prefs[k] ? 'checked' : ''}></label>`).join('')}</div>
+    <p class="fine remind-status"></p>
+  </div>`;
+}
+
 // What search engines see at /sky/ before the app takes over.
 export function skyLandingHtml() {
   return `<section class="page-head">
@@ -553,6 +627,13 @@ export function pageMeta(route, id) {
       description: 'Point your phone at the sky and follow the arrows to any planet, star, galaxy, black hole or the International Space Station – even below the horizon. Free, no sign-up.',
       path: url.sky(), type: 'website', image: homeImg,
       jsonld: [{ '@type': 'WebApplication', name: `${SITE.name} – Sky Finder`, url: abs(url.sky()), applicationCategory: 'EducationalApplication', operatingSystem: 'Any (web browser), Android, iOS', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }],
+    };
+  }
+  if (route === 'tonight') {
+    return {
+      title: `What can I see in the sky tonight? | ${SITE.name}`,
+      description: 'Planets, the Moon, the ISS and space stations flying over, meteor showers and stars to learn – the best things in your sky tonight, worked out for where you are.',
+      path: url.tonight, type: 'website', image: homeImg,
     };
   }
   if (route === 'me' || route === 'quiz') {

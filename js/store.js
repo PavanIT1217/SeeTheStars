@@ -108,6 +108,12 @@ export function setSettings(patch) {
   save(SETTINGS_KEY, settings);
 }
 
+// Take in progress synced from another device (already merged with this one's).
+export function replaceProgress(p) {
+  state = { ...state, learned: { ...p.learned }, spotted: { ...p.spotted }, quiz: { ...p.quiz } };
+  commit();
+}
+
 export function resetProgress() {
   state = { learned: {}, spotted: {}, quiz: {}, name: state.name };
   commit();

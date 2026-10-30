@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "1099223678104",
+    "project_id": "seethestars-app",
+    "storage_bucket": "seethestars-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1099223678104:android:bbc3cdfff3a1defae2e4ed",
+        "android_client_info": {
+          "package_name": "com.webappslab.seethestars"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1099223678104-75nrkksg39048tn2il7rsb0tc28kv2i1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.webappslab.seethestars",
+            "certificate_hash": "4c75119ed80095f29cd2169660f39745a7f07f92"
+          }
+        },
+        {
+          "client_id": "1099223678104-gktnts8f43vugvr290f4mijsgtv48mnm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.webappslab.seethestars",
+            "certificate_hash": "8b24f4586a361e714d3221714676d907b4535d6b"
+          }
+        },
+        {
+          "client_id": "1099223678104-ljr0cga6l8nvfm2ur409ivsllovcuirn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFuuMySXU2mIiZ5SRwyZO5nsDJaneD6uY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1099223678104-ljr0cga6l8nvfm2ur409ivsllovcuirn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1099223678104-m1eq8logfdnbsov4ouqddjoje3rbpdj8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.webappslab.seethestars"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

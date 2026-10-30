@@ -1,0 +1,24 @@
+rules_version = '2';
+
+// See the Stars: a signed-in grown-up can only read and write their own child's progress.
+// Deploy with `firebase deploy --only firestore:rules`.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // users/{uid}/progress/main = { learned, spotted, quiz, updatedAt } – what was explored, spotted and quiz scores
+    match /users/{uid}/progress/{doc} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null
+        && request.auth.uid == uid
+        && doc == 'main'
+        && request.resource.data.keys().hasOnly(['learned', 'spotted', 'quiz', 'updatedAt'])
+        && request.resource.data.learned is map && request.resource.data.learned.size() <= 500
+        && request.resource.data.spotted is map && request.resource.data.spotted.size() <= 500
+        && request.resource.data.quiz is map && request.resource.data.quiz.size() <= 50
+        && request.resource.data.updatedAt is number;
+    }
+    // everything else is closed
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

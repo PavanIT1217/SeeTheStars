@@ -33,6 +33,6 @@ test('every object page has its own title, description, canonical URL and struct
 
 test('sitemap lists every indexable page and robots.txt points to it', () => {
   const urls = [...files['sitemap.xml'].matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  assert.equal(urls.length, 3 + 12 + Object.keys(OBJECTS).length);
+  assert.equal(urls.length, 4 + 12 + Object.keys(OBJECTS).length); // home, tonight, library, sky
   assert.match(files['robots.txt'], /Sitemap: https:\/\/seethestars\.webappslab\.com\/sitemap\.xml/);
 });
