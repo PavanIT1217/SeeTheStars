@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Readable crash reports, and the Facebook SDK the sign-in plugin can reference but we don't ship.
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
+-dontwarn com.facebook.**
