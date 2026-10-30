@@ -38,12 +38,12 @@ Benchmarked against **Night Sky** (iCandi Apps) and **Sky Guide** (Fifth Star La
 9. More satellites: Tiangong and Hubble via the existing SGP4 code. *Starlink trains deferred: CelesTrak has no small feed of fresh launches, and the full Starlink list (~1.6 MB) is too heavy for a kids' app.*
 10. Optional grown-up accounts (Google; Apple on iPhone) behind a parental gate, syncing progress via Firebase (`seethestars-app`).
 
-## Phase 3 – Learning moat
-11. Guided sky tours (narrated, object to object).
-12. Observing log and real-sky quests verified by lock-on.
-13. Classroom mode: teacher codes, class progress, printable worksheets.
-14. Translations (start: Hindi, Spanish).
-15. Content: Messier objects, meteor showers, eclipses.
+## Phase 3 – Learning moat ✅ (done 2026-10-30)
+11. Guided sky tours: six seasonal tours plus a “Tonight’s tour” built for where you are; read aloud where the device can speak.
+12. Observing log (every real-sky lock-on) and nine quests worked out from it, with XP.
+13. Classroom mode: teacher class codes and roster (nicknames and counts only, students join anonymously), printable worksheets for all 12 chapters.
+14. Hindi and Spanish for the interface, planet names and all 88 constellations. *Still English: the 61 lesson texts, quizzes, tour stories and Tonight's generated sentences – needs a translator's review.*
+15. Content: all 110 Messier objects in the Sky Finder and search; meteor showers in Tonight and reminders (Phase 2). *Eclipses deferred: dates and visibility need a verified source before they go in a kids' app.*
 
 ## Phase 4 – Platform and business
 16. Home-screen widgets and Watch app.

@@ -595,3 +595,68 @@ html.night .sky-video { filter: brightness(0.5); }
 .btn.danger:not(.ghost) { background: var(--red); color: #fff; }
 .acct-confirm { margin-top: 14px; padding: 12px 14px; border-radius: var(--radius-sm); background: rgba(255, 107, 129, 0.08); border: 1px solid rgba(255, 107, 129, 0.3); }
 .acct-confirm p { margin: 0; color: var(--text); }
+
+/* Tours, quests and the observing log */
+.sky-tour { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.sky-tour-head { display: flex; align-items: center; gap: 6px; }
+.sky-tour-head .hud-label { flex: 1; color: var(--accent); }
+.sky-tour-head button { width: 32px; height: 32px; border: 0; border-radius: 8px; background: var(--surface-2); cursor: pointer; }
+.sky-tour-say { margin: 6px 0 8px; font-size: 15px; line-height: 1.45; }
+.sky-tour-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sky-tour-step { font: 600 12px var(--mono); color: var(--dim); }
+.tour-label { padding: 4px 12px 2px; }
+.quest-grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.quest { display: flex; gap: 12px; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--surface-2); border: 1px solid var(--line); }
+.quest.done { border-color: rgba(95, 224, 166, 0.45); }
+.quest-emoji { font-size: 26px; }
+.quest b { display: block; }
+.quest small { display: block; color: var(--dim); font-size: 13px; margin: 2px 0 4px; }
+.obs-log { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.obs-log li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.obs-log time { color: var(--dim); font-size: 13px; white-space: nowrap; }
+
+/* Classroom */
+.steps { margin: 0; padding-left: 20px; color: var(--dim); }
+.steps li { margin: 6px 0; }
+.ws-list { margin: 8px 0 0; padding-left: 18px; columns: 2 220px; }
+.class-new, .class-join { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.class-new input, .class-join input { flex: 1 1 160px; min-width: 0; height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--text); font: 500 16px var(--body); }
+.class-join input[name="code"] { flex: 0 1 140px; text-transform: uppercase; letter-spacing: 0.12em; font-family: var(--mono); }
+.class-card { margin-top: 14px; padding: 14px; border-radius: var(--radius-sm); background: var(--surface-2); border: 1px solid var(--line); }
+.class-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; align-items: center; }
+.class-head small { display: block; color: var(--dim); }
+.class-code { font: 700 16px var(--mono); color: var(--accent); letter-spacing: 0.12em; }
+.table-wrap { overflow-x: auto; margin-top: 10px; }
+.roster { width: 100%; border-collapse: collapse; font-size: 14px; }
+.roster th, .roster td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.roster th { color: var(--dim); font-weight: 500; }
+button.link { background: none; border: 0; color: var(--red); cursor: pointer; padding: 0; }
+
+/* Worksheets: readable on screen, clean on paper */
+.worksheet { max-width: 800px; margin: 0 auto; padding: 0 var(--gutter) 40px; }
+.ws-tools { display: flex; justify-content: space-between; align-items: center; margin: 16px 0; }
+.worksheet h1 { font-size: 34px; margin: 4px 0; }
+.worksheet h2 { font-size: 20px; margin: 26px 0 8px; }
+.ws-lines { display: flex; flex-wrap: wrap; gap: 24px; margin: 14px 0; font-family: var(--mono); }
+.worksheet dt { font-weight: 700; margin-top: 10px; }
+.worksheet dd { margin: 2px 0 0; color: var(--dim); }
+.ws-quiz > li { margin-bottom: 12px; }
+.ws-quiz p { margin: 0 0 4px; }
+.ws-quiz ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.ws-find { width: 100%; border-collapse: collapse; }
+.ws-find th, .ws-find td { border: 1px solid var(--line-strong); padding: 10px 8px; text-align: left; }
+.ws-find td:first-child { width: 28px; }
+.ws-answers { font-size: 13px; color: var(--faint); margin-top: 30px; }
+@media print {
+  .topbar, .tabbar, .site-footer, #starfield, .no-print, #toasts { display: none !important; }
+  html.night body::after { display: none; }
+  body { background: #fff !important; color: #000 !important; font-size: 12pt; }
+  .worksheet { max-width: none; padding: 0; }
+  .worksheet dd, .worksheet .eyebrow, .ws-answers { color: #333 !important; }
+  .ws-find th, .ws-find td { border-color: #999; }
+  .ws-answers { page-break-before: always; }
+  main { padding: 0 !important; margin: 0 !important; }
+}
+
+/* Letter-spacing breaks Devanagari conjuncts apart */
+html[lang="hi"] .hud-label, html[lang="hi"] .eyebrow, html[lang="hi"] .tour-label { letter-spacing: 0; }

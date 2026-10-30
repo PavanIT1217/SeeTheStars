@@ -14,6 +14,7 @@ import { kidFacts, diameterKm, sizeComparison } from './kidfacts.js';
 import { issState } from './iss.js';
 import { tonightPlan } from './tonight.js';
 import { REMINDER_KINDS, DEFAULT_PREFS } from './reminders.js';
+import { t, LANGUAGES, language } from './i18n.js';
 
 export const SITE = {
   name: 'See the Stars',
@@ -27,6 +28,8 @@ export const url = {
   object: (id) => `/object/${id}/`,
   sky: (id) => (id ? `/sky/${id}/` : '/sky/'),
   tonight: '/tonight/',
+  classroom: '/classroom/',
+  worksheet: (id) => `/classroom/worksheet/${id}/`,
   quiz: (id) => `/quiz/${id}/`,
   library: '/library/',
   me: '/me/',
@@ -101,15 +104,15 @@ export function objCard(o, num) {
 export function modeSwitch() {
   const sci = store.isScientist();
   return `<div class="segmented" role="radiogroup" aria-label="Detail level">
-    <button role="radio" aria-checked="${!sci}" data-mode="explorer" class="${sci ? '' : 'on'}"><span>🧑‍🚀</span><b>Explorer</b><small>Simple and fun</small></button>
-    <button role="radio" aria-checked="${sci}" data-mode="scientist" class="${sci ? 'on' : ''}"><span>🔬</span><b>Scientist</b><small>All the data</small></button>
+    <button role="radio" aria-checked="${!sci}" data-mode="explorer" class="${sci ? '' : 'on'}"><span>🧑‍🚀</span><b>${t('Explorer')}</b><small>${t('Simple and fun')}</small></button>
+    <button role="radio" aria-checked="${sci}" data-mode="scientist" class="${sci ? 'on' : ''}"><span>🔬</span><b>${t('Scientist')}</b><small>${t('All the data')}</small></button>
   </div>`;
 }
 
 // ───────────────────────── home ─────────────────────────
 const daysUntil = (d, now) => {
   const days = Math.round((d - now) / 86400e3);
-  return days <= 0 ? 'today' : days === 1 ? 'tomorrow' : `in ${days} days`;
+  return days <= 0 ? t('today') : days === 1 ? t('tomorrow') : t('in {n} days', { n: days });
 };
 
 // Tonight's Moon: phase, how much is lit, rise and set, and the next full or new Moon.
@@ -118,13 +121,13 @@ export function moonHtml(now = new Date()) {
   const ph = moonPhase(now);
   const rs = riseSet(OBJECTS.moon.pos, obs, now);
   const nextFull = nextMoonPhase(180, now), nextNew = nextMoonPhase(0, now);
-  const next = nextFull < nextNew ? ['Full Moon', nextFull] : ['New Moon', nextNew];
-  const times = [['rises', rs.rise], ['sets', rs.set]].filter(([, t]) => t).sort((x, y) => x[1] - y[1]).map(([w, t]) => `${w} ${fmtTime(t)}`).join(' · ');
+  const next = nextFull < nextNew ? [t('Full Moon'), nextFull] : [t('New Moon'), nextNew];
+  const times = [[t('rises'), rs.rise], [t('sets'), rs.set]].filter(([, t]) => t).sort((x, y) => x[1] - y[1]).map(([w, t]) => `${w} ${fmtTime(t)}`).join(' · ');
   // Shadow drawn with two arcs: the lit limb is a half circle, the terminator an ellipse.
   const k = Math.cos(ph.elongation * Math.PI / 180); // 1 new … -1 full
   const lit = ph.waxing ? 1 : 0;
   const disc = `<svg class="moon-disc" viewBox="-1 -1 2 2" aria-hidden="true"><circle r="1" fill="#2a2f45"/><path fill="#f4efd9" d="M0,-1 A1,1 0 0 ${lit} 0,1 A${Math.abs(k).toFixed(3)},1 0 0 ${(k > 0) === !!lit ? 0 : 1} 0,-1Z"/></svg>`;
-  return `<a class="moon-card" href="${url.object('moon')}">${disc}<div><small>Tonight’s Moon</small><b>${ph.name} · ${Math.round(ph.illumination * 100)}% lit</b><small>${times ? `${times} · ` : ''}${next[0]} ${daysUntil(next[1], now)}</small></div></a>`;
+  return `<a class="moon-card" href="${url.object('moon')}">${disc}<div><small>${t('Tonight’s Moon')}</small><b>${t(ph.name)} · ${Math.round(ph.illumination * 100)}% ${t('lit')}</b><small>${times ? `${times} · ` : ''}${next[0]} ${daysUntil(next[1], now)}</small></div></a>`;
 }
 // Where the bright planets and the Moon are in your sky right now.
 export function skyNowHtml() {
@@ -459,30 +462,30 @@ const fmtDayTime = (d, now) => {
 };
 
 export function tonightHtml({ live = true } = {}) {
-  const head = `<section class="page-head"><span class="eyebrow">Tonight</span><h1>What can I see tonight?</h1>
-    <p>The best things in your sky tonight – planets, the Moon, space stations flying over and stars to learn – worked out for exactly where you are.</p></section>`;
+  const head = `<section class="page-head"><span class="eyebrow">${t('Tonight')}</span><h1>${t('What can I see tonight?')}</h1>
+    <p>${t('The best things in your sky tonight – planets, the Moon, space stations flying over and stars to learn – worked out for exactly where you are.')}</p></section>`;
   if (!live) return head;
   const obs = observer();
   const now = new Date();
   const plan = tonightPlan(obs, now);
   const n = plan.night;
   const darkLine = !n ? 'It doesn’t get dark where you are tonight – the Sun stays too close to the horizon.'
-    : n.start <= now ? `It’s dark now, until about <b>${fmtTime(n.end)}</b>.`
-      : `It gets dark at about <b>${fmtTime(n.start)}</b> and stays dark until <b>${fmtTime(n.end)}</b>.`;
+    : n.start <= now ? t('It’s dark now, until about {end}.', { end: `<b>${fmtTime(n.end)}</b>` })
+      : t('It gets dark at about {start} and stays dark until {end}.', { start: `<b>${fmtTime(n.start)}</b>`, end: `<b>${fmtTime(n.end)}</b>` });
   const challenge = plan.highlights.find((h) => h.key && OBJECTS[h.key] && !store.isSpotted(h.key));
   const card = (h) => `<article class="tn-item">
       <span class="tn-emoji" aria-hidden="true">${h.emoji}</span>
       <div><h3>${esc(h.title)}</h3><p>${h.text}</p></div>
-      ${h.key ? `<a class="btn ghost small" href="${url.sky(h.key)}">Find it</a>` : ''}
+      ${h.key ? `<a class="btn ghost small" href="${url.sky(h.key)}">${t('Find it')}</a>` : ''}
     </article>`;
   return `${head}
     <p class="tn-dark">${darkLine}${obs.approx ? ' <small>Using an approximate location – open the Sky Finder once to use yours.</small>' : ''}</p>
     ${moonHtml(now)}
-    ${challenge ? `<a class="tn-challenge" href="${url.sky(challenge.key)}"><span class="hud-label">Tonight’s challenge</span><b>Find ${esc(OBJECTS[challenge.key].name)} in the real sky</b><small>Point your phone at it until it says LOCKED ON to earn +${store.XP.spot} XP</small></a>` : ''}
-    <section class="section"><div class="section-head"><div><h2>Best things to see</h2></div></div>
+    ${challenge ? `<a class="tn-challenge" href="${url.sky(challenge.key)}"><span class="hud-label">${t('Tonight’s challenge')}</span><b>${t('Find {name} in the real sky', { name: esc(t(OBJECTS[challenge.key].name)) })}</b><small>${t('Point your phone at it until it says LOCKED ON to earn +{xp} XP', { xp: store.XP.spot })}</small></a>` : ''}
+    <section class="section"><div class="section-head"><div><h2>${t('Best things to see')}</h2></div></div>
       <div class="tn-list">${plan.highlights.map(card).join('') || '<p class="empty">Nothing bright is up tonight – check back tomorrow!</p>'}</div>
     </section>
-    <section class="section"><div class="section-head"><div><h2>Coming up</h2><p>The next two weeks in the sky.</p></div></div>
+    <section class="section"><div class="section-head"><div><h2>${t('Coming up')}</h2><p>${t('The next two weeks in the sky.')}</p></div></div>
       <div class="tn-list">${plan.events.map((e) => card({ ...e, title: `${e.title} · ${fmtDayTime(e.time, now)}` })).join('') || '<p class="empty">A quiet two weeks – a great time to learn constellations.</p>'}</div>
     </section>
     <section class="section">${remindersHtml()}</section>`;
@@ -508,6 +511,65 @@ export function accountHtml(account, { providers = ['google'], status = '' } = {
     <p class="fine acct-status">${esc(status)}</p>`;
 }
 
+// ───────────────────────── classroom ─────────────────────────
+export function classroomHtml() {
+  return `<section class="page-head"><span class="eyebrow">For teachers</span><h1>See the Stars in the classroom</h1>
+    <p>A free, guided astronomy course for primary and middle school: 12 chapters from the Earth and Moon to galaxies and the Big Bang, each with a quiz, plus a Sky Finder that turns every clear night into homework kids actually want to do.</p></section>
+    <div class="me-grid">
+      <section class="panel wide teacher"><h2>Your classes</h2><p class="fine">Loading…</p></section>
+      <section class="panel"><h2>How it works</h2>
+        <ol class="steps"><li>Sign in as a grown-up on <a href="${url.me}#account">My journey</a> and create a class here.</li><li>Share the 6-letter code. Students enter it with a nickname on their own device – no email or account needed.</li><li>See who explored, spotted and finished what. Only nicknames and counts are shared, nothing else.</li></ol>
+      </section>
+      <section class="panel"><h2>Printable worksheets</h2><p>One per chapter: key facts, the chapter quiz and a “find it in the sky” checklist.</p>
+        <ul class="ws-list">${SECTORS.map((s) => `<li><a href="${url.worksheet(s.id)}">${s.code} · ${esc(s.title)}</a></li>`).join('')}</ul>
+      </section>
+    </div>`;
+}
+
+export function teacherHtml({ account, classes, rosters = {}, status = '' }) {
+  if (!account) return `<h2>Your classes</h2><p>Sign in as a grown-up on <a href="${url.me}#account">My journey</a> to create a class.</p>`;
+  return `<h2>Your classes</h2>
+    <form class="class-new"><input name="name" maxlength="40" placeholder="Class name, e.g. Class 5B" aria-label="Class name" required><button class="btn primary">Create class</button></form>
+    <p class="fine class-status">${esc(status)}</p>
+    ${classes.length ? classes.map((c) => {
+      const r = rosters[c.code];
+      return `<article class="class-card" data-code="${c.code}">
+        <div class="class-head"><div><b>${esc(c.name)}</b><small>Code <span class="class-code">${c.code}</span> · ${r ? `${r.length} student${r.length === 1 ? '' : 's'}` : '…'}</small></div>
+          <div class="btn-row"><button class="btn ghost small class-refresh">Refresh</button><button class="btn ghost small danger class-delete">Delete</button></div></div>
+        ${r?.length ? `<div class="table-wrap"><table class="roster"><thead><tr><th>Nickname</th><th>Explored</th><th>Spotted</th><th>Quests</th><th>Badges</th><th>XP</th><th>Last seen</th><th></th></tr></thead><tbody>${r.map((m) => `<tr><td>${esc(m.nick)}</td><td>${m.explored}</td><td>${m.spotted}</td><td>${m.quests}</td><td>${m.badges}</td><td>${m.xp}</td><td>${new Date(m.updatedAt).toLocaleDateString([], { day: 'numeric', month: 'short' })}</td><td><button class="link class-remove" data-uid="${m.uid}" aria-label="Remove ${esc(m.nick)}">Remove</button></td></tr>`).join('')}</tbody></table></div>`
+          : r ? '<p class="fine">No students yet. Share the code!</p>' : ''}
+      </article>`;
+    }).join('') : '<p class="fine">No classes yet.</p>'}`;
+}
+
+export function worksheetHtml(s) {
+  const objs = s.items.map((id) => OBJECTS[id]);
+  const findable = objs.filter((o) => o.pos && !o.pos.everywhere && !o.pos.down);
+  return `<article class="worksheet">
+    <div class="ws-tools no-print"><a href="${url.classroom}">← Classroom</a><button class="btn primary small" onclick="window.print()">Print</button></div>
+    <header><span class="eyebrow">See the Stars · ${s.code}</span><h1>${esc(s.title)}</h1><p>${esc(s.subtitle)}</p>
+      <div class="ws-lines"><span>Name: ______________________</span><span>Date: ____________</span></div></header>
+    <section><h2>Key facts</h2><dl>${objs.map((o) => `<dt>${esc(o.name)}</dt><dd>${esc(o.nutshell)}</dd>`).join('')}</dl></section>
+    <section><h2>Quiz</h2><ol class="ws-quiz">${s.quiz.map((q) => `<li><p>${esc(q.q)}</p><ul>${q.options.map((o) => `<li>☐ ${esc(o)}</li>`).join('')}</ul></li>`).join('')}</ol></section>
+    ${findable.length ? `<section><h2>Find it in the sky</h2><p>Use the Sky Finder at seethestars.webappslab.com. Tick what you find and write when you saw it.</p>
+      <table class="ws-find"><thead><tr><th></th><th>Object</th><th>Date and time</th><th>Where in the sky?</th></tr></thead><tbody>${findable.map((o) => `<tr><td>☐</td><td>${esc(o.name)}</td><td></td><td></td></tr>`).join('')}</tbody></table></section>` : ''}
+    <section class="ws-answers"><h2>Answers (for the teacher)</h2><p>${s.quiz.map((q, i) => `${i + 1}. ${esc(q.options[q.answer])}`).join(' · ')}</p></section>
+  </article>`;
+}
+
+export function classJoinHtml(cls, status = '') {
+  if (cls) return `<h2>${t('🏫 My class')}</h2><p>You’re in <b>${esc(cls.name)}</b> as <b>${esc(cls.nick)}</b>. Your teacher can see how many things you explored and spotted.</p><p class="fine class-join-status">${esc(status)}</p><button class="btn ghost class-leave">Leave class</button>`;
+  return `<h2>${t('🏫 Join a class')}</h2><p>Got a code from your teacher? Join with a nickname – no email needed.</p>
+    <form class="class-join"><input name="code" maxlength="7" placeholder="${t('Class code')}" autocapitalize="characters" autocomplete="off" aria-label="Class code" required><input name="nick" maxlength="20" placeholder="${t('Nickname')}" autocomplete="off" aria-label="Nickname" required><button class="btn primary">${t('Join')}</button></form>
+    <p class="fine">Use a first name or a fun nickname – not your full name.</p><p class="fine class-join-status">${esc(status)}</p>`;
+}
+
+// Language choice (My journey).
+export function languageHtml() {
+  return `<label class="switch-row"><span><b>${t('Language')}</b>${language() === 'en' ? '' : `<small>${t('Lesson texts are in English for now.')}</small>`}</span>
+    <select class="lang-select" aria-label="Language">${Object.entries(LANGUAGES).map(([code, name]) => `<option value="${code}" ${code === language() ? 'selected' : ''}>${name}</option>`).join('')}</select></label>`;
+}
+
 // Reminder settings (Tonight page and My journey). Only the apps can schedule them.
 export function remindersHtml() {
   const native = typeof window !== 'undefined' && !!window.Capacitor?.isNativePlatform?.();
@@ -515,8 +577,8 @@ export function remindersHtml() {
     return `<div class="panel remind"><h2>🔔 Never miss a pass</h2><p>The See the Stars app for iPhone and Android can remind you when the space station flies over, on full Moon nights and when meteor showers peak. Reminders are worked out on your phone – nothing is sent anywhere.</p></div>`;
   }
   const prefs = { ...DEFAULT_PREFS, ...store.getSettings().reminders };
-  return `<div class="panel remind"><h2>🔔 Sky reminders</h2>
-    <label class="switch-row first"><span><b>Remind me</b><small>Worked out on your phone for where you are. Nothing is sent anywhere.</small></span><input type="checkbox" data-remind="on" ${prefs.on ? 'checked' : ''}></label>
+  return `<div class="panel remind"><h2>${t('🔔 Sky reminders')}</h2>
+    <label class="switch-row first"><span><b>${t('Remind me')}</b><small>Worked out on your phone for where you are. Nothing is sent anywhere.</small></span><input type="checkbox" data-remind="on" ${prefs.on ? 'checked' : ''}></label>
     <div class="remind-kinds" ${prefs.on ? '' : 'hidden'}>${Object.entries(REMINDER_KINDS).map(([k, [emoji, title, hint]]) => `<label class="switch-row"><span><b>${emoji} ${title}</b><small>${hint}</small></span><input type="checkbox" data-remind="${k}" ${prefs[k] ? 'checked' : ''}></label>`).join('')}</div>
     <p class="fine remind-status"></p>
   </div>`;
@@ -635,6 +697,13 @@ export function pageMeta(route, id) {
       description: 'Planets, the Moon, the ISS and space stations flying over, meteor showers and stars to learn – the best things in your sky tonight, worked out for where you are.',
       path: url.tonight, type: 'website', image: homeImg,
     };
+  }
+  if (route === 'classroom' && id && sectorById(id)) {
+    const s = sectorById(id);
+    return { title: `${s.title} – free astronomy worksheet | ${SITE.name}`, description: clip(`Printable astronomy worksheet for kids: ${s.title} (${s.subtitle}). Key facts, a ${s.quiz.length}-question quiz with answers, and a find-it-in-the-sky checklist.`), path: url.worksheet(s.id), type: 'article', image: homeImg };
+  }
+  if (route === 'classroom') {
+    return { title: `Astronomy for the classroom: free course, quizzes and worksheets | ${SITE.name}`, description: 'A free guided astronomy course for schools: 12 chapters with quizzes, printable worksheets, and a class code so teachers can follow progress. No student emails or accounts.', path: url.classroom, type: 'website', image: homeImg };
   }
   if (route === 'me' || route === 'quiz') {
     return { title: `${route === 'me' ? 'My journey' : 'Challenge'} | ${SITE.name}`, description: SITE.tagline, path: route === 'me' ? url.me : url.quiz(id), noindex: true, type: 'website', image: homeImg };

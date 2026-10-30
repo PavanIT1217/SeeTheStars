@@ -1,0 +1,98 @@
+<!doctype html>
+<!-- Template for every page. Edit this file, not index.html: `npm run pages` builds index.html, 404.html
+     and a pre-rendered page for each sector and object from it (see scripts/build-pages.mjs). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Star Nurseries &amp; Graveyards – free astronomy worksheet | See the Stars</title>
+  <meta name="description" content="Printable astronomy worksheet for kids: Star Nurseries &amp; Graveyards (How stars are born and how they die). Key facts, a 3-question quiz with answers, and a…">
+  <link rel="canonical" href="https://seethestars.webappslab.com/classroom/worksheet/lifecycle/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="See the Stars">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Star Nurseries &amp; Graveyards – free astronomy worksheet | See the Stars">
+  <meta property="og:description" content="Printable astronomy worksheet for kids: Star Nurseries &amp; Graveyards (How stars are born and how they die). Key facts, a 3-question quiz with answers, and a…">
+  <meta property="og:url" content="https://seethestars.webappslab.com/classroom/worksheet/lifecycle/">
+  <meta property="og:image" content="https://seethestars.webappslab.com/store/play-feature-graphic.png">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Star Nurseries &amp; Graveyards – free astronomy worksheet | See the Stars">
+  <meta name="twitter:description" content="Printable astronomy worksheet for kids: Star Nurseries &amp; Graveyards (How stars are born and how they die). Key facts, a 3-question quiz with answers, and a…">
+  <meta name="twitter:image" content="https://seethestars.webappslab.com/store/play-feature-graphic.png">
+  <meta name="theme-color" content="#07080f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="See the Stars">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="preload" href="/fonts/SpaceGrotesk-latin-V8mDoQDjQS.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body data-view="classroom">
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="logo" href="/" aria-label="See the Stars – home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5" fill="#ffc35a"/><ellipse cx="16" cy="16" rx="14" ry="5" fill="none" stroke="#8fd8ff" stroke-width="1.6" transform="rotate(-25 16 16)"/><circle cx="27.5" cy="9.5" r="1.7" fill="#fff"/></svg>
+        <span>See the Stars</span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="/" data-tab="home">Explore</a>
+        <a href="/tonight/" data-tab="tonight">Tonight</a>
+        <a href="/sky/" data-tab="sky">Sky Finder</a>
+        <a href="/library/" data-tab="library">Library</a>
+        <a href="/me/" data-tab="me">My journey</a>
+      </nav>
+      <span class="offline-pill">Offline</span>
+      <a id="xp-chip" class="xp-chip" href="/me/" aria-label="My journey"></a>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1"><article class="worksheet">
+    <div class="ws-tools no-print"><a href="/classroom/">← Classroom</a><button class="btn primary small" onclick="window.print()">Print</button></div>
+    <header><span class="eyebrow">See the Stars · 09</span><h1>Star Nurseries &amp; Graveyards</h1><p>How stars are born and how they die</p>
+      <div class="ws-lines"><span>Name: ______________________</span><span>Date: ____________</span></div></header>
+    <section><h2>Key facts</h2><dl><dt>Orion Nebula (M42)</dt><dd>The Orion Nebula is a giant glowing cloud of gas and dust where thousands of new stars are being born. It is the closest large star-forming region to Earth and you can see it without a telescope.</dd><dt>The Pleiades (M45)</dt><dd>The Pleiades are a family of young, hot, blue stars that were born together. Six or seven are visible to the eye, but there are more than a thousand. The blue haze around them is a dust cloud they are passing through.</dd><dt>Pillars of Creation</dt><dd>The Pillars of Creation are towering columns of cold gas and dust inside the Eagle Nebula. Inside them, new stars are forming, while intense light from nearby young stars slowly erodes them away.</dd><dt>Ring Nebula (M57)</dt><dd>The Ring Nebula is a glowing shell of gas thrown off by a dying Sun-like star. The hot leftover core, a white dwarf, makes the gas glow. Despite the name, planetary nebulae have nothing to do with planets.</dd><dt>Crab Nebula (M1)</dt><dd>The Crab Nebula is the wreckage of a star that exploded as a supernova. The explosion was seen on Earth in 1054. At its centre spins a pulsar, the star’s collapsed core.</dd></dl></section>
+    <section><h2>Quiz</h2><ol class="ws-quiz"><li><p>What is a nebula?</p><ul><li>☐ A small planet</li><li>☐ A giant cloud of gas and dust</li><li>☐ A black hole</li><li>☐ A type of comet</li></ul></li><li><p>The Crab Nebula is left over from an explosion seen on Earth in which year?</p><ul><li>☐ 1054</li><li>☐ 1492</li><li>☐ 1969</li><li>☐ 200 BC</li></ul></li><li><p>What will our Sun probably become at the end of its life?</p><ul><li>☐ A black hole</li><li>☐ A planetary nebula and a white dwarf</li><li>☐ A pulsar</li><li>☐ A galaxy</li></ul></li></ol></section>
+    <section><h2>Find it in the sky</h2><p>Use the Sky Finder at seethestars.webappslab.com. Tick what you find and write when you saw it.</p>
+      <table class="ws-find"><thead><tr><th></th><th>Object</th><th>Date and time</th><th>Where in the sky?</th></tr></thead><tbody><tr><td>☐</td><td>Orion Nebula (M42)</td><td></td><td></td></tr><tr><td>☐</td><td>The Pleiades (M45)</td><td></td><td></td></tr><tr><td>☐</td><td>Pillars of Creation</td><td></td><td></td></tr><tr><td>☐</td><td>Ring Nebula (M57)</td><td></td><td></td></tr><tr><td>☐</td><td>Crab Nebula (M1)</td><td></td><td></td></tr></tbody></table></section>
+    <section class="ws-answers"><h2>Answers (for the teacher)</h2><p>1. A giant cloud of gas and dust · 2. 1054 · 3. A planetary nebula and a white dwarf</p></section>
+  </article></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <b>See the Stars</b>
+        <p>A free journey through the universe for curious kids and grown-ups. No ads, no tracking, and accounts are optional (for grown-ups).</p>
+      </div>
+      <div class="footer-links">
+        <a href="/library/">All 61 wonders</a>
+        <a href="/classroom/">For teachers</a>
+        <a href="/sky/">Sky Finder</a>
+        <a href="https://seethestars.webappslab.com/privacy.html" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://github.com/PavanIT1217/SeeTheStars" target="_blank" rel="noopener">Source code</a>
+      </div>
+      <p class="fine">Photos from Wikimedia Commons – credited on each page. Encyclopedia texts from Wikipedia (CC BY-SA). Planet positions from NASA JPL orbital data. Star and constellation data from <a href="https://github.com/ofrohn/d3-celestial" target="_blank" rel="noopener">d3-celestial</a> (BSD).</p>
+    </div>
+  </footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="/" data-tab="home"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="currentColor"/></svg><span>Explore</span></a>
+    <a href="/tonight/" data-tab="tonight"><svg viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16.5 3.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z" fill="currentColor"/></svg><span>Tonight</span></a>
+    <a href="/sky/" data-tab="sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Sky</span></a>
+    <a href="/library/" data-tab="library"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Library</span></a>
+    <a href="/me/" data-tab="me"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Me</span></a>
+  </nav>
+
+  <div id="toasts" aria-live="polite"></div>
+  <div id="fx" aria-hidden="true"></div>
+
+</body>
+</html>

@@ -23,7 +23,7 @@ export const PROVIDERS = Capacitor.getPlatform() === 'ios' ? ['apple', 'google']
 const nativeAuth = () => registerPlugin('FirebaseAuthentication');
 
 let sdkPromise = null;
-function sdk() {
+export function sdk() {
   sdkPromise ??= (async () => {
     const [appMod, auth, fs] = await Promise.all([import(`${FIREBASE}/firebase-app.js`), import(`${FIREBASE}/firebase-auth.js`), import(`${FIREBASE}/firebase-firestore-lite.js`)]);
     const app = appMod.getApps()[0] ?? appMod.initializeApp(config);
@@ -35,7 +35,7 @@ function sdk() {
   return sdkPromise;
 }
 
-const toAccount = (u) => ({ uid: u.uid, name: u.displayName || u.email || 'Signed in', email: u.email || '', provider: u.providerData.some((p) => p.providerId === 'apple.com') ? 'apple' : 'google' });
+const toAccount = (u) => ({ anonymous: u.isAnonymous, uid: u.uid, name: u.displayName || u.email || 'Signed in', email: u.email || '', provider: u.providerData.some((p) => p.providerId === 'apple.com') ? 'apple' : 'google' });
 
 /** Calls `cb` with the signed-in account (or null) now and whenever it changes. Only loads Firebase if someone signed in before. */
 export function watchAccount(cb, { load = false } = {}) {
@@ -87,7 +87,7 @@ export async function signOut() {
 }
 
 // ───────────── progress sync: users/{uid}/progress/main ─────────────
-// { learned: {id: time}, spotted: {id: time}, quiz: {sectorId: {best, total, passed}}, updatedAt }
+// { learned: {id: time}, spotted: {id: time}, quiz: {sectorId: {best, total, passed}}, log: [{key, name, at}], tours: {id: time}, updatedAt }
 
 // Merging never loses anything: an item explored on either device counts, with the earlier time;
 // for quizzes the best score and any pass win.
@@ -102,7 +102,9 @@ export function mergeProgress(a = {}, b = {}) {
     const p = quiz[k];
     quiz[k] = p ? { best: Math.max(p.best, q.best), total: q.total || p.total, passed: !!(p.passed || q.passed) } : q;
   }
-  return { learned: times(a.learned, b.learned), spotted: times(a.spotted, b.spotted), quiz };
+  const seen = new Set();
+  const log = [...(a.log || []), ...(b.log || [])].sort((x, y) => x.at - y.at).filter((e) => { const k = `${e.key}@${e.at}`; if (seen.has(k)) return false; seen.add(k); return true; }).slice(-300);
+  return { learned: times(a.learned, b.learned), spotted: times(a.spotted, b.spotted), quiz, log, tours: times(a.tours, b.tours) };
 }
 
 export async function pullProgress(uid) {
@@ -117,6 +119,8 @@ export async function pushProgress(uid, p) {
   await fs.setDoc(fs.doc(fs.getFirestore(app), 'users', uid, 'progress', 'main'), {
     learned: clean(p.learned), spotted: clean(p.spotted),
     quiz: Object.fromEntries(Object.entries(clean(p.quiz)).map(([k, q]) => [k, { best: +q.best || 0, total: +q.total || 0, passed: !!q.passed }])),
+    log: (p.log || []).slice(-300).map((e) => ({ key: String(e.key).slice(0, 40), name: String(e.name).slice(0, 60), at: +e.at || 0 })),
+    tours: clean(p.tours),
     updatedAt: Date.now(),
   });
 }
