@@ -1,6 +1,7 @@
 // Sky Finder: point your phone and see where things are – even through the Earth.
-import { OBJECTS, SECTORS, FIGURES, GUIDE_STARS } from './data/catalog.js';
-import { toHorizontal, julianDate, compassName, nextHorizonCrossing, angularDistance, norm360 } from './astro.js';
+import { OBJECTS, SECTORS } from './data/catalog.js';
+import { STARS, STAR_NAMES, CONSTELLATIONS } from './data/sky.js';
+import { julianDate, compassName, nextHorizonCrossing, angularDistance, norm360, horizonMatrix, equatorialVector } from './astro.js';
 import { getSettings, setSettings, markSpotted, isSpotted, isScientist } from './store.js';
 import { locate as whereIs } from './where.js';
 import { predictPasses, refreshTLE } from './iss.js';
@@ -21,6 +22,71 @@ const wrap180 = (x) => ((((x + 180) % 360) + 360) % 360) - 180;
 const rotZ = (v, deg) => { const c = Math.cos(deg * DEG), s = Math.sin(deg * DEG); return [v[0] * c - v[1] * s, v[0] * s + v[1] * c, v[2]]; };
 
 const TYPE_COLORS = { planet: '#ffcf7a', earth: '#6fc3ff', star: '#fff6d8', cluster: '#9cc4ff', nebula: '#ff7fc4', ring: '#69f0d6', galaxy: '#b9a6ff', pulsar: '#7af4ff', blackhole: '#ff9a5a', constellation: '#7fdcff', cosmos: '#ffffff', comet: '#7affc8', iss: '#ffffff', exoplanet: '#8affb0', system: '#8affb0' };
+
+// ---------- the star chart ----------
+// Equatorial unit vectors are worked out once; each refresh only rotates them into your sky.
+const N_STARS = STARS.length / 4;
+const STAR_EQ = new Float32Array(N_STARS * 3);
+for (let i = 0; i < N_STARS; i++) STAR_EQ.set(equatorialVector(STARS[i * 4], STARS[i * 4 + 1]), i * 3);
+const toEq = (flat) => { const out = new Float32Array((flat.length / 2) * 3); for (let k = 0; k < flat.length / 2; k++) out.set(equatorialVector(flat[k * 2], flat[k * 2 + 1]), k * 3); return out; };
+const CONST_EQ = CONSTELLATIONS.map((c) => ({ lines: c.lines.map(toEq), bounds: c.bounds.map(toEq), label: equatorialVector(...c.label) }));
+
+// Constellations that have their own page in the journey.
+const CON_OBJECT = { Ori: 'orion', UMa: 'ursamajor', Cas: 'cassiopeia', Sco: 'scorpius', Cru: 'crux', Cyg: 'cygnus' };
+const CON_NAME = Object.fromEntries(CONSTELLATIONS.map((c) => [c.id, c.name]));
+const STAR_LABEL = new Map(STAR_NAMES.map(([i, name, con]) => [i, { name, con, proper: !/^\p{Script=Greek}/u.test(name) }]));
+
+// Star colour from its B–V index: blue-white hot stars to orange-red cool ones.
+function starColor(bv) {
+  const t = Math.max(0, Math.min(1, (bv + 0.3) / 2));
+  const r = Math.round(170 + 85 * Math.min(1, t * 2.2));
+  const g = Math.round(200 + 40 * (1 - Math.abs(t - 0.35) * 2.2));
+  const b = Math.round(255 - 170 * Math.max(0, t - 0.25) / 0.75);
+  return `rgb(${r},${Math.max(150, Math.min(245, g))},${Math.max(80, b)})`;
+}
+const STAR_COLORS = Array.from({ length: N_STARS }, (_, i) => starColor(STARS[i * 4 + 3]));
+
+// Things you can find that are not journey objects: any of the 88 constellations, any named star.
+export function chartTarget(key) {
+  const [kind, ref] = String(key).split('-');
+  if (kind === 'con') {
+    const c = CONSTELLATIONS.find((x) => x.id === ref);
+    if (!c) return null;
+    if (CON_OBJECT[c.id]) return OBJECTS[CON_OBJECT[c.id]];
+    return { id: key, chart: true, name: c.name, kind: `Constellation · ${c.gen}`, pos: { ra: c.label[0], dec: c.label[1] } };
+  }
+  if (kind === 'star') {
+    const i = +ref, s = STAR_LABEL.get(i);
+    if (!s) return null;
+    return { id: key, chart: true, name: s.name, kind: `Star in ${CON_NAME[s.con] || s.con} · brightness ${STARS[i * 4 + 2].toFixed(1)}`, pos: { ra: STARS[i * 4], dec: STARS[i * 4 + 1] } };
+  }
+  return null;
+}
+
+// Everything the search box can find.
+const fold = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+export function searchSky(q, limit = 12) {
+  const n = fold(q.trim());
+  if (!n) return [];
+  const score = (text) => { const t = fold(text); return t.startsWith(n) ? 2 : t.includes(n) ? 1 : 0; };
+  const results = [];
+  for (const o of Object.values(OBJECTS)) {
+    if (!o.pos) continue;
+    const s = score(o.name);
+    if (s) results.push({ key: o.id, name: o.name, kind: o.kind, s: s + 1 });
+  }
+  for (const c of CONSTELLATIONS) {
+    if (CON_OBJECT[c.id] && results.some((r) => r.key === CON_OBJECT[c.id])) continue;
+    const s = score(c.name) || Math.max(score(c.es || ''), score(c.hi || '')) * 0.8; // names in other languages rank a little lower
+    if (s) results.push({ key: CON_OBJECT[c.id] || `con-${c.id}`, name: c.name, kind: 'Constellation', s });
+  }
+  for (const [i, name, con] of STAR_NAMES) {
+    if (!STAR_LABEL.get(i).proper || results.some((r) => r.name === name)) continue; // Vega, Sirius… already have journey pages
+    const s = score(name);
+    if (s) results.push({ key: `star-${i}`, name, kind: `Star in ${CON_NAME[con] || con}`, s: s - STARS[i * 4 + 2] / 20 });
+  }
+  return results.sort((a, b) => b.s - a.s).slice(0, limit);
+}
 
 function guessLocation() {
   // Rough fallback from the time zone until GPS answers.
@@ -50,7 +116,7 @@ function basisFromLook(az, alt) {
 export function mountSky(root, { targetId, onTarget, onSpotted }) {
   const settings = getSettings();
   let observer = settings.location || guessLocation();
-  let target = OBJECTS[targetId] || null;
+  let target = OBJECTS[targetId] || chartTarget(targetId) || null;
   let mode = 'idle'; // idle | sensor | manual
   let look = { az: 180, alt: 30 };
   let basis = basisFromLook(look.az, look.alt);
@@ -59,7 +125,8 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   let stream = null;
   let raf = 0;
   let positions = [];
-  let figures = [];
+  let chart = null; // stars and constellations in East-North-Up, refreshed with the positions
+  let zoomFov = settings.fov; // the drag view can zoom; the camera view keeps the calibrated field of view
   let targetHz = null;
   let lockStart = 0;
   let lastCompute = 0;
@@ -76,8 +143,18 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       <canvas class="sky-canvas"></canvas>
       <div class="sky-top">
         <select class="sky-select" aria-label="Choose what to find"></select>
+        <button class="icon-btn sky-search-btn" title="Search" aria-label="Search the sky">⌕</button>
+        <button class="icon-btn sky-night" title="Red night mode" aria-label="Red night mode">☾</button>
         <button class="icon-btn sky-cam" title="Camera on/off" aria-label="Camera on or off">◉</button>
         <button class="icon-btn sky-gear" title="Settings" aria-label="Sky settings">⚙</button>
+      </div>
+      <div class="sky-search glass" hidden>
+        <input type="search" class="sky-search-input" placeholder="Search stars, planets, constellations…" aria-label="Search the sky" autocomplete="off" enterkeyhint="search">
+        <div class="sky-search-results" role="listbox"></div>
+      </div>
+      <div class="sky-zoom" hidden>
+        <button class="icon-btn sky-zoom-in" aria-label="Zoom in">+</button>
+        <button class="icon-btn sky-zoom-out" aria-label="Zoom out">−</button>
       </div>
       <div class="sky-alert" hidden></div>
       <div class="sky-hud glass">
@@ -133,8 +210,8 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   select.addEventListener('change', () => { setTarget(select.value); if (mode === 'manual') aimPending = true; });
 
   function setTarget(id) {
-    target = OBJECTS[id] || null;
-    select.value = target?.id || '';
+    target = OBJECTS[id] || chartTarget(id) || null;
+    select.value = target && !target.chart ? target.id : '';
     lockStart = 0;
     crossing = null; passes = null;
     lastCompute = 0;
@@ -144,8 +221,8 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
 
   function updateStatic() {
     $('.sky-name').innerHTML = target ? `${target.name}<small>${target.kind}</small>` : 'Free look<small>Tap anything on screen to target it</small>';
-    $('.sky-learn').href = target ? `/object/${target.id}/` : '/';
-    $('.sky-learn').hidden = !target;
+    $('.sky-learn').href = target && !target.chart ? `/object/${target.id}/` : '/';
+    $('.sky-learn').hidden = !target || !!target.chart;
     $('.sky-spotted').hidden = !(target && isSpotted(target.id));
     const lat = observer.lat, lon = observer.lon;
     $('.sky-you').textContent = `${Math.abs(lat).toFixed(1)}°${lat >= 0 ? 'N' : 'S'} ${Math.abs(lon).toFixed(1)}°${lon >= 0 ? 'E' : 'W'}${observer.approx ? '?' : ''}`;
@@ -163,16 +240,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       if (!h) continue;
       positions.push({ fast: !!o.pos.iss, kid: !!o.pos.iss || ['home', 'rocky', 'giants'].includes(o.sector), o, alt: h.alt, az: h.az, v: vec(h.alt, h.az), color: TYPE_COLORS[o.art?.type] || '#fff' });
     }
-    for (const [name, ra, dec] of GUIDE_STARS) {
-      const h = toHorizontal(ra, dec, observer.lat, observer.lon, jd);
-      positions.push({ guide: name, alt: h.alt, az: h.az, v: vec(h.alt, h.az) });
-    }
-    figures = Object.entries(FIGURES).map(([id, f]) => ({
-      id,
-      name: OBJECTS[id].name.split(/ [&–]/)[0],
-      stars: f.stars.map(([n, ra, dec]) => { const h = toHorizontal(ra, dec, observer.lat, observer.lon, jd); return { n, alt: h.alt, v: vec(h.alt, h.az) }; }),
-      lines: f.lines,
-    }));
+    computeChart(jd);
     if (target) {
       if (target.pos?.down) targetHz = { alt: -90, az: 0 };
       else if (target.pos?.everywhere) targetHz = null;
@@ -180,6 +248,24 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
       if (target.pos?.iss) { if (!passes) passes = predictPasses(observer, now, 72); }
       else if (targetHz && !crossing) crossing = nextHorizonCrossing(target.pos, observer, now);
     } else targetHz = null;
+  }
+
+  function computeChart(jd) {
+    const m = horizonMatrix(observer.lat, observer.lon, jd);
+    const rot = (src) => {
+      const out = new Float32Array(src.length);
+      for (let k = 0; k < src.length; k += 3) {
+        const x = src[k], y = src[k + 1], z = src[k + 2];
+        out[k] = m[0] * x + m[1] * y + m[2] * z;
+        out[k + 1] = m[3] * x + m[4] * y + m[5] * z;
+        out[k + 2] = m[6] * x + m[7] * y + m[8] * z;
+      }
+      return out;
+    };
+    chart = {
+      stars: rot(STAR_EQ),
+      cons: CONST_EQ.map((c, i) => ({ c: CONSTELLATIONS[i], lines: c.lines.map(rot), bounds: c.bounds.map(rot), label: Array.from(rot(c.label)) })),
+    };
   }
 
   // ---------- rendering ----------
@@ -205,6 +291,103 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     if (video.getAttribute('style') !== style) video.setAttribute('style', style);
   }
 
+  const fovNow = () => (mode === 'sensor' ? getSettings().fov : zoomFov);
+
+  // Same as project() for the vector stored at arr[k..k+2].
+  function projectAt(arr, k, f) {
+    const x = arr[k], y = arr[k + 1], z0 = arr[k + 2];
+    const z = x * basis.forward[0] + y * basis.forward[1] + z0 * basis.forward[2];
+    if (z <= 0.05) return null;
+    return [cx + ((x * basis.right[0] + y * basis.right[1] + z0 * basis.right[2]) / z) * f, cy - ((x * basis.up[0] + y * basis.up[1] + z0 * basis.up[2]) / z) * f];
+  }
+
+  function polyline(arr, f, W, H) {
+    let prev = null;
+    for (let k = 0; k < arr.length; k += 3) {
+      const p = projectAt(arr, k, f);
+      if (p && prev && Math.abs(p[0] - prev[0]) < W * 2 && Math.abs(p[1] - prev[1]) < H * 2) { ctx.moveTo(prev[0], prev[1]); ctx.lineTo(p[0], p[1]); }
+      prev = p;
+    }
+  }
+
+  function drawChart(W, H, f, sci) {
+    if (!chart) return;
+    const fov = fovNow();
+    const zoomed = Math.log2(Math.max(1, 62 / fov));
+    const onCamera = !!stream && mode === 'sensor';
+    // Faint stars appear as you zoom in; over a bright camera picture only the brighter ones are useful.
+    const magLimit = Math.min(6, (onCamera ? 3.5 : sci ? 5 : 4.3) + zoomed * 1.2);
+    const minDot = Math.cos(Math.min(170, fov * 1.2) * DEG);
+    const up = (arr, k) => arr[k + 2] >= 0;
+
+    // Constellation boundaries (Scientist) and figures.
+    ctx.lineWidth = 1;
+    if (sci) {
+      ctx.setLineDash([2, 5]);
+      ctx.strokeStyle = 'rgba(169,150,255,0.22)';
+      ctx.beginPath();
+      for (const c of chart.cons) for (const b of c.bounds) polyline(b, f, W, H);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    for (const c of chart.cons) {
+      const isTarget = target && (target.id === `con-${c.c.id}` || target.id === CON_OBJECT[c.c.id]);
+      const below = c.label[2] < -0.05;
+      if (below && !sci && !isTarget) continue;
+      ctx.strokeStyle = isTarget ? 'rgba(255,211,107,0.85)' : below ? 'rgba(127,220,255,0.18)' : 'rgba(127,220,255,0.42)';
+      ctx.lineWidth = isTarget ? 2 : 1.1;
+      ctx.beginPath();
+      for (const l of c.lines) polyline(l, f, W, H);
+      ctx.stroke();
+    }
+
+    // Stars, brightest first; the list is sorted by brightness so we can stop at the limit.
+    const fw = basis.forward;
+    for (let i = 0; i < N_STARS; i++) {
+      const mag = STARS[i * 4 + 2];
+      if (mag > magLimit) break;
+      const k = i * 3;
+      if (chart.stars[k] * fw[0] + chart.stars[k + 1] * fw[1] + chart.stars[k + 2] * fw[2] < minDot) continue;
+      const p = projectAt(chart.stars, k, f);
+      if (!p || p[0] < -10 || p[0] > W + 10 || p[1] < -10 || p[1] > H + 10) continue;
+      const below = !up(chart.stars, k);
+      if (below && !sci) continue;
+      const r = Math.max(0.55, (3.4 - 0.55 * mag) * (1 + zoomed * 0.18));
+      ctx.globalAlpha = below ? 0.3 : Math.min(1, 0.45 + (magLimit - mag) * 0.25);
+      ctx.fillStyle = STAR_COLORS[i];
+      if (r < 1.1) ctx.fillRect(p[0] - r, p[1] - r, r * 2, r * 2);
+      else { ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, Math.PI * 2); ctx.fill(); }
+      const named = STAR_LABEL.get(i);
+      if (named?.proper) {
+        hits.push({ x: p[0], y: p[1], id: `star-${i}`, weak: true });
+        const labelMag = (sci ? 2.2 : 1.0) + zoomed * 1.5;
+        if (mag < labelMag || target?.id === `star-${i}`) {
+          ctx.fillStyle = 'rgba(255,255,255,0.62)';
+          ctx.font = '500 11px "Space Grotesk", system-ui, sans-serif';
+          ctx.fillText(named.name, p[0], p[1] + r + 12);
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    // Constellation names: the famous ones at first, all of them when zoomed in or in Scientist view.
+    ctx.font = '600 12px "Space Grotesk", system-ui, sans-serif';
+    for (const c of chart.cons) {
+      const below = c.label[2] < -0.05;
+      if (below && !sci) continue;
+      const p = projectAt(c.label, 0, f);
+      if (!p || p[0] < 0 || p[0] > W || p[1] < 0 || p[1] > H) continue;
+      const id = CON_OBJECT[c.c.id] || `con-${c.c.id}`;
+      const show = sci || fov < 48 || c.c.rank === 1 || target?.id === id;
+      if (!show) continue;
+      ctx.globalAlpha = below ? 0.35 : 0.85;
+      ctx.fillStyle = target?.id === id ? '#ffd36b' : 'rgba(127,220,255,0.9)';
+      ctx.fillText(c.c.name.toUpperCase(), p[0], p[1]);
+      hits.push({ x: p[0], y: p[1], id });
+    }
+    ctx.globalAlpha = 1;
+  }
+
   function project(v, W, H, f) {
     const z = dot(v, basis.forward);
     if (z <= 0.05) return null;
@@ -214,7 +397,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   function draw(now) {
     const W = canvas.clientWidth, H = canvas.clientHeight;
     measure();
-    const f = Math.max(W, videoH) / 2 / Math.tan((getSettings().fov * DEG) / 2);
+    const f = Math.max(W, videoH) / 2 / Math.tan((fovNow() * DEG) / 2);
     ctx.clearRect(0, 0, W, H);
     hits = [];
 
@@ -287,53 +470,18 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     const zen = project([0, 0, 1], W, H, f);
     if (zen && sci) { ctx.fillStyle = 'rgba(159,232,255,0.6)'; ctx.fillText('ZENITH', zen[0], zen[1]); }
 
-    // Constellation figures.
-    for (const fig of figures) {
-      const pts = fig.stars.map((s) => project(s.v, W, H, f));
-      const below = fig.stars.every((s) => s.alt < 0);
-      if (below && !sci && fig.id !== target?.id) continue;
-      ctx.globalAlpha = below ? 0.35 : 0.9;
-      ctx.strokeStyle = 'rgba(127,220,255,0.55)';
-      ctx.lineWidth = 1.2;
-      ctx.setLineDash([4, 4]);
-      for (const [i, j] of fig.lines) {
-        if (!pts[i] || !pts[j]) continue;
-        ctx.beginPath(); ctx.moveTo(...pts[i]); ctx.lineTo(...pts[j]); ctx.stroke();
-      }
-      ctx.setLineDash([]);
-      let cx = 0, cy = 0, n = 0;
-      pts.forEach((p) => {
-        if (!p) return;
-        ctx.fillStyle = '#fff';
-        ctx.beginPath(); ctx.arc(p[0], p[1], 2.2, 0, Math.PI * 2); ctx.fill();
-        cx += p[0]; cy += p[1]; n++;
-      });
-      if (n) {
-        ctx.fillStyle = 'rgba(127,220,255,0.9)';
-        ctx.font = '600 13px "Orbitron", "Space Grotesk", sans-serif';
-        ctx.fillText(fig.name.toUpperCase(), cx / n, cy / n + 22);
-        hits.push({ x: cx / n, y: cy / n, id: fig.id });
-      }
-      ctx.globalAlpha = 1;
-    }
+    drawChart(W, H, f, sci);
 
-    // Objects and guide stars.
+    // Journey objects: planets, the Moon, nebulae, galaxies…
     ctx.font = '500 12px "Space Grotesk", system-ui, sans-serif';
     for (const p of positions) {
       const s = project(p.v, W, H, f);
       if (!s) continue;
       const below = p.alt < 0;
       const isTarget = target && p.o?.id === target.id;
-      if (!sci && !isTarget && (below || (!p.guide && !p.kid))) continue;
+      if (!sci && !isTarget && (below || !p.kid)) continue;
       ctx.globalAlpha = below ? 0.4 : 1;
-      if (p.guide) {
-        ctx.fillStyle = '#fff';
-        ctx.beginPath(); ctx.arc(s[0], s[1], 1.8, 0, Math.PI * 2); ctx.fill();
-        if (sci) {
-          ctx.fillStyle = 'rgba(255,255,255,0.55)';
-          ctx.fillText(p.guide, s[0], s[1] + 14);
-        }
-      } else {
+      {
         ctx.fillStyle = p.color;
         ctx.shadowColor = p.color;
         ctx.shadowBlur = 10;
@@ -496,7 +644,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   function tryLock(now, aligned) {
     if (!aligned) { lockStart = 0; return; }
     if (!lockStart) lockStart = now;
-    if (now - lockStart > LOCK_MS && target && markSpotted(target.id)) {
+    if (now - lockStart > LOCK_MS && target && !target.chart && markSpotted(target.id)) {
       $('.sky-spotted').hidden = false;
       onSpotted?.(target);
     }
@@ -546,7 +694,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     }
     const angle = screen.orientation?.angle ?? window.orientation ?? 0;
     rawBasis = basisFromOrientation(alpha, e.beta, e.gamma, angle);
-    if (mode !== 'sensor') { mode = 'sensor'; basis = rawBasis; }
+    if (mode !== 'sensor') { mode = 'sensor'; basis = rawBasis; $('.sky-zoom').hidden = true; }
   }
 
   async function startSensors() {
@@ -592,31 +740,88 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
   function startManual(auto) {
     if (mode === 'sensor') return;
     mode = 'manual';
+    $('.sky-zoom').hidden = false;
     $('.sky-start').hidden = true;
     if (auto) hintUntil = performance.now() + 6000;
     aimPending = !auto;
   }
 
-  // Drag to look around (desktop / no sensors).
+  // Drag to look around (desktop / no sensors); pinch, scroll or the +/− buttons to zoom.
   let drag = null;
-  canvas.addEventListener('pointerdown', (e) => { aimPending = false; drag = { x: e.clientX, y: e.clientY, az: look.az, alt: look.alt, moved: false }; canvas.setPointerCapture(e.pointerId); });
+  const pointers = new Map();
+  let pinch = null;
+  const setZoom = (fov) => { zoomFov = Math.max(12, Math.min(120, fov)); };
+  canvas.addEventListener('pointerdown', (e) => {
+    aimPending = false;
+    pointers.set(e.pointerId, [e.clientX, e.clientY]);
+    canvas.setPointerCapture(e.pointerId);
+    if (pointers.size === 2) {
+      const [a, b] = [...pointers.values()];
+      pinch = { d: Math.hypot(a[0] - b[0], a[1] - b[1]), fov: zoomFov };
+      drag = null;
+      return;
+    }
+    drag = { x: e.clientX, y: e.clientY, az: look.az, alt: look.alt, moved: false };
+  });
   canvas.addEventListener('pointermove', (e) => {
+    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, [e.clientX, e.clientY]);
+    if (pinch && pointers.size === 2 && mode !== 'sensor') {
+      const [a, b] = [...pointers.values()];
+      setZoom(pinch.fov * (pinch.d / Math.max(10, Math.hypot(a[0] - b[0], a[1] - b[1]))));
+      return;
+    }
     if (!drag || mode === 'sensor') return;
-    const k = getSettings().fov / Math.max(canvas.clientWidth, canvas.clientHeight);
+    const k = zoomFov / Math.max(canvas.clientWidth, canvas.clientHeight);
     const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
     if (Math.hypot(dx, dy) > 4) drag.moved = true;
     look.az = norm360(drag.az - dx * k);
     look.alt = Math.max(-89, Math.min(89, drag.alt + dy * k));
   });
-  canvas.addEventListener('pointerup', (e) => {
-    if (drag && !drag.moved) {
+  const endPointer = (e) => {
+    pointers.delete(e.pointerId);
+    if (pinch) { if (pointers.size < 2) pinch = null; drag = null; return; }
+    if (e.type === 'pointerup' && drag && !drag.moved) {
       const r = canvas.getBoundingClientRect();
       const x = e.clientX - r.left, y = e.clientY - r.top;
-      let best = null, bd = 34;
-      for (const h of hits) { const d = Math.hypot(h.x - x, h.y - y); if (d < bd) { bd = d; best = h; } }
+      // Stars only count when tapped closely, so planets and constellation names win near them.
+      let best = null, bd = Infinity;
+      for (const h of hits) { const d = Math.hypot(h.x - x, h.y - y) + (h.weak ? 14 : 0); if (d < bd && d < 34) { bd = d; best = h; } }
       if (best) setTarget(best.id);
     }
     drag = null;
+  };
+  canvas.addEventListener('pointerup', endPointer);
+  canvas.addEventListener('pointercancel', endPointer);
+  canvas.addEventListener('wheel', (e) => { if (mode === 'sensor') return; e.preventDefault(); setZoom(zoomFov * Math.exp(e.deltaY * 0.0015)); }, { passive: false });
+  $('.sky-zoom-in').addEventListener('click', () => setZoom(zoomFov / 1.4));
+  $('.sky-zoom-out').addEventListener('click', () => setZoom(zoomFov * 1.4));
+
+  // Search everything in the sky.
+  const searchBox = $('.sky-search'), searchInput = $('.sky-search-input'), searchResults = $('.sky-search-results');
+  function renderSearch() {
+    const res = searchSky(searchInput.value);
+    searchResults.innerHTML = res.map((r) => `<button role="option" data-key="${r.key}"><b>${r.name}</b><small>${r.kind}</small></button>`).join('')
+      || (searchInput.value.trim() ? '<p class="fine">Nothing found – try a planet, a star like “Vega” or a constellation like “Leo”.</p>' : '');
+  }
+  $('.sky-search-btn').addEventListener('click', () => {
+    searchBox.hidden = !searchBox.hidden;
+    panel.hidden = true;
+    if (!searchBox.hidden) { searchInput.value = ''; renderSearch(); searchInput.focus(); }
+  });
+  searchInput.addEventListener('input', renderSearch);
+  searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') searchResults.querySelector('button')?.click(); if (e.key === 'Escape') searchBox.hidden = true; });
+  searchResults.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-key]');
+    if (!b) return;
+    setTarget(b.dataset.key);
+    if (mode === 'manual') aimPending = true;
+    searchBox.hidden = true;
+  });
+
+  // Red night mode keeps your eyes adjusted to the dark (applies to the whole app).
+  $('.sky-night').addEventListener('click', () => {
+    setSettings({ night: !getSettings().night });
+    document.documentElement.classList.toggle('night', !!getSettings().night);
   });
 
   $('.sky-engage').addEventListener('click', async () => {
@@ -646,7 +851,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted }) {
     $('.set-head').value = s.headingOffset; $('.set-head-v').textContent = `${s.headingOffset > 0 ? '+' : ''}${s.headingOffset}°`;
     $('.set-lat').value = observer.lat; $('.set-lon').value = observer.lon;
   }
-  $('.sky-gear').addEventListener('click', () => { panel.hidden = !panel.hidden; syncSettingsPanel(); });
+  $('.sky-gear').addEventListener('click', () => { panel.hidden = !panel.hidden; searchBox.hidden = true; syncSettingsPanel(); });
   $('.set-fov').addEventListener('input', (e) => { setSettings({ fov: +e.target.value }); syncSettingsPanel(); });
   $('.set-head').addEventListener('input', (e) => { setSettings({ headingOffset: +e.target.value }); syncSettingsPanel(); });
   $('.set-gps').addEventListener('click', locate);

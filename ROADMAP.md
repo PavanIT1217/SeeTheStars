@@ -24,8 +24,8 @@ Benchmarked against **Night Sky** (iCandi Apps) and **Sky Guide** (Fifth Star La
 | Free web + SEO pages | **Yes** | No | No |
 | Tested accuracy | **Yes** – vs JPL Horizons | Not public | Not public |
 
-## Phase 1 – Sky parity
-1. Bright-star catalog (~9,000 stars, mag ≤ 6.5, HYG/Yale BSC) rendered by magnitude and colour.
+## Phase 1 – Sky parity ✅ (done 2026-10-30)
+1. Star catalog: 5,044 stars to magnitude 6 (d3-celestial), rendered by magnitude and colour.
 2. All 88 constellation figures + boundaries, zoom-dependent labels.
 3. Red night mode.
 4. Moon phase, illumination, rise/set on home and Moon pages.

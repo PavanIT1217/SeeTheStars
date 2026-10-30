@@ -8,7 +8,7 @@ import { PHOTOS } from './data/photos.js';
 import { artSVG } from './art.js';
 import * as store from './store.js';
 import * as media from './media.js';
-import { horizontalFor, formatRA, formatDec, lightTime, compassName, julianDate, skyPosition, nextHorizonCrossing, KM_PER_AU } from './astro.js';
+import { horizontalFor, formatRA, formatDec, lightTime, compassName, julianDate, skyPosition, nextHorizonCrossing, riseSet, moonPhase, nextMoonPhase, KM_PER_AU } from './astro.js';
 import { timeMachine, formatYears } from './timemachine.js';
 import { kidFacts, diameterKm, sizeComparison } from './kidfacts.js';
 import { issState } from './iss.js';
@@ -104,6 +104,25 @@ export function modeSwitch() {
 }
 
 // ───────────────────────── home ─────────────────────────
+const daysUntil = (d, now) => {
+  const days = Math.round((d - now) / 86400e3);
+  return days <= 0 ? 'today' : days === 1 ? 'tomorrow' : `in ${days} days`;
+};
+
+// Tonight's Moon: phase, how much is lit, rise and set, and the next full or new Moon.
+export function moonHtml(now = new Date()) {
+  const obs = observer();
+  const ph = moonPhase(now);
+  const rs = riseSet(OBJECTS.moon.pos, obs, now);
+  const nextFull = nextMoonPhase(180, now), nextNew = nextMoonPhase(0, now);
+  const next = nextFull < nextNew ? ['Full Moon', nextFull] : ['New Moon', nextNew];
+  const times = [['rises', rs.rise], ['sets', rs.set]].filter(([, t]) => t).sort((x, y) => x[1] - y[1]).map(([w, t]) => `${w} ${fmtTime(t)}`).join(' · ');
+  // Shadow drawn with two arcs: the lit limb is a half circle, the terminator an ellipse.
+  const k = Math.cos(ph.elongation * Math.PI / 180); // 1 new … -1 full
+  const lit = ph.waxing ? 1 : 0;
+  const disc = `<svg class="moon-disc" viewBox="-1 -1 2 2" aria-hidden="true"><circle r="1" fill="#2a2f45"/><path fill="#f4efd9" d="M0,-1 A1,1 0 0 ${lit} 0,1 A${Math.abs(k).toFixed(3)},1 0 0 ${(k > 0) === !!lit ? 0 : 1} 0,-1Z"/></svg>`;
+  return `<a class="moon-card" href="${url.object('moon')}">${disc}<div><small>Tonight’s Moon</small><b>${ph.name} · ${Math.round(ph.illumination * 100)}% lit</b><small>${times ? `${times} · ` : ''}${next[0]} ${daysUntil(next[1], now)}</small></div></a>`;
+}
 // Where the bright planets and the Moon are in your sky right now.
 export function skyNowHtml() {
   const obs = observer();
@@ -126,7 +145,7 @@ export function skyNowHtml() {
   const note = sunUp
     ? `It’s daytime${obs.approx ? '' : ' where you are'}, so sunlight hides most of these${upCount ? ' – but they’re up there.' : '. Come back after dark.'}`
     : upCount ? `${upCount} of them ${upCount === 1 ? 'is' : 'are'} above your horizon right now.` : 'None are up right now – check back later tonight.';
-  return `<div class="section-head"><div><h2>In your sky right now</h2><p>${note}${obs.approx ? ' Using an approximate location – open the Sky Finder to use yours.' : ''}</p></div><a href="${url.sky()}">Open Sky Finder →</a></div>
+  return `${moonHtml(now)}<div class="section-head"><div><h2>In your sky right now</h2><p>${note}${obs.approx ? ' Using an approximate location – open the Sky Finder to use yours.' : ''}</p></div><a href="${url.sky()}">Open Sky Finder →</a></div>
     <div class="tonight">${rows.map((r) => `<a class="sky-now ${r.up ? '' : 'down'}" href="${url.sky(r.o.id)}">${photo(r.o, { alt: r.o.name })}<div><b>${shortName(r.o)}</b><small>${r.where}</small></div></a>`).join('')}</div>`;
 }
 
@@ -248,6 +267,17 @@ export function liveData(o) {
       rows.push(['In sunlight', st.sunlit ? 'Yes' : 'No – in Earth’s shadow']);
     }
     return rows;
+  }
+  if (o.pos?.body === 'moon') {
+    const ph = moonPhase(now);
+    const rs = riseSet(o.pos, obs, now);
+    rows.push(['Phase', `${ph.emoji} ${ph.name}`]);
+    rows.push(['Lit up', `${Math.round(ph.illumination * 100)}%`]);
+    if (rs.rise) rows.push([`Moonrise${obs.approx ? '*' : ''}`, `${rs.rise.toDateString() === now.toDateString() ? '' : 'Tomorrow '}${fmtTime(rs.rise)}`]);
+    if (rs.set) rows.push([`Moonset${obs.approx ? '*' : ''}`, `${rs.set.toDateString() === now.toDateString() ? '' : 'Tomorrow '}${fmtTime(rs.set)}`]);
+    const full = nextMoonPhase(180, now);
+    rows.push(['Next full Moon', full.toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' })]);
+    if (sci) rows.push(['Age', `${ph.age.toFixed(1)} days`]);
   }
   if (o.pos?.body) {
     const eq = skyPosition(o.pos, julianDate(now));

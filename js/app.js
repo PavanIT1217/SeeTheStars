@@ -56,6 +56,7 @@ function rewardToast(points, label) {
 // Explorer (default) keeps screens simple; Scientist shows all the data.
 function applyMode() {
   document.body.classList.toggle('scientist', store.isScientist());
+  document.documentElement.classList.toggle('night', !!store.getSettings().night);
 }
 
 function bindModeSwitch(root) {
@@ -271,6 +272,7 @@ async function meView() {
         <h2>How much detail?</h2>
         ${modeSwitch()}
         <p class="fine" style="margin-top:12px">Scientist view adds coordinates and extra data in the Sky Finder and on every object page.</p>
+        <label class="switch-row"><span><b>Red night mode</b><small>Turns the screen red so your eyes stay used to the dark.</small></span><input type="checkbox" class="night-toggle" ${store.getSettings().night ? 'checked' : ''}></label>
       </section>
       <section class="panel wide">
         <h2>Badges</h2>
@@ -300,6 +302,7 @@ async function meView() {
     await media.saveMany(JOURNEY.map((jj) => jj.id), (d, t) => { b.textContent = `Downloading ${d}/${t}…`; });
     meView();
   });
+  view.querySelector('.night-toggle').addEventListener('change', (e) => { store.setSettings({ night: e.target.checked }); applyMode(); });
   view.querySelector('.reset').addEventListener('click', () => {
     if (confirm('Erase all XP, badges and explored items on this device?')) { store.resetProgress(); toast('Progress reset.'); meView(); }
   });

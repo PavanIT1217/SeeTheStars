@@ -49,3 +49,41 @@ test('The Sun rises and sets', () => {
   const c = nextHorizonCrossing({ body: 'sun' }, { lat: 28.6, lon: 77.2 }, new Date(Date.UTC(2026, 9, 11, 0, 0)));
   assert.ok(c.time instanceof Date);
 });
+
+test('The horizon matrix agrees with toHorizontal', async () => {
+  const { horizonMatrix, equatorialVector } = await import('../js/astro.js');
+  const m = horizonMatrix(-33.9, 151.2, jd);
+  for (const [ra, dec] of [[101.29, -16.72], [279.23, 38.78], [37.95, 89.26], [200, -60]]) {
+    const v = equatorialVector(ra, dec);
+    const [e, n, u] = [0, 3, 6].map((k) => m[k] * v[0] + m[k + 1] * v[1] + m[k + 2] * v[2]);
+    const alt = Math.asin(u) * 180 / Math.PI, az = (Math.atan2(e, n) * 180 / Math.PI + 360) % 360;
+    const h = toHorizontal(ra, dec, -33.9, 151.2, jd);
+    assert.ok(angularDistance(alt, az, h.alt, h.az) < 0.001, `${ra},${dec}`);
+  }
+});
+
+// Eclipses pin the Moon's phase to the minute: the total lunar eclipse of 3 March 2026 (11:33 UT)
+// happened at full Moon, the total solar eclipse of 12 August 2026 (17:46 UT) at new Moon.
+test('Moon phase is full at the March 2026 lunar eclipse and new at the August 2026 solar eclipse', async () => {
+  const { moonPhase } = await import('../js/astro.js');
+  const full = moonPhase(new Date(Date.UTC(2026, 2, 3, 11, 33)));
+  const nw = moonPhase(new Date(Date.UTC(2026, 7, 12, 17, 46)));
+  assert.ok(full.illumination > 0.995, `full ${full.illumination}`);
+  assert.equal(full.name, 'Full Moon');
+  assert.ok(nw.illumination < 0.005, `new ${nw.illumination}`);
+  assert.equal(nw.name, 'New Moon');
+});
+
+test('nextMoonPhase finds the eclipse full and new Moons within 2 hours', async () => {
+  const { nextMoonPhase } = await import('../js/astro.js');
+  const full = nextMoonPhase(180, new Date(Date.UTC(2026, 1, 20)));
+  const nw = nextMoonPhase(0, new Date(Date.UTC(2026, 7, 1)));
+  assert.ok(Math.abs(full - Date.UTC(2026, 2, 3, 11, 38)) < 2 * 3600e3, full.toISOString());
+  assert.ok(Math.abs(nw - Date.UTC(2026, 7, 12, 17, 37)) < 2 * 3600e3, nw.toISOString());
+});
+
+test('riseSet returns both a rise and a set for the Moon at mid-latitudes', async () => {
+  const { riseSet } = await import('../js/astro.js');
+  const r = riseSet({ body: 'moon' }, { lat: 28.6, lon: 77.2 }, new Date(Date.UTC(2026, 9, 11)));
+  assert.ok(r.rise instanceof Date && r.set instanceof Date);
+});
