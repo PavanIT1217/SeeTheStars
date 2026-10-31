@@ -3,13 +3,17 @@ import { OBJECTS, SECTORS } from './data/catalog.js';
 import { STARS, STAR_NAMES, CONSTELLATIONS, MESSIER } from './data/sky.js';
 import { julianDate, compassName, nextHorizonCrossing, angularDistance, norm360, horizonMatrix, equatorialVector } from './astro.js';
 import { getSettings, setSettings, markSpotted, isSpotted, isScientist, logObservation } from './store.js';
-import { locate as whereIs, satOf } from './where.js';
+import { locate as whereIs, satOf, isEarth } from './where.js';
+import { placeTarget, searchPlaces, searchWorld, fetchStorms, cachedStorms, stormMotion, stormsUpdated, fmtKm, mapsLink } from './earth.js';
+import { fetchSkyWeather, weatherAt, trendOf, dirName } from './weather.js';
+import { createLayers, FIGURES } from './skylayers.js';
 import { TOURS } from './data/tours.js';
 import { t, language } from './i18n.js';
 import { unlocked } from './pro.js';
 import { tonightPlan } from './tonight.js';
 import { predictPasses, refreshAllTLE, SATELLITES } from './iss.js';
 
+const escHtml = (x) => String(x).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const fmtTime = (d) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 const fmtDay = (d) => (d.toDateString() === new Date().toDateString() ? 'today' : d.toLocaleDateString([], { weekday: 'short', day: 'numeric', month: 'short' }));
 
@@ -38,7 +42,24 @@ const CONST_EQ = CONSTELLATIONS.map((c) => ({ lines: c.lines.map(toEq), bounds: 
 // Constellations that have their own page in the journey.
 const CON_OBJECT = { Ori: 'orion', UMa: 'ursamajor', Cas: 'cassiopeia', Sco: 'scorpius', Cru: 'crux', Cyg: 'cygnus' };
 const CON_NAME = Object.fromEntries(CONSTELLATIONS.map((c) => [c.id, c.name]));
-const STAR_LABEL = new Map(STAR_NAMES.map(([i, name, con]) => [i, { name, con, proper: !/^\p{Script=Greek}/u.test(name) }]));
+const STAR_LABEL = new Map(STAR_NAMES.map(([i, name, con, ly]) => [i, { name, con, ly, proper: !/^\p{Script=Greek}/u.test(name) }]));
+const FIGURE_TITLE = Object.fromEntries(FIGURES.map((f) => [f.id, f.title]));
+
+// Star distances in light-years, and when the light you see now set off.
+export const fmtLy = (ly) => `${ly < 10 ? ly.toFixed(1) : Math.round(ly).toLocaleString('en-US')} ${ly === 1 ? 'light-year' : 'light-years'}`;
+export function lightLeft(ly, year = new Date().getFullYear()) {
+  const y = Math.round(year - ly);
+  if (ly < 1) return '';
+  return y > 0 ? `The light you see left it about ${Math.round(ly).toLocaleString('en-US')} years ago, around the year ${y}.` : `The light you see left it about ${Math.round(ly).toLocaleString('en-US')} years ago, in ${-y + 1} BC.`;
+}
+
+// Sky layers the explorer can switch on and off (kept in settings.layers).
+export const LAYERS = [
+  ['art', '🐻', 'Pictures'], ['dist', '📏', 'Star distances'], ['clouds', '☁️', 'Clouds'],
+  ['wind', '💨', 'Wind'], ['rain', '🌧', 'Rain'], ['storms', '🌀', 'Storms'],
+];
+const LAYER_DEFAULTS = { art: true, dist: true, clouds: false, wind: false, rain: false, storms: false };
+const layerOn = (k) => ({ ...LAYER_DEFAULTS, ...getSettings().layers })[k];
 
 // Star colour from its B–V index: blue-white hot stars to orange-red cool ones.
 function starColor(bv) {
@@ -67,6 +88,7 @@ const messierName = (m) => (m[2] ? `M${m[0]} · ${m[2]}` : `M${m[0]}`);
 
 // Things you can find that are not journey objects: any of the 88 constellations, any named star.
 export function chartTarget(key) {
+  if (/^(place-|geo:|storm-)/.test(String(key))) return placeTarget(String(key));
   const [kind, ref] = String(key).split('-');
   if (kind === 'con') {
     const c = CONSTELLATIONS.find((x) => x.id === ref);
@@ -86,7 +108,7 @@ export function chartTarget(key) {
   if (kind === 'star') {
     const i = +ref, s = STAR_LABEL.get(i);
     if (!s) return null;
-    return { id: key, chart: true, name: s.name, kind: `Star in ${CON_NAME[s.con] || s.con} · brightness ${STARS[i * 4 + 2].toFixed(1)}`, pos: { ra: STARS[i * 4], dec: STARS[i * 4 + 1] } };
+    return { id: key, chart: true, name: s.name, ly: s.ly, kind: `Star in ${CON_NAME[s.con] || s.con}${s.ly ? ` · ${fmtLy(s.ly)} away` : ''} · brightness ${STARS[i * 4 + 2].toFixed(1)}`, pos: { ra: STARS[i * 4], dec: STARS[i * 4 + 1] } };
   }
   return null;
 }
@@ -138,6 +160,7 @@ export function searchSky(q, limit = 12) {
     const s = score(name);
     if (s) results.push({ key: `star-${i}`, name, kind: `Star in ${CON_NAME[con] || con}`, s: s - STARS[i * 4 + 2] / 20 });
   }
+  for (const p of searchPlaces(q)) if (!results.some((r) => r.name === p.name)) results.push({ ...p, s: p.s - 0.5 });
   return results.sort((a, b) => b.s - a.s).slice(0, limit);
 }
 
@@ -189,6 +212,9 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
   let disposed = false;
   let hintUntil = 0;
   let aimPending = false; // point the drag view near the target once its position is known
+  const layers = createLayers();
+  let wxData = null, wx = null, wxState = ''; // forecast for the layers; wxState: '' | 'loading' | 'error'
+  let lastDrawAt = 0;
   // Time travel: the sky can be shown at any moment; playRate is sky-seconds per real second.
   let timeOffset = 0, playRate = 0, lastFrameAt = 0, computedOffset = 0, crossingAt = 0;
   const skyNow = () => new Date(Date.now() + timeOffset);
@@ -214,6 +240,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
         <button class="icon-btn sky-zoom-out" aria-label="Zoom out">−</button>
       </div>
       <div class="sky-alert" hidden></div>
+      <div class="sky-wx glass" hidden></div>
       <div class="sky-time glass" hidden>
         <button class="sky-play" aria-label="Play time">▶</button>
         <div class="sky-time-mid">
@@ -251,7 +278,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
           <p>${t('Hold your phone up like you’re taking a photo. Arrows will guide you to your target – even if it is on the other side of the Earth.')}</p>
           <button class="btn primary sky-engage">${t('Engage scanner')}</button>
           <button class="btn ghost sky-manual">${t('No sensors? Drag to explore')}</button>
-          <p class="fine">${t('Uses your camera, motion sensors and location. Nothing leaves your device.')}</p>
+          <p class="fine">${t('Uses your camera, motion sensors and location. Your location stays on your device, unless you switch on a weather layer (then a rough location, about 10 km, goes to the forecast service).')}</p>
         </div>
       </div>
       <div class="sky-settings glass" hidden>
@@ -259,6 +286,9 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
           <button data-mode="explorer"><span>🧑‍🚀</span><b>Explorer</b><small>Simple</small></button>
           <button data-mode="scientist"><span>🔬</span><b>Scientist</b><small>All the data</small></button>
         </div>
+        <div class="hud-label">${t('SKY LAYERS')}</div>
+        <div class="layer-chips">${LAYERS.map(([k, icon, label]) => `<button class="chip" data-layer="${k}" aria-pressed="false">${icon} ${t(label)}</button>`).join('')}</div>
+        <p class="fine layer-note" hidden></p>
         <div class="hud-label">CALIBRATION</div>
         <label>Field of view <input type="range" min="35" max="100" class="set-fov"><span class="set-fov-v"></span></label>
         <label>Compass nudge <input type="range" min="-60" max="60" class="set-head"><span class="set-head-v"></span></label>
@@ -277,7 +307,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
 
   // Target picker grouped by sector.
   select.innerHTML = `<option value="">— Free look —</option>` + SECTORS.map((s) => `<optgroup label="${s.code} · ${s.title}">${s.items.map((id) => `<option value="${id}">${OBJECTS[id].name}</option>`).join('')}</optgroup>`).join('');
-  select.value = target?.id || '';
+  select.value = target && !target.chart ? target.id : '';
   select.addEventListener('change', () => { setTarget(select.value); if (mode === 'manual') aimPending = true; });
 
   function setTarget(id) {
@@ -291,7 +321,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
   }
 
   function updateStatic() {
-    $('.sky-name').innerHTML = target ? `${target.name}<small>${target.kind}</small>` : `${t('Free look')}<small>${t('Tap anything on screen to target it')}</small>`;
+    $('.sky-name').innerHTML = target ? `${escHtml(target.name)}<small>${escHtml(target.kind)}</small>` : `${t('Free look')}<small>${t('Tap anything on screen to target it')}</small>`;
     $('.sky-learn').href = target && !target.chart ? `/object/${target.id}/` : '/';
     $('.sky-learn').hidden = !target || !!target.chart;
     $('.sky-spotted').hidden = !(target && isSpotted(target.id));
@@ -317,13 +347,21 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       const h = whereIs(o.pos, observer, now);
       if (h) positions.push({ fast: true, kid: true, o, alt: h.alt, az: h.az, v: vec(h.alt, h.az), color: TYPE_COLORS.iss });
     }
+    if (layerOn('storms')) {
+      for (const st of cachedStorms()) {
+        const o = placeTarget(`storm-${st.id}`);
+        const h = o && whereIs(o.pos, observer, now);
+        if (h) positions.push({ earth: true, kid: true, o, alt: h.alt, az: h.az, v: vec(h.alt, h.az), color: '#ff8a7a', label: `🌀 ${st.name.replace(/^Tropical Cyclone /, '')} · ${fmtKm(h.km)}` });
+      }
+    }
+    wx = wxData ? weatherAt(wxData, now) : null;
     computeChart(jd);
     if (target) {
       if (target.pos?.down) targetHz = { alt: -90, az: 0 };
       else if (target.pos?.everywhere) targetHz = null;
       else targetHz = whereIs(target.pos, observer, now);
       if (satOf(target.pos)) { if (!passes) { passes = predictPasses(observer, now, 72, 10, satOf(target.pos)); crossingAt = +now; } }
-      else if (targetHz && !crossing) { crossing = nextHorizonCrossing(target.pos, observer, now); crossingAt = +now; }
+      else if (targetHz && !crossing && !isEarth(target.pos)) { crossing = nextHorizonCrossing(target.pos, observer, now); crossingAt = +now; }
     } else targetHz = null;
   }
 
@@ -343,6 +381,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       stars: rot(STAR_EQ),
       cons: CONST_EQ.map((c, i) => ({ c: CONSTELLATIONS[i], lines: c.lines.map(rot), bounds: c.bounds.map(rot), label: Array.from(rot(c.label)) })),
       messier: MESSIER_EQ.map((v) => Array.from(rot(v))),
+      figures: FIGURES.map((g) => ({ id: g.id, centre: Array.from(rot(g.centre)), parts: g.parts.map((p) => ({ w: p.w, lines: p.lines.map(rot) })) })),
     };
   }
 
@@ -398,6 +437,12 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
     const minDot = Math.cos(Math.min(170, fov * 1.2) * DEG);
     const up = (arr, k) => arr[k + 2] >= 0;
 
+    // Pictures of the famous constellations, behind everything else. They fade away when zoomed right in.
+    if (layerOn('art') && fov > 14) {
+      const hi = target && (target.id.startsWith('con-') ? target.id.slice(4) : Object.keys(CON_OBJECT).find((k) => CON_OBJECT[k] === target.id));
+      layers.drawFigures(ctx, layerView(W, H, f), chart.figures, hi);
+    }
+
     // Constellation boundaries (Scientist) and figures.
     ctx.lineWidth = 1;
     if (sci) {
@@ -442,7 +487,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
         if (mag < labelMag || target?.id === `star-${i}`) {
           ctx.fillStyle = 'rgba(255,255,255,0.62)';
           ctx.font = '500 11px "Space Grotesk", system-ui, sans-serif';
-          ctx.fillText(named.name, p[0], p[1] + r + 12);
+          ctx.fillText(layerOn('dist') && named.ly ? `${named.name} · ${named.ly < 10 ? named.ly.toFixed(1) : Math.round(named.ly).toLocaleString('en-US')} ly` : named.name, p[0], p[1] + r + 12);
         }
       }
     }
@@ -482,10 +527,20 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       ctx.globalAlpha = below ? 0.35 : 0.85;
       ctx.fillStyle = target?.id === id ? '#ffd36b' : 'rgba(127,220,255,0.9)';
       ctx.fillText((c.c[language()] || c.c.name).toUpperCase(), p[0], p[1]);
+      if (layerOn('art') && FIGURE_TITLE[c.c.id]) {
+        ctx.font = 'italic 500 11px "Space Grotesk", system-ui, sans-serif';
+        ctx.fillText(t(FIGURE_TITLE[c.c.id]), p[0], p[1] + 14);
+        ctx.font = '600 12px "Space Grotesk", system-ui, sans-serif';
+      }
       hits.push({ x: p[0], y: p[1], id });
     }
     ctx.globalAlpha = 1;
   }
+
+  const layerView = (W, H, f) => ({
+    W, H, pxPerRad: f, camera: !!stream && mode === 'sensor', camAz: cameraAz(), vec, t,
+    project: (v) => project(v, W, H, f), projectAt: (arr, k) => projectAt(arr, k, f),
+  });
 
   function project(v, W, H, f) {
     const z = dot(v, basis.forward);
@@ -571,6 +626,16 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
 
     drawChart(W, H, f, sci);
 
+    // Weather layers: clouds over the stars, the wind blowing across, rain or snow falling past the lens.
+    const dt = lastDrawAt ? Math.min(0.1, (now - lastDrawAt) / 1000) : 0;
+    lastDrawAt = now;
+    if (wx) {
+      const lv = layerView(W, H, f);
+      if (layerOn('clouds')) layers.drawClouds(ctx, lv, wx, dt);
+      if (layerOn('wind')) layers.drawWind(ctx, lv, wx, dt);
+      if (layerOn('rain')) layers.drawRain(ctx, lv, wx, dt);
+    }
+
     // Journey objects: planets, the Moon, nebulae, galaxies…
     ctx.font = '500 12px "Space Grotesk", system-ui, sans-serif';
     for (const p of positions) {
@@ -578,7 +643,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       if (!s) continue;
       const below = p.alt < 0;
       const isTarget = target && p.o?.id === target.id;
-      if (!sci && !isTarget && (below || !p.kid)) continue;
+      if (!sci && !isTarget && !p.earth && (below || !p.kid)) continue;
       ctx.globalAlpha = below ? 0.4 : 1;
       {
         ctx.fillStyle = p.color;
@@ -587,7 +652,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
         ctx.beginPath(); ctx.arc(s[0], s[1], isTarget ? 5 : 3.5, 0, Math.PI * 2); ctx.fill();
         ctx.shadowBlur = 0;
         ctx.fillStyle = isTarget ? '#fff' : 'rgba(255,255,255,0.85)';
-        ctx.fillText(t(p.o.name.replace(/ \(.*\)| –.*/g, '')) + (below ? ' ↓' : ''), s[0], s[1] - 10);
+        ctx.fillText(p.label || t(p.o.name.replace(/ \(.*\)| –.*/g, '')) + (below ? ' ↓' : ''), s[0], s[1] - 10);
         hits.push({ x: s[0], y: s[1], id: p.o.id });
       }
       ctx.globalAlpha = 1;
@@ -647,6 +712,11 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
         ctx.stroke();
       }
       ctx.shadowBlur = 0;
+      if (isEarth(target.pos)) {
+        ctx.fillStyle = '#ffd36b';
+        ctx.font = '600 13px "Space Grotesk", system-ui, sans-serif';
+        ctx.fillText(`${target.storm ? '🌀' : '📍'} ${target.name} · ${fmtKm(targetHz.km)}`, p[0], p[1] + r + 18);
+      }
     } else {
       // Arrow on the screen edge pointing the way.
       const x = dot(tv, basis.right), y = dot(tv, basis.up);
@@ -710,7 +780,8 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
     $('.sky-az').textContent = `${targetHz.az.toFixed(1)}° ${compassName(targetHz.az).replace(/orth|outh|ast|est/g, '').replace(/-/g, '')}`;
 
     let extra = '';
-    if (satOf(target.pos)) extra = issText();
+    if (isEarth(target.pos)) extra = earthText();
+    else if (satOf(target.pos)) extra = issText();
     else if (target.pos?.down) extra = 'Earth is right under your feet. Point straight down!';
     else if (targetHz.alt < 0) {
       extra = `🌏 ${t('Below your horizon right now – you’re pointing <i>through the Earth</i>.')}`;
@@ -719,6 +790,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
     } else if (crossing?.time) {
       extra = `${t('Above your horizon now. It sets at')} <b>${crossing.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</b>.`;
     } else if (crossing?.never) extra = t('It never sets from where you are.');
+    if (target.ly && target.chart && !isEarth(target.pos)) extra = `${extra} ${t(lightLeft(target.ly))}`.trim();
     $('.sky-extra').innerHTML = extra;
 
     if (target.safety && targetHz.alt > -2) {
@@ -726,6 +798,27 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       alert.textContent = t('⚠ Never look at the Sun – point the phone, not your eyes!');
     }
     if (mode !== 'idle') tryLock(now, sep < LOCK_DEG);
+  }
+
+  // Places and storms: how far, which way to travel, and (for storms) where it's heading and how fresh the news is.
+  function earthText() {
+    const esc = escHtml;
+    const km = targetHz.km, way = compassName(targetHz.az).toLowerCase();
+    let out = `${t('{name} is <b>{km}</b> away. To travel there, set off towards the <b>{dir}</b> ({deg}°).', { name: esc(target.name), km: fmtKm(km), dir: t(way), deg: Math.round(targetHz.az) })}`;
+    if (targetHz.alt < -1.5) out += ` ${t('The Earth is round, so it is below your horizon: you are pointing <i>through the Earth</i>, {deg}° down.', { deg: Math.round(-targetHz.alt) })}`;
+    const st = target.storm;
+    if (st) {
+      const ago = Math.max(0, (Date.now() - st.at) / 3600e3);
+      const when = new Date(st.at).toLocaleString([], { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+      out = `🌀 ${t('Now a {kind}.', { kind: esc(st.kind.toLowerCase()) })}${st.wind ? ` ${t('Its winds peaked at about {n} km/h.', { n: st.wind })}` : ''} ${out}`;
+      const m = stormMotion(st);
+      if (m && ago < 24) out += ` ${t('It is moving towards the {dir} at about {n} km/h.', { dir: t(compassName(m.az).toLowerCase()), n: Math.round(m.kmh) })}`;
+      out += ` <small>${t(ago < 24 ? 'Position from {when}' : 'Last seen {when} – it may have faded away', { when })} · GDACS/${esc(st.source || 'JTWC')}. ${t('Not a warning service: follow your weather service and local authorities.')}</small>`;
+      out += ` <a href="${esc(st.report)}" target="_blank" rel="noopener">${t('Storm report')} ↗</a>`;
+    } else {
+      out += ` <a href="${mapsLink(target.pos.earth)}" target="_blank" rel="noopener">${t('Directions in Maps')} ↗</a>`;
+    }
+    return out;
   }
 
   function issText() {
@@ -743,7 +836,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
   function tryLock(now, aligned) {
     if (!aligned) { lockStart = 0; return; }
     if (!lockStart) lockStart = now;
-    if (now - lockStart > LOCK_MS && target && live() && !target.pos?.everywhere && !target.pos?.down && logObservation(target.id, target.name)) onLogged?.(target);
+    if (now - lockStart > LOCK_MS && target && live() && !target.pos?.everywhere && !target.pos?.down && !isEarth(target.pos) && logObservation(target.id, target.name)) onLogged?.(target);
     if (now - lockStart > LOCK_MS && target && !target.chart && live() && markSpotted(target.id)) {
       $('.sky-spotted').hidden = false;
       onSpotted?.(target);
@@ -758,6 +851,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
     if (now - lastCompute > 5000 || !lastCompute || (moved && now - lastCompute > 40)) {
       if (Math.abs(skyNow() - crossingAt) > 30 * 60e3) { crossing = null; passes = null; }
       computePositions(skyNow()); lastCompute = now; computedOffset = timeOffset;
+      updateWeatherChip();
     } else {
       // The ISS crosses the sky in minutes: keep it (and the target, if it is the ISS) up to date every frame.
       const d = skyNow();
@@ -839,6 +933,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       lastCompute = 0;
       if (mode === 'manual' && !drag) aimPending = true;
       updateStatic();
+      loadLayerData();
     }, () => {}, { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 });
   }
 
@@ -913,9 +1008,28 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       searchResults.innerHTML = `<div class="hud-label tour-label">${t('GUIDED TOURS')}</div>` + tours.map(({ t: tr, up: n }, i) => `<button role="option" data-tour="${i}"><b>${tr.emoji} ${tr.title}</b><small>${tr.best} · ${n} ${t('of')} ${tr.stops.length} ${t('stops up now')}</small></button>`).join('');
       return;
     }
-    const res = searchSky(searchInput.value);
-    searchResults.innerHTML = res.map((r) => `<button role="option" data-key="${r.key}"><b>${r.name}</b><small>${r.kind}</small></button>`).join('')
-      || (searchInput.value.trim() ? `<p class="fine">${t('Nothing found – try a planet, a star like “Vega” or a constellation like “Leo”.')}</p>` : '');
+    const q = searchInput.value.trim();
+    const res = searchSky(q);
+    const world = q.length >= 3 ? `<button class="world-search" data-world="1"><b>🌍 ${t('Find “{q}” on Earth', { q: escHtml(q) })}</b><small>${t('Any town or city, searched online')}</small></button>` : '';
+    searchResults.innerHTML = (res.map((r) => `<button role="option" data-key="${escHtml(r.key)}"><b>${escHtml(r.name)}</b><small>${escHtml(r.kind)}</small></button>`).join('')
+      || (q ? `<p class="fine no-hits">${t('Nothing found – try a planet, a star like “Vega”, a constellation like “Leo” or a place like “Paris”.')}</p>` : '')) + world;
+  }
+  let worldQuery = 0;
+  async function searchOnline() {
+    const q = searchInput.value.trim(), mine = ++worldQuery;
+    const btn = searchResults.querySelector('[data-world]');
+    if (btn) btn.innerHTML = `<b>🌍 ${t('Searching…')}</b>`;
+    let html;
+    try {
+      const found = await searchWorld(q);
+      html = found.map((r) => `<button role="option" data-key="${escHtml(r.key)}"><b>${escHtml(r.name)}</b><small>${escHtml(r.kind)}</small></button>`).join('') || `<p class="fine">${t('No place called “{q}” found.', { q: escHtml(q) })}</p>`;
+    } catch {
+      html = `<p class="fine">${t(navigator.onLine === false ? 'You are offline – the famous places in the list still work.' : 'The place search isn’t answering right now. Try again in a moment.')}</p>`;
+    }
+    if (mine !== worldQuery || searchInput.value.trim() !== q) return;
+    searchResults.querySelector('[data-world]')?.remove();
+    searchResults.querySelector('.no-hits')?.remove();
+    searchResults.insertAdjacentHTML('beforeend', `<div class="hud-label tour-label">${t('PLACES ON EARTH')}</div>${html}`);
   }
   $('.sky-search-btn').addEventListener('click', () => {
     searchBox.hidden = !searchBox.hidden;
@@ -925,6 +1039,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
   searchInput.addEventListener('input', renderSearch);
   searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') searchResults.querySelector('button')?.click(); if (e.key === 'Escape') searchBox.hidden = true; });
   searchResults.addEventListener('click', (e) => {
+    if (e.target.closest('[data-world]')) { searchOnline(); return; }
     const tb = e.target.closest('[data-tour]');
     if (tb) { startTour(tourList[+tb.dataset.tour]); searchBox.hidden = true; return; }
     const b = e.target.closest('[data-key]');
@@ -1039,6 +1154,67 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
     $('.set-fov').value = s.fov; $('.set-fov-v').textContent = `${s.fov}°`;
     $('.set-head').value = s.headingOffset; $('.set-head-v').textContent = `${s.headingOffset > 0 ? '+' : ''}${s.headingOffset}°`;
     $('.set-lat').value = observer.lat; $('.set-lon').value = observer.lon;
+    root.querySelectorAll('[data-layer]').forEach((b) => { const on = layerOn(b.dataset.layer); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+    const note = $('.layer-note');
+    const needsWx = ['clouds', 'wind', 'rain'].some(layerOn);
+    note.hidden = !(needsWx || layerOn('storms'));
+    note.textContent = t('Weather: Open-Meteo (for your area, rounded to about 10 km). Storms: GDACS. Needs internet; the last download is kept for when you’re offline.');
+  }
+  root.querySelectorAll('[data-layer]').forEach((b) => b.addEventListener('click', () => {
+    const k = b.dataset.layer;
+    setSettings({ layers: { ...LAYER_DEFAULTS, ...getSettings().layers, [k]: !layerOn(k) } });
+    syncSettingsPanel();
+    loadLayerData();
+    lastCompute = 0;
+  }));
+
+  // ---------- weather and storms for the layers ----------
+  let wxFor = null, wxAt = 0, stormsAt = 0;
+  async function loadLayerData() {
+    if (disposed) return;
+    const wantWx = ['clouds', 'wind', 'rain'].some(layerOn);
+    const key = `${observer.lat.toFixed(1)},${observer.lon.toFixed(1)}`;
+    if (wantWx && (wxFor !== key || Date.now() - wxAt > 30 * 60e3) && wxState !== 'loading') {
+      wxState = 'loading'; updateWeatherChip();
+      try { wxData = await fetchSkyWeather(observer); wxFor = key; wxAt = Date.now(); wxState = ''; } catch { wxState = 'error'; wxAt = Date.now() - 25 * 60e3; } // retry in ~5 minutes
+      lastCompute = 0; updateWeatherChip();
+    }
+    if (layerOn('storms') && Date.now() - stormsAt > 30 * 60e3) {
+      stormsAt = Date.now();
+      try { await fetchStorms(); } catch { stormsAt = Date.now() - 25 * 60e3; }
+      lastCompute = 0; updateWeatherChip();
+    }
+  }
+  const layerTimer = setInterval(loadLayerData, 60e3);
+
+  function updateWeatherChip() {
+    const chip = $('.sky-wx');
+    const wantWx = ['clouds', 'wind', 'rain'].some(layerOn);
+    const lines = [];
+    if (wantWx) {
+      if (wxState === 'loading' && !wx) lines.push(t('Loading the weather…'));
+      else if (!wx) lines.push(t(wxState === 'error' ? 'Weather unavailable – check your internet.' : 'No forecast for this time (the forecast covers the next two days).'));
+      else {
+        const c = wx.centre, sci = isScientist();
+        const head = live() ? '' : `<span class="hud-label">${t('FORECAST')} ${wx.time.toLocaleString([], { weekday: 'short', hour: '2-digit', minute: '2-digit' })}</span> `;
+        const bits = [];
+        if (layerOn('clouds')) bits.push(`☁️ ${Math.round(c.cloud)}%${sci && c.low !== null ? ` <small>(${t('low')} ${Math.round(c.low)} · ${t('mid')} ${Math.round(c.mid)} · ${t('high')} ${Math.round(c.high)})</small>` : ''}`);
+        if (layerOn('wind') && c.windFrom !== null) bits.push(`💨 ${t(dirName(c.windFrom))} ${Math.round(c.wind)} km/h`);
+        if (layerOn('rain')) bits.push(`${wx.snow ? '❄️' : wx.thunder ? '⛈' : '🌧'} ${c.precip > 0 ? `${c.precip} mm` : t('dry')}${c.prob !== null ? ` · ${Math.round(c.prob)}%` : ''}`);
+        lines.push(head + bits.join(' &nbsp; '));
+        const tr = layerOn('clouds') && trendOf(wx);
+        if (tr) lines.push(`<small>${t(tr.text, { dir: t(tr.dir) })}</small>`);
+      }
+    }
+    if (layerOn('storms')) {
+      const n = cachedStorms().filter((x) => Date.now() - x.at < 86400e3).length;
+      const recent = cachedStorms().length - n;
+      const msg = n === 1 ? t('1 tropical storm is active – tap it, or search “cyclone”.') : n ? t('{n} tropical storms are active – tap one, or search “cyclone”.', { n })
+        : recent ? t('No active tropical storms. Search “cyclone” for ones from the last few days.') : stormsUpdated() ? t('No tropical storms right now.') : t('Checking for storms…');
+      lines.push(`<small>🌀 ${msg}</small>`);
+    }
+    chip.hidden = !lines.length;
+    chip.innerHTML = lines.join('<br>');
   }
   $('.sky-gear').addEventListener('click', () => { panel.hidden = !panel.hidden; searchBox.hidden = true; syncSettingsPanel(); });
   $('.set-fov').addEventListener('input', (e) => { setSettings({ fov: +e.target.value }); syncSettingsPanel(); });
@@ -1056,6 +1232,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       setSettings({ location: observer });
       crossing = null; passes = null; lastCompute = 0;
       updateStatic();
+      loadLayerData();
     }
     panel.hidden = true;
   });
@@ -1067,6 +1244,9 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
   if (tourId) { const t = toursFor(observer, skyNow()).find((x) => x.id === tourId); if (t) startTour(t); }
 
   refreshAllTLE().then((fresh) => { if (fresh) { passes = null; lastCompute = 0; } });
+  loadLayerData();
+  // A storm opened from a link needs the storm list before it can be shown.
+  if (!target && String(targetId || '').startsWith('storm-')) fetchStorms().then(() => { if (!target && !disposed) setTarget(targetId); }).catch(() => {});
   window.addEventListener('resize', resize);
   resize();
   updateStatic();
@@ -1076,6 +1256,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
     setTarget,
     destroy() {
       disposed = true;
+      clearInterval(layerTimer);
       cancelAnimationFrame(raf);
       stopCamera();
       window.removeEventListener('resize', resize);
