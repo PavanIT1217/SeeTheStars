@@ -1,5 +1,5 @@
 // Famous places you can point at from anywhere, offline: [name, latitude, longitude, where / what].
-// Any other town can be found with the online search (js/earth.js).
+// Any other town can be found with the online search (js/earth.js). Photos: js/data/place-photos.js.
 export const PLACES = [
   // Landmarks
   ['Eiffel Tower', 48.8584, 2.2945, 'Paris, France'],
@@ -155,3 +155,33 @@ export const PLACES = [
   ['Auckland', -36.8485, 174.7633, 'New Zealand'],
   ['McMurdo Station', -77.8419, 166.6863, 'Antarctica – a science base'],
 ];
+
+// Wikipedia article for a place, where it isn't simply the name (used by scripts/build-place-photos.mjs).
+export const PLACE_WIKI = {
+  'Great Wall of China (Badaling)': 'Badaling',
+  'Christ the Redeemer': 'Christ the Redeemer (statue)',
+  'Kaaba, Masjid al-Haram': 'Kaaba',
+  'Easter Island statues (Moai)': 'Moai',
+  'Sriharikota (ISRO launch site)': 'Satish Dhawan Space Centre',
+  'Atacama Large Millimeter Array (ALMA)': 'Atacama Large Millimeter Array',
+  'Arecibo (old radio telescope)': 'Arecibo Telescope',
+  'Greenwich Royal Observatory': 'Royal Observatory, Greenwich',
+  'Mariana Trench (Challenger Deep)': 'Challenger Deep',
+  'New York': 'New York City',
+};
+
+// A picture for each place when there's no photo (offline, or towns found online): landmarks by kind, cities 🏙️.
+export const PLACE_ICON = {
+  'Eiffel Tower': '🗼', 'Taj Mahal': '🕌', 'Great Pyramid of Giza': '🔺', 'Statue of Liberty': '🗽', 'Great Wall of China (Badaling)': '🧱',
+  'Colosseum': '🏛️', 'Machu Picchu': '⛰️', 'Christ the Redeemer': '🙌', 'Sydney Opera House': '🎭', 'Big Ben': '🕰️', 'Stonehenge': '🪨',
+  'Burj Khalifa': '🏙️', 'Petra': '🏜️', 'Angkor Wat': '🛕', 'Mount Everest': '🏔️', 'Mount Fuji': '🗻', 'Mount Kilimanjaro': '🏔️', 'Uluru': '🪨',
+  'Grand Canyon': '🏜️', 'Niagara Falls': '💦', 'Victoria Falls': '💦', 'Golden Gate Bridge': '🌉', 'Leaning Tower of Pisa': '🏛️',
+  'Sagrada Família': '⛪', 'Acropolis': '🏛️', 'Kremlin': '🏰', 'Forbidden City': '🏯', 'Chichén Itzá': '🔺', 'Easter Island statues (Moai)': '🗿',
+  'Galápagos Islands': '🐢', 'Kaaba, Masjid al-Haram': '🕋', 'Golden Temple': '🛕', 'Gateway of India': '🏛️', 'India Gate': '🏛️', 'Qutub Minar': '🗼',
+  'Charminar': '🕌', 'Hampi': '🛕', 'Konark Sun Temple': '🛕', 'Statue of Unity': '🗽', 'Mysore Palace': '🏰', 'Meenakshi Temple': '🛕',
+  'Victoria Memorial': '🏛️', 'Hawa Mahal': '🏰', 'Ajanta Caves': '🪨', 'Kanyakumari': '🌅', 'Sriharikota (ISRO launch site)': '🚀',
+  'Kennedy Space Center': '🚀', 'Baikonur Cosmodrome': '🚀', 'Mauna Kea Observatories': '🔭', 'Atacama Large Millimeter Array (ALMA)': '📡',
+  'Arecibo (old radio telescope)': '📡', 'Greenwich Royal Observatory': '🔭', 'North Pole': '🧊', 'South Pole': '🐧', 'Mariana Trench (Challenger Deep)': '🌊',
+  'Dead Sea': '🌊', 'Sahara Desert': '🏜️', 'Amazon Rainforest': '🌳', 'Great Barrier Reef': '🐠', 'Bay of Bengal': '🌊', 'Arabian Sea': '🌊',
+  'McMurdo Station': '🐧',
+};

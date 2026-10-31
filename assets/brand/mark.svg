@@ -1,0 +1,23 @@
+<!-- See the Stars mark: a star caught in the Sky Finder's lock-on brackets. Transparent background. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="star" cx="50%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#fffbea"/><stop offset="0.35" stop-color="#ffe08a"/><stop offset="0.8" stop-color="#ffb347"/><stop offset="1" stop-color="#ff8a3a"/>
+    </radialGradient>
+    <radialGradient id="halo">
+      <stop offset="0" stop-color="#ffd36b" stop-opacity="0.55"/><stop offset="0.45" stop-color="#ffb347" stop-opacity="0.16"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10"/></filter>
+  </defs>
+  <circle cx="512" cy="486" r="300" fill="url(#halo)"/>
+  <!-- lock-on brackets -->
+  <g fill="none" stroke="#7fe3ff" stroke-width="34" stroke-linecap="round" stroke-linejoin="round">
+    <g filter="url(#soft)" opacity="0.7">
+      <path d="M262 346 V262 H346"/><path d="M678 262 H762 V346"/><path d="M762 626 V710 H678"/><path d="M346 710 H262 V626"/>
+    </g>
+    <path d="M262 346 V262 H346"/><path d="M678 262 H762 V346"/><path d="M762 626 V710 H678"/><path d="M346 710 H262 V626"/>
+  </g>
+  <!-- the star: four long points and four short ones -->
+  <path d="M512 270 C528 400 546 436 560 446 C574 456 620 470 724 486 C620 502 574 516 560 526 C546 536 528 572 512 702 C496 572 478 536 464 526 C450 516 404 502 300 486 C404 470 450 456 464 446 C478 436 496 400 512 270 Z" fill="url(#star)"/>
+  <path d="M512 400 L540 458 L598 486 L540 514 L512 572 L484 514 L426 486 L484 458 Z" fill="#fffdf2" opacity="0.85"/>
+</svg>

@@ -613,7 +613,7 @@ const wikiUrl = (o) => `https://en.wikipedia.org/wiki/${encodeURIComponent(o.wik
 
 // Returns { title, description, path, image, type, noindex, jsonld } for a route.
 export function pageMeta(route, id) {
-  const homeImg = abs('/store/play-feature-graphic.png');
+  const homeImg = abs('/store/social-cover.png');
   if (route === 'object' && OBJECTS[id]) {
     const o = OBJECTS[id];
     const s = sectorById(o.sector);
