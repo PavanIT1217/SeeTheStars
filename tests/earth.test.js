@@ -92,3 +92,20 @@ test('GDACS track: fixes in time order, forecast after the last report, and the 
   near(m.kmh, 5.1, 0.5, 'speed');
   assert.equal(stormMotion({ at: lastFix, track: [] }), null);
 });
+
+test('every built-in place has a picture: a credited free photo, or an icon', async () => {
+  const { PLACE_PHOTOS } = await import('../js/data/place-photos.js');
+  const names = new Set(PLACES.map((p) => p[0]));
+  for (const [name, ph] of Object.entries(PLACE_PHOTOS)) {
+    assert.ok(names.has(name), `${name} is a place`);
+    assert.match(ph.src, /^https:\/\/(upload|thumb)\.wikimedia\.org\//, `${name}: photo from Wikimedia`);
+    assert.ok(ph.credit && ph.license && ph.page.startsWith('https://commons.wikimedia.org/'), `${name}: credit, licence and source page`);
+    assert.match(ph.license, /public domain|^cc|pd|gfdl|^fal|godl/i, `${name}: free licence`);
+  }
+  for (let i = 0; i < PLACES.length; i++) {
+    const t = placeTarget(`place-${i}`);
+    assert.ok(t.photo || t.icon, `${t.name} has a photo or an icon`);
+    assert.ok(t.icon, `${t.name} has an offline icon`);
+  }
+  assert.ok(Object.keys(PLACE_PHOTOS).length >= PLACES.length - 5, 'nearly every place has a photo');
+});

@@ -44,6 +44,81 @@ function sprite(rgb) {
   return c;
 }
 
+// Photos of places, loaded once each. A photo that can't load (offline) falls back to the place's icon.
+const photos = new Map();
+function photo(src) {
+  if (!src) return null;
+  let p = photos.get(src);
+  if (!p) {
+    p = { img: new Image(), ok: false };
+    p.img.onload = () => { p.ok = p.img.naturalWidth > 0; };
+    p.img.src = src;
+    photos.set(src, p);
+  }
+  return p.ok ? p.img : null;
+}
+
+// A place on Earth: its photo in a round frame (or its icon), sized by the caller from how far away it is.
+export function drawPlace(ctx, x, y, r, place) {
+  const img = photo(place.photo?.src);
+  ctx.save();
+  ctx.shadowColor = 'rgba(0,0,0,0.6)';
+  ctx.shadowBlur = 12;
+  ctx.fillStyle = '#141a33';
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  ctx.shadowBlur = 0;
+  if (img) {
+    ctx.save();
+    ctx.beginPath(); ctx.arc(x, y, r - 1, 0, Math.PI * 2); ctx.clip();
+    const s = Math.max((2 * r) / img.naturalWidth, (2 * r) / img.naturalHeight); // cover the circle
+    ctx.drawImage(img, x - (img.naturalWidth * s) / 2, y - (img.naturalHeight * s) / 2, img.naturalWidth * s, img.naturalHeight * s);
+    ctx.restore();
+  } else {
+    ctx.font = `${Math.round(r * 1.1)}px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(place.icon || '📍', x, y + r * 0.05);
+    ctx.textBaseline = 'alphabetic';
+  }
+  ctx.strokeStyle = '#ffd36b';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
+  ctx.restore();
+}
+
+// A tropical cyclone: a cloud disc with spiral bands turning around a clear eye – anticlockwise in the northern
+// hemisphere, clockwise in the southern, as seen from above.
+export function drawStorm(ctx, x, y, r, now, south) {
+  const dir = south ? 1 : -1;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(((now / 1000) * 0.9 * dir) % (Math.PI * 2));
+  const g = ctx.createRadialGradient(0, 0, r * 0.08, 0, 0, r);
+  g.addColorStop(0, 'rgba(240,246,255,0.75)');
+  g.addColorStop(0.55, 'rgba(205,220,245,0.32)');
+  g.addColorStop(1, 'rgba(205,220,245,0)');
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill();
+  // Bands: a wide soft glow, then narrower and brighter layers that stop sooner, so each band tapers outwards.
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  for (const [w, a, len] of [[0.2, 0.12, 1], [0.11, 0.28, 0.85], [0.05, 0.7, 0.6]]) {
+    ctx.strokeStyle = `rgba(248,251,255,${a})`;
+    ctx.lineWidth = Math.max(1, r * w);
+    ctx.beginPath();
+    for (let arm = 0; arm < 4; arm++) {
+      for (let i = 0; i <= 24; i++) {
+        const t = (i / 24) * len, rr = r * (0.12 + 0.88 * t), th = arm * (Math.PI / 2) - dir * t * 2.6;
+        if (i === 0) ctx.moveTo(Math.cos(th) * rr, Math.sin(th) * rr); else ctx.lineTo(Math.cos(th) * rr, Math.sin(th) * rr);
+      }
+    }
+    ctx.stroke();
+  }
+  ctx.fillStyle = 'rgba(14,22,48,0.95)';
+  ctx.beginPath(); ctx.arc(0, 0, Math.max(2, r * 0.09), 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
 export function createLayers() {
   const rand = rng(20261031);
   // Puffs spread out more thinly far away, but each is bigger there, so the deck stays covered.

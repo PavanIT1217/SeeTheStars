@@ -6,7 +6,7 @@ import { getSettings, setSettings, markSpotted, isSpotted, isScientist, logObser
 import { locate as whereIs, satOf, isEarth } from './where.js';
 import { placeTarget, searchPlaces, searchWorld, fetchStorms, cachedStorms, stormMotion, stormsUpdated, fmtKm, mapsLink } from './earth.js';
 import { fetchSkyWeather, weatherAt, trendOf, dirName } from './weather.js';
-import { createLayers, FIGURES } from './skylayers.js';
+import { createLayers, FIGURES, drawPlace, drawStorm } from './skylayers.js';
 import { TOURS } from './data/tours.js';
 import { t, language } from './i18n.js';
 import { unlocked } from './pro.js';
@@ -44,6 +44,8 @@ const CON_OBJECT = { Ori: 'orion', UMa: 'ursamajor', Cas: 'cassiopeia', Sco: 'sc
 const CON_NAME = Object.fromEntries(CONSTELLATIONS.map((c) => [c.id, c.name]));
 const STAR_LABEL = new Map(STAR_NAMES.map(([i, name, con, ly]) => [i, { name, con, ly, proper: !/^\p{Script=Greek}/u.test(name) }]));
 const FIGURE_TITLE = Object.fromEntries(FIGURES.map((f) => [f.id, f.title]));
+// Stars with their own journey page are labelled as journey objects, so the chart doesn't label them again.
+const JOURNEY_STARS = new Set(Object.values(OBJECTS).filter((o) => o.art?.type === 'star').map((o) => o.name));
 
 // Star distances in light-years, and when the light you see now set off.
 export const fmtLy = (ly) => `${ly < 10 ? ly.toFixed(1) : Math.round(ly).toLocaleString('en-US')} ${ly === 1 ? 'light-year' : 'light-years'}`;
@@ -52,6 +54,12 @@ export function lightLeft(ly, year = new Date().getFullYear()) {
   if (ly < 1) return '';
   return y > 0 ? `The light you see left it about ${Math.round(ly).toLocaleString('en-US')} years ago, around the year ${y}.` : `The light you see left it about ${Math.round(ly).toLocaleString('en-US')} years ago, in ${-y + 1} BC.`;
 }
+
+// How big to draw places and storms. A storm is drawn its real size (about 300 km across its bands) as seen from
+// here; a place's photo grows as it gets closer.
+const STORM_KM = 300;
+const stormRadius = (km, pxPerRad, max) => Math.max(14, Math.min(max, Math.atan(STORM_KM / Math.max(km, 1)) * pxPerRad));
+const placeRadius = (km) => Math.round(22 + 58 * Math.exp(-km / 3000));
 
 // Sky layers the explorer can switch on and off (kept in settings.layers).
 export const LAYERS = [
@@ -307,12 +315,24 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
 
   // Target picker grouped by sector.
   select.innerHTML = `<option value="">— Free look —</option>` + SECTORS.map((s) => `<optgroup label="${s.code} · ${s.title}">${s.items.map((id) => `<option value="${id}">${OBJECTS[id].name}</option>`).join('')}</optgroup>`).join('');
-  select.value = target && !target.chart ? target.id : '';
-  select.addEventListener('change', () => { setTarget(select.value); if (mode === 'manual') aimPending = true; });
+  // Stars, places and storms aren't in the list: they get a temporary entry so the picker shows what you're finding.
+  function syncSelect() {
+    let extra = select.querySelector('option[data-chart]');
+    if (target?.chart) {
+      if (!extra) { extra = new Option('', '__chart'); extra.dataset.chart = '1'; select.options[0].after(extra); }
+      extra.textContent = target.name;
+      select.value = '__chart';
+    } else {
+      extra?.remove();
+      select.value = target?.id || '';
+    }
+  }
+  syncSelect();
+  select.addEventListener('change', () => { if (select.value === '__chart') return; setTarget(select.value); if (mode === 'manual') aimPending = true; });
 
   function setTarget(id) {
     target = OBJECTS[id] || chartTarget(id) || null;
-    select.value = target && !target.chart ? target.id : '';
+    syncSelect();
     lockStart = 0;
     crossing = null; passes = null;
     lastCompute = 0;
@@ -351,7 +371,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       for (const st of cachedStorms()) {
         const o = placeTarget(`storm-${st.id}`);
         const h = o && whereIs(o.pos, observer, now);
-        if (h) positions.push({ earth: true, kid: true, o, alt: h.alt, az: h.az, v: vec(h.alt, h.az), color: '#ff8a7a', label: `🌀 ${st.name.replace(/^Tropical Cyclone /, '')} · ${fmtKm(h.km)}` });
+        if (h) positions.push({ earth: true, kid: true, o, alt: h.alt, az: h.az, km: h.km, v: vec(h.alt, h.az), color: '#ff8a7a' });
       }
     }
     wx = wxData ? weatherAt(wxData, now) : null;
@@ -484,7 +504,7 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       if (named?.proper) {
         hits.push({ x: p[0], y: p[1], id: `star-${i}`, weak: true });
         const labelMag = (sci ? 2.2 : 1.0) + zoomed * 1.5;
-        if (mag < labelMag || target?.id === `star-${i}`) {
+        if ((mag < labelMag || target?.id === `star-${i}`) && !JOURNEY_STARS.has(named.name)) {
           ctx.fillStyle = 'rgba(255,255,255,0.62)';
           ctx.font = '500 11px "Space Grotesk", system-ui, sans-serif';
           ctx.fillText(layerOn('dist') && named.ly ? `${named.name} · ${named.ly < 10 ? named.ly.toFixed(1) : Math.round(named.ly).toLocaleString('en-US')} ly` : named.name, p[0], p[1] + r + 12);
@@ -645,6 +665,19 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       const isTarget = target && p.o?.id === target.id;
       if (!sci && !isTarget && !p.earth && (below || !p.kid)) continue;
       ctx.globalAlpha = below ? 0.4 : 1;
+      if (p.earth) {
+        // Storms are drawn as spinning cyclones with their distance (the target one is drawn with its brackets).
+        if (!isTarget) {
+          ctx.globalAlpha = 1;
+          const st = p.o.storm, r = stormRadius(p.km, f, Math.min(W, H) * 0.3);
+          drawStorm(ctx, s[0], s[1], r, now, st.lat < 0);
+          ctx.fillStyle = 'rgba(255,255,255,0.85)';
+          ctx.fillText(fmtKm(p.km), s[0], s[1] + r + 14);
+          hits.push({ x: s[0], y: s[1], id: p.o.id });
+        }
+        ctx.globalAlpha = 1;
+        continue;
+      }
       {
         ctx.fillStyle = p.color;
         ctx.shadowColor = p.color;
@@ -652,7 +685,8 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
         ctx.beginPath(); ctx.arc(s[0], s[1], isTarget ? 5 : 3.5, 0, Math.PI * 2); ctx.fill();
         ctx.shadowBlur = 0;
         ctx.fillStyle = isTarget ? '#fff' : 'rgba(255,255,255,0.85)';
-        ctx.fillText(p.label || t(p.o.name.replace(/ \(.*\)| –.*/g, '')) + (below ? ' ↓' : ''), s[0], s[1] - 10);
+        const ly = layerOn('dist') && p.o.art?.type === 'star' && p.o.ly ? ` · ${p.o.ly < 10 ? p.o.ly : Math.round(p.o.ly).toLocaleString('en-US')} ly` : '';
+        ctx.fillText(p.label || t(p.o.name.replace(/ \(.*\)| –.*/g, '')) + ly + (below ? ' ↓' : ''), s[0], s[1] - 10);
         hits.push({ x: s[0], y: s[1], id: p.o.id });
       }
       ctx.globalAlpha = 1;
@@ -699,7 +733,11 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
     const onScreen = p && p[0] > 0 && p[0] < W && p[1] > 0 && p[1] < H;
 
     if (onScreen) {
-      const r = 26 * pulse;
+      // Places show their photo and storms spin; the brackets wrap around them.
+      let size = 0;
+      if (target.storm) { size = stormRadius(targetHz.km, f, Math.min(W, H) * 0.35); drawStorm(ctx, p[0], p[1], size, now, target.storm.lat < 0); }
+      else if (isEarth(target.pos)) { size = placeRadius(targetHz.km); drawPlace(ctx, p[0], p[1], size, target); }
+      const r = Math.max(26, size + 10) * pulse;
       ctx.strokeStyle = '#ffd36b';
       ctx.lineWidth = 2;
       ctx.shadowColor = '#ffd36b';
@@ -715,7 +753,8 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
       if (isEarth(target.pos)) {
         ctx.fillStyle = '#ffd36b';
         ctx.font = '600 13px "Space Grotesk", system-ui, sans-serif';
-        ctx.fillText(`${target.storm ? '🌀' : '📍'} ${target.name} · ${fmtKm(targetHz.km)}`, p[0], p[1] + r + 18);
+        ctx.textAlign = 'center';
+        ctx.fillText(fmtKm(targetHz.km), p[0], p[1] + r + 18);
       }
     } else {
       // Arrow on the screen edge pointing the way.
@@ -804,22 +843,24 @@ export function mountSky(root, { targetId, onTarget, onSpotted, onLogged, onTour
   function earthText() {
     const esc = escHtml;
     const km = targetHz.km, way = compassName(targetHz.az).toLowerCase();
-    let out = `${t('{name} is <b>{km}</b> away. To travel there, set off towards the <b>{dir}</b> ({deg}°).', { name: esc(target.name), km: fmtKm(km), dir: t(way), deg: Math.round(targetHz.az) })}`;
-    if (targetHz.alt < -1.5) out += ` ${t('The Earth is round, so it is below your horizon: you are pointing <i>through the Earth</i>, {deg}° down.', { deg: Math.round(-targetHz.alt) })}`;
+    let out = t('<b>{km}</b> away, towards the <b>{dir}</b> ({deg}°).', { km: fmtKm(km), dir: t(way), deg: Math.round(targetHz.az) });
+    if (targetHz.alt < -1.5) out += ` ${t('It’s below your horizon, so you point <i>through the Earth</i>, {deg}° down.', { deg: Math.round(-targetHz.alt) })}`;
     const st = target.storm;
     if (st) {
       const ago = Math.max(0, (Date.now() - st.at) / 3600e3);
       const when = new Date(st.at).toLocaleString([], { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-      out = `🌀 ${t('Now a {kind}.', { kind: esc(st.kind.toLowerCase()) })}${st.wind ? ` ${t('Its winds peaked at about {n} km/h.', { n: st.wind })}` : ''} ${out}`;
       const m = stormMotion(st);
-      if (m && ago < 24) out += ` ${t('It is moving towards the {dir} at about {n} km/h.', { dir: t(compassName(m.az).toLowerCase()), n: Math.round(m.kmh) })}`;
-      out += ` <small>${t(ago < 24 ? 'Position from {when}' : 'Last seen {when} – it may have faded away', { when })} · GDACS/${esc(st.source || 'JTWC')}. ${t('Not a warning service: follow your weather service and local authorities.')}</small>`;
-      out += ` <a href="${esc(st.report)}" target="_blank" rel="noopener">${t('Storm report')} ↗</a>`;
+      out = `🌀 ${out}`;
+      if (m && ago < 24) out += ` ${t('Moving {dir} at about {n} km/h.', { dir: t(compassName(m.az).toLowerCase()), n: Math.round(m.kmh) })}`;
+      if (st.wind) out += ` ${t('Winds peaked at about {n} km/h.', { n: st.wind })}`;
+      out += ` <small>${t(ago < 24 ? 'Position from {when}' : 'Last seen {when} – it may have faded away', { when })} · GDACS. ${t('Not a warning service: follow your weather service.')} <a href="${esc(st.report)}" target="_blank" rel="noopener">${t('Storm report')} ↗</a></small>`;
     } else {
       out += ` <a href="${mapsLink(target.pos.earth)}" target="_blank" rel="noopener">${t('Directions in Maps')} ↗</a>`;
+      if (target.photo) out += ` <small>${t('Photo')}: <a href="${esc(target.photo.page)}" target="_blank" rel="noopener">${esc(target.photo.credit)}</a>, ${esc(target.photo.license)}</small>`;
     }
     return out;
   }
+
 
   function issText() {
     const now = skyNow();

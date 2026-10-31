@@ -16,8 +16,8 @@ A journey through the universe for curious kids and students, with a **Sky Finde
   - **Pictures:** artwork for 12 famous constellations (the Hunter, the Great Bear, the Lion…) drawn over the real stars.
   - **Star distances:** how many light-years away each named star is, and when the light you see set off.
   - **Clouds, Wind, Rain:** the forecast hour by hour from Open-Meteo. Clouds are shown in three layers (low, middle, high) and drift with the real wind. Eight extra points about 60 km away fill the horizon, so you can see where clear sky is coming from. Time travel scrubs through the two-day forecast.
-  - **Storms:** live tropical cyclones from GDACS (UN/EC), with distance, direction and where each storm is heading.
-- **Places on Earth:** point at the Eiffel Tower, the Taj Mahal or any town (built-in landmarks work offline; any town is searched online). The arrow guides you straight *through the Earth*, and the panel gives the distance and the compass bearing to travel there.
+  - **Storms:** live tropical cyclones from GDACS (UN/EC), drawn as spinning storms at their real apparent size, with distance, direction and where each storm is heading.
+- **Places on Earth:** point at the Eiffel Tower, the Taj Mahal or any town (shown with its photo, sized by distance) (built-in landmarks work offline; any town is searched online). The arrow guides you straight *through the Earth*, and the panel gives the distance and the compass bearing to travel there.
 - **Tonight:** the best things to see tonight from where you are (planets, the Moon, space stations flying over, a constellation and a bright star to learn, meteor showers), a nightly challenge, and what's coming up in the next two weeks.
 - **Time travel:** play the sky forward, scrub ±24 hours, or (Scientist view) jump to any date.
 - **Sky reminders** (iPhone and Android apps): space station passes, full and new Moons, meteor showers and planets meeting up, worked out on the phone.
@@ -80,7 +80,9 @@ The camera and motion sensors only work over **HTTPS** (or `localhost`). The liv
 | `js/store.js` | Progress, XP, ranks, settings (stored on the device) |
 | `sw.js` | Service worker for offline use (web version) |
 | `android/`, `ios/` | Native app projects; `capacitor.config.json` configures them |
-| `assets/`, `store/` | Icon/splash artwork and app-store screenshots |
+| `assets/brand/`, `scripts/build-brand.mjs` | Brand sources (the star in the lock-on brackets) and the script that renders every icon, splash and store graphic |
+| `store/`, `scripts/build-store-shots.mjs` | Store screenshots (iPhone, iPad, Android), feature graphic and link-preview cover |
+| `js/data/place-photos.js`, `scripts/build-place-photos.mjs` | Credited Wikimedia photos for the built-in places |
 | `privacy.html` | Privacy policy (required by the stores) |
 
 ### Accuracy

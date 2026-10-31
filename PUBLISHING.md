@@ -104,28 +104,56 @@ The camera, location and motion permission messages are already set in `ios/App/
 ## 4. Store listing text
 
 **App name:** See the Stars
-**Subtitle (iOS, 30 chars):** Explore the universe, live
-**Short description (Play, 80 chars):** Planets, comets, black holes & the ISS – point your phone to find them in the sky
+**Subtitle (iOS, 30 chars):** Point your phone, find the sky
+**Short description (Play, 80 chars):** Point your phone to find planets, stars, constellations and the ISS in the sky
+**Promotional text (iOS, 170 chars):** New: pictures in the stars, clouds and wind over your sky, tropical cyclones, and point at any place on Earth – like the Taj Mahal.
 
 **Full description:**
 
-> Take a journey across the universe, one wonder at a time.
+> Take a journey across the universe, one wonder at a time – then hold up your phone and find it in the real sky.
 >
-> See the Stars guides curious kids and students through 12 sectors, from the ground under your feet to the edge of the observable universe: the Moon and Sun, the planets and dwarf planets, comets and interstellar visitors, stars and the planets around them, constellations, nebulae, pulsars, black holes, galaxies and the Big Bang.
+> ✦ SKY FINDER: Point your phone and follow the arrow to any planet, star, galaxy or black hole – even when it's below the horizon and you're pointing *through the Earth*. Lock on, and it goes into your observing log.
 >
-> ✦ SKY FINDER: Hold up your phone and follow the arrow to any planet, star, galaxy or black hole. It works even when the object is below the horizon, so you'll know you're pointing *through the Earth*. Track the International Space Station live and find out when you can see it with your own eyes.
+> ✦ PICTURES IN THE STARS: See the Hunter, the Great Bear, the Lion, the Scorpion and more drawn over the real sky, and how many light-years away the bright stars are.
 >
-> ✦ REAL SCIENCE: Positions are calculated from NASA JPL orbital data. Every object has live data (how far away it is right now, how long its light takes to reach you), a discovery timeline, a mind-blowing fact and a question to wonder about.
+> ✦ WILL IT BE CLEAR TONIGHT? Switch on clouds, wind and rain to see the forecast right over your sky, hour by hour, and which way the clouds are coming from.
 >
-> ✦ LIGHT IS A TIME MACHINE: Find out what was happening on Earth when the light you're seeing set off.
+> ✦ POINT AT ANY PLACE ON EARTH: The Eiffel Tower, the Taj Mahal, the North Pole or any town – see how far away it is and which way to go.
 >
-> ✦ LEARN AND LEVEL UP: Earn XP, climb from Stargazer Cadet to Cosmic Explorer, and win a badge for every sector challenge.
+> ✦ FOLLOW CYCLONES: Tropical storms from the GDACS alert system – how far away, which way, and where they're heading. (Not a warning service: always follow your weather service.)
 >
-> ✦ WORKS OFFLINE: All lessons, quizzes and the Sky Finder work without internet. Save the photos you like for offline use.
+> ✦ SPACE STATION: Track the ISS live and find out when you can see it with your own eyes.
 >
-> No ads. No accounts. No tracking. Your progress stays on your device.
+> ✦ A GUIDED JOURNEY: 12 chapters and 61 wonders, from the ground under your feet to the edge of the observable universe: the Moon and Sun, planets and dwarf planets, comets and interstellar visitors, stars and exoplanets, constellations, nebulae, pulsars, black holes, galaxies and the Big Bang.
+>
+> ✦ REAL SCIENCE: Positions are calculated from NASA JPL orbital data. Every object has live data, a discovery timeline, a mind-blowing fact and a question to wonder about.
+>
+> ✦ TONIGHT: The best things to see from exactly where you are, a stargazing score, and reminders for space station passes, full Moons and meteor showers.
+>
+> ✦ LEARN AND LEVEL UP: Earn XP, climb from Stargazer Cadet to Cosmic Explorer, and win a badge for every chapter challenge.
+>
+> ✦ WORKS OFFLINE: Lessons, quizzes and the Sky Finder work without internet.
+>
+> No ads and no tracking. Accounts are optional and only for grown-ups. Weather layers use a rough location (about 10 km).
 
-**Keywords (iOS, 100 chars):** astronomy,space,planets,stars,constellations,kids,science,ISS,black hole,galaxy,comet,solar system
+**Keywords (iOS, 100 chars):** astronomy,stars,constellations,planets,space,kids,science,ISS,sky map,night sky,cyclone,weather
+
+**Graphics** (made by `scripts/build-brand.mjs` and `scripts/build-store-shots.mjs`, see below):
+
+| Where | File |
+|---|---|
+| Play icon (512×512) | `icons/icon-512.png` |
+| Play feature graphic (1024×500) | `store/play-feature-graphic.png` |
+| Play phone screenshots (1080×1920) | `store/android-*.png` |
+| App Store iPhone 6.9" (1320×2868) | `store/ios-6.9-*.png` |
+| App Store iPad 13" (2064×2752) | `store/ipad-13-*.png` |
+| Link previews (1200×630) | `store/social-cover.png` |
+
+### Brand and store images
+
+- **Icon, splash and wide graphics:** edit `assets/brand/mark.svg` (the star in the lock-on brackets) or `assets/brand/background.svg`, then run `node scripts/build-brand.mjs`. Then make the native sizes with `npx @capacitor/assets generate --ios --android --iconBackgroundColor '#04050d' --iconBackgroundColorDark '#04050d' --splashBackgroundColor '#04050d' --splashBackgroundColorDark '#04050d'`. That tool writes PNG splash screens: convert them to WebP (`cwebp -q 82`), delete the PNGs and the `drawable*-night*` copies, and copy `drawable/splash.webp` to `drawable-night/` (they are identical), or the Android bundle grows from 4 MB to 12 MB.
+- **Store screenshots:** capture the app with Chrome's device emulation into `.shots/` (git-ignored): `phone-N-name.png` at 393×852 @3x and `ipad-N-name.png` at 1024×1366 @2x, where `name` is one of the captions in `scripts/build-store-shots.mjs`. Then run `node scripts/build-store-shots.mjs`. The 2026-10-31 set used a fixed night (03:30 in Delhi, 2 Nov 2026, so Orion stands upright in the south), sample progress, a sample cloud forecast, and Cyclone Arnab's real track replayed as if it were current.
+- **Place photos:** `node scripts/build-place-photos.mjs` refreshes `js/data/place-photos.js` (free-licence lead images from Wikipedia, with credits).
 
 ---
 

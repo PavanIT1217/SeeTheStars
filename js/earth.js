@@ -1,7 +1,8 @@
 // Places on Earth as Sky Finder targets: landmarks, any town (online search) and tropical cyclones.
 // A place is found the same way as a star: by the direction you have to point the phone. For anything beyond
 // the horizon that direction goes *through the Earth*, along the straight line (chord) between you and it.
-import { PLACES } from './data/places.js';
+import { PLACES, PLACE_ICON } from './data/places.js';
+import { PLACE_PHOTOS } from './data/place-photos.js';
 
 const DEG = Math.PI / 180;
 export const EARTH_KM = 6371;
@@ -37,7 +38,7 @@ export const fmtKm = (km) => (km < 10 ? `${km.toFixed(1)} km` : `${Math.round(km
 export function placeTarget(key) {
   if (key.startsWith('place-')) {
     const p = PLACES[+key.slice(6)];
-    return p && { id: key, chart: true, earth: true, name: p[0], kind: `📍 ${p[3]}`, pos: { earth: { lat: p[1], lon: p[2] } } };
+    return p && { id: key, chart: true, earth: true, name: p[0], kind: `📍 ${p[3]}`, icon: PLACE_ICON[p[0]] || '🏙️', photo: PLACE_PHOTOS[p[0]] || null, pos: { earth: { lat: p[1], lon: p[2] } } };
   }
   if (key.startsWith('geo:')) {
     const m = key.match(/^geo:(-?[\d.]+),(-?[\d.]+):(.*)$/);
@@ -45,7 +46,7 @@ export function placeTarget(key) {
     const [lat, lon] = [+m[1], +m[2]];
     if (!(Math.abs(lat) <= 90 && Math.abs(lon) <= 180)) return null;
     const [name, ...rest] = m[3].split(', ');
-    return { id: key, chart: true, earth: true, name: name || 'Place', kind: `📍 ${rest.join(', ') || 'A place on Earth'}`, pos: { earth: { lat, lon } } };
+    return { id: key, chart: true, earth: true, name: name || 'Place', kind: `📍 ${rest.join(', ') || 'A place on Earth'}`, icon: '🏙️', photo: null, pos: { earth: { lat, lon } } };
   }
   if (key.startsWith('storm-')) {
     const s = cachedStorms().find((x) => `storm-${x.id}` === key);
