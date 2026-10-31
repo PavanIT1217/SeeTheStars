@@ -671,3 +671,16 @@ html[lang="hi"] .hud-label, html[lang="hi"] .eyebrow, html[lang="hi"] .tour-labe
 .cond-score.good { border-color: var(--green); }
 .cond-score.ok { border-color: var(--accent); }
 .cond-score.bad { border-color: var(--red); }
+
+/* Sky layers: weather summary and the layer switches */
+.sky-wx { position: absolute; z-index: 3; top: calc(env(safe-area-inset-top) + var(--topbar-h) + 124px); left: 12px; max-width: min(420px, calc(100% - 80px)); padding: 8px 12px; background: var(--panel-strong); font-size: 13px; line-height: 1.5; pointer-events: none; }
+.sky-wx small { color: var(--dim); font-size: 12px; }
+.sky-wx .hud-label { color: var(--accent); }
+.sky:has(.sky-wx:not([hidden])) .sky-alert { top: calc(env(safe-area-inset-top) + var(--topbar-h) + 196px); }
+.sky-settings { grid-template-columns: minmax(0, 1fr); max-height: calc(100% - env(safe-area-inset-top) - var(--topbar-h) - 80px); overflow: auto; }
+.layer-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.layer-chips .chip { padding: 6px 11px; font-size: 13px; }
+.layer-note { margin: 0; }
+.sky-extra small { display: block; margin-top: 4px; font-size: 12px; }
+.sky-extra a { color: var(--cyan); }
+.sky-search-results .world-search b { color: var(--cyan); }

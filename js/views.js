@@ -26,7 +26,7 @@ export const url = {
   home: '/',
   sector: (id) => `/sector/${id}/`,
   object: (id) => `/object/${id}/`,
-  sky: (id) => (id ? `/sky/${id}/` : '/sky/'),
+  sky: (id) => (id ? `/sky/${encodeURIComponent(id)}/` : '/sky/'),
   tonight: '/tonight/',
   classroom: '/classroom/',
   worksheet: (id) => `/classroom/worksheet/${id}/`,

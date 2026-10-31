@@ -575,6 +575,7 @@ function route() {
   sky?.destroy();
   sky = null;
   const parts = location.pathname.split('/').filter(Boolean);
+  const safeDecode = (x) => { try { return decodeURIComponent(x); } catch { return x; } };
   const params = new URLSearchParams(location.search);
   let tab = parts[0] || 'home';
   if (tab === 'saved') tab = 'me';
@@ -588,7 +589,7 @@ function route() {
     case 'sector': sectorView(parts[1]); break;
     case 'object': objectView(parts[1]); break;
     case 'quiz': quizView(parts[1]); break;
-    case 'sky': skyView(parts[1], params); break;
+    case 'sky': skyView(parts[1] && safeDecode(parts[1]), params); break;
     case 'tonight': tonightView(); break;
     case 'classroom': classroomView(parts[1], parts[2]); break;
     case 'library': libraryView(params); break;

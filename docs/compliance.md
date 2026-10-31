@@ -1,7 +1,7 @@
 # Store and child-privacy compliance
 
 What See the Stars collects, and how to answer the store questionnaires. Keep this in step with
-`privacy.html` and `firestore.rules`. Last reviewed 2026-10-30. **This is not legal advice. Have the answers
+`privacy.html` and `firestore.rules`. Last reviewed 2026-10-31. **This is not legal advice. Have the answers
 checked before the first public release.**
 
 ## What the app collects
@@ -12,6 +12,9 @@ checked before the first public release.**
 | Name, email, account ID (from Google/Apple) | Only if a grown-up signs in | Firebase Authentication | Yes |
 | Class nickname + progress counts | Only if a **student joins a class** | Firestore (`classes/{code}/members/{uid}`), anonymous sign-in | To an anonymous ID only; the teacher sees the nickname |
 | Rounded location (~10 km) | When the Tonight page loads online | Open-Meteo weather API (not stored by us) | No |
+| Rounded location (~10 km) + 8 points ~60 km around it | Sky Finder **Clouds / Wind / Rain** layers, only when switched on (off by default) | Open-Meteo weather API (not stored by us) | No |
+| Typed place name (no location) | Sky Finder **Find on Earth** search, only when tapped | Open-Meteo geocoding API (not stored by us) | No |
+| Nothing (a plain download) | Sky Finder **Storms** layer, only when switched on | GDACS event list and storm tracks | – |
 | Precise location, camera, motion sensors | Sky Finder | Never leaves the device | – |
 | Reminders | If turned on in the apps | Scheduled on the device only | – |
 
